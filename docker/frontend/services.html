@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StarRez Student Services - WiFi setup, student ID cards, IT support, and campus resources">
+    <title>Student Services - StarRez</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Header styling - UCLA style */
+        .header {
+            background: #2774AE; /* UCLA Blue */
+            color: white;
+            padding: 0;
+        }
+        
+        .header-top {
+            background: #FFD100; /* UCLA Gold */
+            color: #2774AE;
+            padding: 8px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .header-main {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .header-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #1B4B8C; /* Darker UCLA Blue */
+            padding: 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #FFD100;
+            color: #2774AE;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        /* Left content area */
+        .content-left {
+            background: white;
+        }
+        
+        /* Page header */
+        .page-header {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2774AE;
+        }
+        
+        .page-header h1 {
+            color: #2774AE;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        .page-header p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            background: #2774AE;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .section-content h3 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .section-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .section-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .section-content li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+        
+        .section-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .section-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .section-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Service categories grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .service-category {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .service-category:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .service-category h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #FFD100;
+            padding-bottom: 8px;
+        }
+        
+        .service-category ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        .service-category li {
+            padding: 5px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .service-category li:last-child {
+            border-bottom: none;
+        }
+        
+        /* Step-by-step guides */
+        .guide-steps {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .guide-steps h4 {
+            color: #2774AE;
+            margin-bottom: 15px;
+        }
+        
+        .guide-steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .guide-steps li {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Action buttons */
+        .action-button {
+            display: inline-block;
+            background: #28a745; /* Green for better contrast */
+            color: white !important; /* Ensure white text */
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+            margin: 5px 5px 5px 0;
+        }
+        
+        .action-button:hover {
+            background: #218838; /* Darker green on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        .action-button.secondary {
+            background: #dc3545; /* Red for secondary actions */
+            color: white !important; /* Ensure white text */
+        }
+        
+        .action-button.secondary:hover {
+            background: #c82333; /* Darker red on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        .action-button.info {
+            background: #17a2b8; /* Blue for info actions */
+            color: white !important;
+        }
+        
+        .action-button.info:hover {
+            background: #138496;
+            color: white !important;
+        }
+        
+        /* Right sidebar */
+        .sidebar {
+            background: white;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            background: #FFD100;
+            color: #2774AE;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sidebar-content {
+            padding: 15px;
+        }
+        
+        .sidebar-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 13px;
+        }
+        
+        .sidebar-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .sidebar-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Alert box */
+        .alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h4 {
+            margin-bottom: 10px;
+            color: #856404;
+        }
+        
+        /* Status indicators */
+        .status-good {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .status-warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        
+        .status-down {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2774AE;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            Welcome to StarRez - Your gateway to campus life and services
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">StarRez</a>
+            <div class="header-links">
+                <a href="/contact.html">IT Help</a>
+                <a href="/about.html">Campus Info</a>
+                <a href="#">Emergency</a>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/">Home</a>
+            <a href="/housing.html">Housing</a>
+            <a href="/dining.html">Dining</a>
+            <a href="/services.html" class="active">Student Services</a>
+            <a href="/contact.html">Support</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="content-left">
+                <div class="page-header">
+                    <h1>Student Services</h1>
+                    <p>Access essential campus services including WiFi setup, student ID cards, IT support, and technology resources. Everything you need to stay connected and successful on campus.</p>
+                </div>
+                
+                <div class="alert">
+                    <h4>Network Maintenance Notice</h4>
+                    <p><strong>Scheduled Maintenance:</strong> WiFi services may be intermittent on Sunday, January 28th from 2:00 AM - 6:00 AM for system upgrades.</p>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Technology Services</div>
+                    <div class="section-content">
+                        <div class="services-grid">
+                            <div class="service-category">
+                                <h4>WiFi & Network Access</h4>
+                                <ul>
+                                    <li><a href="#">WiFi Setup Guide</a></li>
+                                    <li><a href="#">Network Troubleshooting</a></li>
+                                    <li><a href="#">VPN Access</a></li>
+                                    <li><a href="#">Guest Network Access</a></li>
+                                    <li><a href="#">Connection Speed Test</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="service-category">
+                                <h4>Email & Accounts</h4>
+                                <ul>
+                                    <li><a href="#">Student Email Setup</a></li>
+                                    <li><a href="#">Password Reset</a></li>
+                                    <li><a href="#">Account Recovery</a></li>
+                                    <li><a href="#">Multi-Factor Authentication</a></li>
+                                    <li><a href="#">Email Forwarding</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="service-category">
+                                <h4>Software & Downloads</h4>
+                                <ul>
+                                    <li><a href="#">Microsoft Office 365</a></li>
+                                    <li><a href="#">Adobe Creative Suite</a></li>
+                                    <li><a href="#">Antivirus Software</a></li>
+                                    <li><a href="#">Statistical Software</a></li>
+                                    <li><a href="#">Academic Software Catalog</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="service-category">
+                                <h4>Campus Computer Labs</h4>
+                                <ul>
+                                    <li><a href="#">Lab Locations & Hours</a></li>
+                                    <li><a href="#">Available Software</a></li>
+                                    <li><a href="#">Printing Services</a></li>
+                                    <li><a href="#">Reserve a Computer</a></li>
+                                    <li><a href="#">Lab Usage Policies</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">WiFi Setup Guide</div>
+                    <div class="section-content">
+                        <p>Connect to the campus WiFi network in just a few simple steps. Choose your device type below for specific instructions.</p>
+                        
+                        <a href="#" class="action-button">Windows Setup</a>
+                        <a href="#" class="action-button">Mac Setup</a>
+                        <a href="#" class="action-button">Mobile Setup</a>
+                        <a href="#" class="action-button secondary">Troubleshooting</a>
+                        
+                        <div class="guide-steps">
+                            <h4>Quick Setup (All Devices)</h4>
+                            <ol>
+                                <li>Select "Campus-Secure" from available WiFi networks</li>
+                                <li>Enter your student username and password</li>
+                                <li>Accept the security certificate when prompted</li>
+                                <li>You should now be connected to the internet</li>
+                                <li>If you experience issues, try the device-specific guides above</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Student ID Card Services</div>
+                    <div class="section-content">
+                        <p>Your student ID card is your key to campus life. Use it for dining, library access, building entry, and more.</p>
+                        
+                        <h3>Card Services</h3>
+                        <ul>
+                            <li><strong>New Student Cards:</strong> Get your first campus ID card</li>
+                            <li><strong>Replacement Cards:</strong> Lost or damaged card replacement ($15 fee)</li>
+                            <li><strong>Photo Updates:</strong> Update your ID photo once per academic year</li>
+                            <li><strong>Add Flex Dollars:</strong> Load money onto your card for purchases</li>
+                            <li><strong>Card Activation:</strong> Activate new cards and features</li>
+                        </ul>
+                        
+                        <a href="#" class="action-button">Schedule ID Card Appointment</a>
+                        <a href="#" class="action-button info">Check Card Balance</a>
+                        
+                        <div class="guide-steps">
+                            <h4>What to Bring for New ID</h4>
+                            <ol>
+                                <li>Valid government-issued photo ID (driver's license, passport, etc.)</li>
+                                <li>Student enrollment verification or acceptance letter</li>
+                                <li>Payment for card fee if applicable ($25 for new students)</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Additional Campus Services</div>
+                    <div class="section-content">
+                        <div class="services-grid">
+                            <div class="service-category">
+                                <h4>Academic Support</h4>
+                                <ul>
+                                    <li><a href="#">Tutoring Services</a></li>
+                                    <li><a href="#">Writing Center</a></li>
+                                    <li><a href="#">Library Research Help</a></li>
+                                    <li><a href="#">Study Groups</a></li>
+                                    <li><a href="#">Academic Advising</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="service-category">
+                                <h4>Health & Wellness</h4>
+                                <ul>
+                                    <li><a href="#">Student Health Center</a></li>
+                                    <li><a href="#">Counseling Services</a></li>
+                                    <li><a href="#">Recreation Center</a></li>
+                                    <li><a href="#">Campus Safety</a></li>
+                                    <li><a href="#">Wellness Programs</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="service-category">
+                                <h4>Financial Services</h4>
+                                <ul>
+                                    <li><a href="#">Tuition Payment</a></li>
+                                    <li><a href="#">Financial Aid Office</a></li>
+                                    <li><a href="#">Student Employment</a></li>
+                                    <li><a href="#">Scholarships</a></li>
+                                    <li><a href="#">Emergency Funds</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="service-category">
+                                <h4>Campus Life</h4>
+                                <ul>
+                                    <li><a href="#">Student Organizations</a></li>
+                                    <li><a href="#">Event Planning</a></li>
+                                    <li><a href="#">Transportation</a></li>
+                                    <li><a href="#">Lost & Found</a></li>
+                                    <li><a href="#">Campus Tours</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">System Status</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li>Campus WiFi: <span class="status-good">Operational</span></li>
+                            <li>Email Services: <span class="status-good">Operational</span></li>
+                            <li>Student Portal: <span class="status-good">Operational</span></li>
+                            <li>Printing Services: <span class="status-warning">Limited</span></li>
+                            <li>Library Systems: <span class="status-good">Operational</span></li>
+                        </ul>
+                        <p style="margin-top: 10px; font-size: 12px;"><a href="#">View Detailed Status</a></p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Popular Downloads</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="#">VPN Client Software</a></li>
+                            <li><a href="#">WiFi Setup Profiles</a></li>
+                            <li><a href="#">Campus Mobile App</a></li>
+                            <li><a href="#">Microsoft Office 365</a></li>
+                            <li><a href="#">Adobe Creative Cloud</a></li>
+                            <li><a href="#">Antivirus Software</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Office Hours</div>
+                    <div class="sidebar-content">
+                        <p><strong>IT Help Desk:</strong><br>Mon-Fri: 8AM-8PM<br>Sat-Sun: 10AM-6PM</p>
+                        <p><strong>Student ID Office:</strong><br>Mon-Fri: 8AM-5PM<br>Sat: 10AM-2PM</p>
+                        <p><strong>Computer Labs:</strong><br>24/7 in select locations<br>Most labs: 6AM-2AM</p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Quick Contact</div>
+                    <div class="sidebar-content">
+                        <p><strong>IT Help Desk:</strong><br>(555) 123-4569</p>
+                        <p><strong>Student ID Office:</strong><br>(555) 123-4570</p>
+                        <p><strong>Emergency IT:</strong><br>(555) 123-4580</p>
+                        <p><strong>Email Support:</strong><br>support@university.edu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 StarRez. All rights reserved. | Student Privacy Policy | Campus Resources</p>
+        </div>
+    </div>
+</body>
+</html>

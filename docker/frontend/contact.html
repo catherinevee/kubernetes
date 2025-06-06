@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StarRez Support & Contact - Get help, submit tickets, find contact information and emergency resources">
+    <title>Support & Contact - StarRez</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Header styling - UCLA style */
+        .header {
+            background: #2774AE; /* UCLA Blue */
+            color: white;
+            padding: 0;
+        }
+        
+        .header-top {
+            background: #FFD100; /* UCLA Gold */
+            color: #2774AE;
+            padding: 8px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .header-main {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .header-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #1B4B8C; /* Darker UCLA Blue */
+            padding: 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #FFD100;
+            color: #2774AE;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        /* Left content area */
+        .content-left {
+            background: white;
+        }
+        
+        /* Page header */
+        .page-header {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2774AE;
+        }
+        
+        .page-header h1 {
+            color: #2774AE;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        .page-header p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            background: #2774AE;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .section-content h3 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .section-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .section-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .section-content li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+        
+        .section-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .section-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .section-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Contact form */
+        .contact-form {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2774AE;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .form-group select {
+            height: 40px;
+        }
+        
+        /* Support options grid */
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .support-option {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .support-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .support-option h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .support-option p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        
+        .support-option .contact-info {
+            font-weight: bold;
+            color: #2774AE;
+            font-size: 14px;
+        }
+        
+        /* Emergency alert */
+        .emergency-alert {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .emergency-alert h3 {
+            color: #721c24;
+            margin-bottom: 10px;
+        }
+        
+        /* Action buttons */
+        .action-button {
+            display: inline-block;
+            background: #28a745; /* Green for better contrast */
+            color: white !important; /* Ensure white text */
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+            margin: 5px 5px 5px 0;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .action-button:hover {
+            background: #218838; /* Darker green on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        .action-button.secondary {
+            background: #dc3545; /* Red for secondary actions */
+            color: white !important; /* Ensure white text */
+        }
+        
+        .action-button.secondary:hover {
+            background: #c82333; /* Darker red on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        .action-button.emergency {
+            background: #dc3545;
+            color: white !important;
+            font-size: 16px;
+            padding: 15px 25px;
+        }
+        
+        .action-button.emergency:hover {
+            background: #c82333;
+            color: white !important;
+        }
+        
+        /* Right sidebar */
+        .sidebar {
+            background: white;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            background: #FFD100;
+            color: #2774AE;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sidebar-content {
+            padding: 15px;
+        }
+        
+        .sidebar-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 13px;
+        }
+        
+        .sidebar-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .sidebar-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* FAQ section */
+        .faq-item {
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .faq-question {
+            background: #f8f9fa;
+            padding: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2774AE;
+        }
+        
+        .faq-answer {
+            padding: 15px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2774AE;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .support-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            Welcome to StarRez - Your gateway to campus life and services
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">StarRez</a>
+            <div class="header-links">
+                <a href="/contact.html">IT Help</a>
+                <a href="/about.html">Campus Info</a>
+                <a href="#">Emergency</a>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/">Home</a>
+            <a href="/housing.html">Housing</a>
+            <a href="/dining.html">Dining</a>
+            <a href="/services.html">Student Services</a>
+            <a href="/contact.html" class="active">Support</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="content-left">
+                <div class="page-header">
+                    <h1>Support & Contact</h1>
+                    <p>Get help when you need it. Submit support tickets, find contact information, access emergency resources, and get answers to frequently asked questions.</p>
+                </div>
+                
+                <div class="emergency-alert">
+                    <h3>Emergency Support</h3>
+                    <p><strong>For life-threatening emergencies, call 911 immediately.</strong></p>
+                    <p>For campus emergencies or safety concerns, contact Campus Safety at (555) 123-SAFE (7233) available 24/7.</p>
+                    <a href="#" class="action-button emergency">Emergency Contacts</a>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">How Can We Help You?</div>
+                    <div class="section-content">
+                        <p>Choose the support option that best fits your needs. Our team is here to help with housing, dining, technology, and general campus questions.</p>
+                        
+                        <div class="support-grid">
+                            <div class="support-option">
+                                <h4>Housing Support</h4>
+                                <p>Room assignments, maintenance requests, roommate issues, and housing applications.</p>
+                                <div class="contact-info">(555) 123-4567<br>housing@university.edu</div>
+                            </div>
+                            
+                            <div class="support-option">
+                                <h4>Dining Services</h4>
+                                <p>Meal plans, dietary accommodations, dining locations, and account questions.</p>
+                                <div class="contact-info">(555) 123-4568<br>dining@university.edu</div>
+                            </div>
+                            
+                            <div class="support-option">
+                                <h4>IT Help Desk</h4>
+                                <p>WiFi issues, email problems, software help, and technology troubleshooting.</p>
+                                <div class="contact-info">(555) 123-4569<br>support@university.edu</div>
+                            </div>
+                            
+                            <div class="support-option">
+                                <h4>Student ID Services</h4>
+                                <p>New cards, replacements, photo updates, and card balance questions.</p>
+                                <div class="contact-info">(555) 123-4570<br>idcards@university.edu</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Submit a Support Ticket</div>
+                    <div class="section-content">
+                        <p>Can't find what you're looking for? Submit a support ticket and we'll get back to you within 24 hours.</p>
+                        
+                        <div class="contact-form">
+                            <form action="#" method="POST">
+                                <div class="form-group">
+                                    <label for="student-id">Student ID Number *</label>
+                                    <input type="text" id="student-id" name="student_id" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="name">Full Name *</label>
+                                    <input type="text" id="name" name="name" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email Address *</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="category">Issue Category *</label>
+                                    <select id="category" name="category" required>
+                                        <option value="">Select a category...</option>
+                                        <option value="housing">Housing & Residence Life</option>
+                                        <option value="dining">Dining Services</option>
+                                        <option value="technology">Technology & IT Support</option>
+                                        <option value="id-card">Student ID Card</option>
+                                        <option value="account">Account & Billing</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="priority">Priority Level</label>
+                                    <select id="priority" name="priority">
+                                        <option value="low">Low - General question</option>
+                                        <option value="medium" selected>Medium - Need help soon</option>
+                                        <option value="high">High - Urgent issue</option>
+                                        <option value="emergency">Emergency - Immediate assistance needed</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="subject">Subject/Title *</label>
+                                    <input type="text" id="subject" name="subject" placeholder="Brief description of your issue" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="message">Detailed Description *</label>
+                                    <textarea id="message" name="message" placeholder="Please provide as much detail as possible about your issue, including any error messages and steps you've already tried." required></textarea>
+                                </div>
+                                
+                                <button type="submit" class="action-button">Submit Ticket</button>
+                                <a href="#" class="action-button secondary">Save as Draft</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Frequently Asked Questions</div>
+                    <div class="section-content">
+                        <div class="faq-item">
+                            <div class="faq-question">How do I connect to the campus WiFi?</div>
+                            <div class="faq-answer">Select "Campus-Secure" from available networks, enter your student username and password, and accept the security certificate. For detailed instructions, visit our <a href="/services.html">Student Services page</a>.</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">How do I request a room change?</div>
+                            <div class="faq-answer">Log into the Housing Portal and submit a room change request. Changes are processed based on availability and must be approved by Residence Life staff. There may be associated fees.</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Can I change my meal plan during the semester?</div>
+                            <div class="faq-answer">Meal plan changes are allowed during the first two weeks of each semester. After this period, changes are only permitted for documented medical or dietary needs.</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">What if I lose my student ID card?</div>
+                            <div class="faq-answer">Report lost cards immediately to deactivate them and prevent unauthorized use. Visit the Student ID Office to get a replacement card for a $15 fee. Bring a government-issued photo ID.</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">How do I reset my password?</div>
+                            <div class="faq-answer">Use the password reset tool on the login page or contact the IT Help Desk. You'll need your student ID number and access to your recovery email or phone number.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Emergency Contacts</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Life-threatening emergency:</strong> 911</li>
+                            <li><strong>Campus Safety:</strong> (555) 123-SAFE</li>
+                            <li><strong>Emergency Maintenance:</strong> (555) 123-4580</li>
+                            <li><strong>Health Center:</strong> (555) 123-4575</li>
+                            <li><strong>Counseling Crisis:</strong> (555) 123-4576</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Office Hours</div>
+                    <div class="sidebar-content">
+                        <p><strong>Housing Office:</strong><br>Mon-Fri: 8AM-5PM<br>Sat: 9AM-1PM</p>
+                        <p><strong>Dining Services:</strong><br>Mon-Fri: 8AM-5PM</p>
+                        <p><strong>IT Help Desk:</strong><br>Mon-Fri: 8AM-8PM<br>Sat-Sun: 10AM-6PM</p>
+                        <p><strong>Student ID Office:</strong><br>Mon-Fri: 8AM-5PM<br>Sat: 10AM-2PM</p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Self-Service Options</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="#">Check Support Ticket Status</a></li>
+                            <li><a href="#">Knowledge Base Search</a></li>
+                            <li><a href="#">Download Forms</a></li>
+                            <li><a href="#">Account Balance Check</a></li>
+                            <li><a href="#">Service Status Page</a></li>
+                            <li><a href="#">Campus Directory</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Popular Resources</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="/services.html">WiFi Setup Guide</a></li>
+                            <li><a href="/housing.html">Housing Applications</a></li>
+                            <li><a href="/dining.html">Meal Plan Information</a></li>
+                            <li><a href="#">Campus Map</a></li>
+                            <li><a href="#">Student Handbook</a></li>
+                            <li><a href="#">Academic Calendar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 StarRez. All rights reserved. | Student Privacy Policy | Campus Resources</p>
+        </div>
+    </div>
+</body>
+</html>

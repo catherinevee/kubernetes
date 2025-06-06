@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StarRez Dining Services - Meal plans, dining locations, hours, and campus food options">
+    <title>Dining Services - StarRez</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Header styling - UCLA style */
+        .header {
+            background: #2774AE; /* UCLA Blue */
+            color: white;
+            padding: 0;
+        }
+        
+        .header-top {
+            background: #FFD100; /* UCLA Gold */
+            color: #2774AE;
+            padding: 8px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .header-main {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .header-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #1B4B8C; /* Darker UCLA Blue */
+            padding: 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #FFD100;
+            color: #2774AE;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        /* Left content area */
+        .content-left {
+            background: white;
+        }
+        
+        /* Page header */
+        .page-header {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2774AE;
+        }
+        
+        .page-header h1 {
+            color: #2774AE;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        .page-header p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            background: #2774AE;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .section-content h3 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .section-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .section-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .section-content li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+        
+        .section-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .section-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .section-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Meal plan grid */
+        .meal-plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .meal-plan {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .meal-plan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .meal-plan h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .meal-plan p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        .meal-plan .price {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .meal-plan .features {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Dining location cards */
+        .dining-locations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .dining-location {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .dining-location h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .dining-location .hours {
+            background: #e7f3ff;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+        
+        .dining-location .cuisine {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        
+        /* Action buttons */
+        .action-button {
+            display: inline-block;
+            background: #28a745; /* Green for better contrast */
+            color: white !important; /* Ensure white text */
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+            margin: 5px 5px 5px 0;
+        }
+        
+        .action-button:hover {
+            background: #218838; /* Darker green on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        .action-button.secondary {
+            background: #dc3545; /* Red for secondary actions */
+            color: white !important; /* Ensure white text */
+        }
+        
+        .action-button.secondary:hover {
+            background: #c82333; /* Darker red on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        /* Right sidebar */
+        .sidebar {
+            background: white;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            background: #FFD100;
+            color: #2774AE;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sidebar-content {
+            padding: 15px;
+        }
+        
+        .sidebar-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 13px;
+        }
+        
+        .sidebar-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .sidebar-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Alert box */
+        .alert {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h4 {
+            margin-bottom: 10px;
+            color: #155724;
+        }
+        
+        /* Hours table */
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        
+        .hours-table th,
+        .hours-table td {
+            padding: 8px;
+            border: 1px solid #e9ecef;
+            text-align: left;
+        }
+        
+        .hours-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #2774AE;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2774AE;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .meal-plan-grid,
+            .dining-locations {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            Welcome to StarRez - Your gateway to campus life and services
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">StarRez</a>
+            <div class="header-links">
+                <a href="/contact.html">IT Help</a>
+                <a href="/about.html">Campus Info</a>
+                <a href="#">Emergency</a>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/">Home</a>
+            <a href="/housing.html">Housing</a>
+            <a href="/dining.html" class="active">Dining</a>
+            <a href="/services.html">Student Services</a>
+            <a href="/contact.html">Support</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="content-left">
+                <div class="page-header">
+                    <h1>Dining Services</h1>
+                    <p>Discover delicious dining options across campus. Choose from flexible meal plans, explore diverse restaurants, and find nutritious meals that fit your lifestyle and budget.</p>
+                </div>
+                
+                <div class="alert">
+                    <h4>Spring Meal Plan Enrollment</h4>
+                    <p><strong>Deadline Extended:</strong> Meal plan enrollment for Spring semester has been extended to January 31st. Don't miss out on convenient campus dining!</p>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Meal Plans</div>
+                    <div class="section-content">
+                        <p>Choose the meal plan that fits your lifestyle. All meal plans include flex dollars that can be used at any campus dining location.</p>
+                        
+                        <div class="meal-plan-grid">
+                            <div class="meal-plan">
+                                <h4>Unlimited Plan</h4>
+                                <p class="price">$2,850 per semester</p>
+                                <p>Perfect for students who love variety and eat most meals on campus.</p>
+                                <div class="features">
+                                    • Unlimited dining hall access<br>
+                                    • $200 flex dollars<br>
+                                    • All-you-care-to-eat<br>
+                                    • Guest passes included
+                                </div>
+                            </div>
+                            
+                            <div class="meal-plan">
+                                <h4>15 Meals/Week</h4>
+                                <p class="price">$2,450 per semester</p>
+                                <p>Great balance for students who occasionally eat off-campus or skip meals.</p>
+                                <div class="features">
+                                    • 15 meals per week<br>
+                                    • $300 flex dollars<br>
+                                    • Rolls over within week<br>
+                                    • Perfect for most students
+                                </div>
+                            </div>
+                            
+                            <div class="meal-plan">
+                                <h4>10 Meals/Week</h4>
+                                <p class="price">$1,950 per semester</p>
+                                <p>Ideal for students with lighter appetites or irregular schedules.</p>
+                                <div class="features">
+                                    • 10 meals per week<br>
+                                    • $400 flex dollars<br>
+                                    • Maximum flexibility<br>
+                                    • Great for upperclassmen
+                                </div>
+                            </div>
+                            
+                            <div class="meal-plan">
+                                <h4>Flex Only</h4>
+                                <p class="price">$1,200 per semester</p>
+                                <p>Pure flexibility - use your dollars anywhere on campus.</p>
+                                <div class="features">
+                                    • $1,200 flex dollars<br>
+                                    • No weekly limits<br>
+                                    • Use anywhere on campus<br>
+                                    • Perfect for commuters
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="action-button">Enroll in Meal Plan</a>
+                        <a href="#" class="action-button secondary">Compare All Plans</a>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Dining Locations</div>
+                    <div class="section-content">
+                        <p>Explore our diverse dining options across campus, from all-you-care-to-eat dining halls to specialty restaurants and grab-and-go options.</p>
+                        
+                        <div class="dining-locations">
+                            <div class="dining-location">
+                                <h4>Central Dining Hall</h4>
+                                <div class="hours">
+                                    <strong>Hours:</strong> Mon-Sun 7:00 AM - 10:00 PM
+                                </div>
+                                <div class="cuisine">All-you-care-to-eat buffet with international stations, salad bar, grill, and daily specials.</div>
+                                <p><a href="#">View Menu</a> | <a href="#">Nutrition Info</a></p>
+                            </div>
+                            
+                            <div class="dining-location">
+                                <h4>Student Union Food Court</h4>
+                                <div class="hours">
+                                    <strong>Hours:</strong> Mon-Fri 10:00 AM - 9:00 PM, Sat-Sun 11:00 AM - 8:00 PM
+                                </div>
+                                <div class="cuisine">Pizza, sandwiches, Asian cuisine, Mexican food, and coffee shop.</div>
+                                <p><a href="#">Store Locations</a> | <a href="#">Current Wait Times</a></p>
+                            </div>
+                            
+                            <div class="dining-location">
+                                <h4>Library Café</h4>
+                                <div class="hours">
+                                    <strong>Hours:</strong> Mon-Thu 8:00 AM - 11:00 PM, Fri 8:00 AM - 8:00 PM
+                                </div>
+                                <div class="cuisine">Coffee, pastries, sandwiches, and healthy snacks. Perfect for studying.</div>
+                                <p><a href="#">Study Menu</a> | <a href="#">Quiet Hours</a></p>
+                            </div>
+                            
+                            <div class="dining-location">
+                                <h4>Residential Market</h4>
+                                <div class="hours">
+                                    <strong>Hours:</strong> Daily 24/7
+                                </div>
+                                <div class="cuisine">Convenience store with groceries, snacks, drinks, and essential items.</div>
+                                <p><a href="#">Shop Online</a> | <a href="#">Delivery Options</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Special Dietary Needs</div>
+                    <div class="section-content">
+                        <p>We're committed to serving all students, regardless of dietary restrictions or preferences.</p>
+                        
+                        <h3>Available Options</h3>
+                        <ul>
+                            <li><strong>Vegetarian & Vegan:</strong> Dedicated stations and clearly marked options</li>
+                            <li><strong>Gluten-Free:</strong> Certified gluten-free preparation areas and menu items</li>
+                            <li><strong>Halal & Kosher:</strong> Certified options available at select locations</li>
+                            <li><strong>Allergen-Friendly:</strong> Nut-free, dairy-free, and other allergen considerations</li>
+                            <li><strong>Custom Diets:</strong> Work with our nutritionist for personalized meal planning</li>
+                        </ul>
+                        
+                        <a href="#" class="action-button">Schedule Nutrition Consultation</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Quick Links</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="#">View Account Balance</a></li>
+                            <li><a href="#">Add Flex Dollars</a></li>
+                            <li><a href="#">Change Meal Plan</a></li>
+                            <li><a href="#">Dining Hall Menus</a></li>
+                            <li><a href="#">Nutrition Calculator</a></li>
+                            <li><a href="#">Report Dining Issue</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Today's Hours</div>
+                    <div class="sidebar-content">
+                        <table class="hours-table">
+                            <tr>
+                                <th>Location</th>
+                                <th>Hours</th>
+                            </tr>
+                            <tr>
+                                <td>Central Dining</td>
+                                <td>7 AM - 10 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Food Court</td>
+                                <td>10 AM - 9 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Library Café</td>
+                                <td>8 AM - 11 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Market</td>
+                                <td>24/7</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Featured This Week</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Monday:</strong> Taco Tuesday Preview</li>
+                            <li><strong>Wednesday:</strong> International Cuisine Night</li>
+                            <li><strong>Friday:</strong> Local Farm Fresh Day</li>
+                            <li><strong>Weekend:</strong> Brunch Specials Available</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Dining Support</div>
+                    <div class="sidebar-content">
+                        <p><strong>Dining Services:</strong><br>(555) 123-4568</p>
+                        <p><strong>Email:</strong><br>dining@university.edu</p>
+                        <p><strong>Nutrition Support:</strong><br>(555) 123-4571</p>
+                        <p><strong>Hours:</strong><br>Mon-Fri: 8AM-5PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 StarRez. All rights reserved. | Student Privacy Policy | Campus Resources</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StarRez Housing Services - Apply for on-campus housing, manage your residence, and access housing resources">
+    <title>Housing Services - StarRez</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Header styling - UCLA style */
+        .header {
+            background: #2774AE; /* UCLA Blue */
+            color: white;
+            padding: 0;
+        }
+        
+        .header-top {
+            background: #FFD100; /* UCLA Gold */
+            color: #2774AE;
+            padding: 8px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .header-main {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .header-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #1B4B8C; /* Darker UCLA Blue */
+            padding: 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #FFD100;
+            color: #2774AE;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        /* Left content area */
+        .content-left {
+            background: white;
+        }
+        
+        /* Page header */
+        .page-header {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2774AE;
+        }
+        
+        .page-header h1 {
+            color: #2774AE;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        .page-header p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            background: #2774AE;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .section-content h3 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .section-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .section-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .section-content li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+        
+        .section-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .section-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .section-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Housing options grid */
+        .housing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .housing-option {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .housing-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .housing-option h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .housing-option p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        .housing-option .price {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        /* Action buttons */
+        .action-button {
+            display: inline-block;
+            background: #28a745; /* Green for better contrast */
+            color: white !important; /* Ensure white text */
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+            margin: 5px 5px 5px 0;
+        }
+        
+        .action-button:hover {
+            background: #218838; /* Darker green on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        .action-button.secondary {
+            background: #dc3545; /* Red for secondary actions */
+            color: white !important; /* Ensure white text */
+        }
+        
+        .action-button.secondary:hover {
+            background: #c82333; /* Darker red on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        /* Right sidebar */
+        .sidebar {
+            background: white;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            background: #FFD100;
+            color: #2774AE;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sidebar-content {
+            padding: 15px;
+        }
+        
+        .sidebar-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 13px;
+        }
+        
+        .sidebar-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .sidebar-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Alert box */
+        .alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h4 {
+            margin-bottom: 10px;
+            color: #856404;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2774AE;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .housing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            Welcome to StarRez - Your gateway to campus life and services
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">StarRez</a>
+            <div class="header-links">
+                <a href="/contact.html">IT Help</a>
+                <a href="/about.html">Campus Info</a>
+                <a href="#">Emergency</a>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/">Home</a>
+            <a href="/housing.html" class="active">Housing</a>
+            <a href="/dining.html">Dining</a>
+            <a href="/services.html">Student Services</a>
+            <a href="/contact.html">Support</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="content-left">
+                <div class="page-header">
+                    <h1>Housing Services</h1>
+                    <p>Find your home away from home. Apply for housing, manage your residence, and access all housing-related services through StarRez.</p>
+                </div>
+                
+                <div class="alert">
+                    <h4>Important Housing Deadlines</h4>
+                    <p><strong>Fall 2024 Housing Applications:</strong> Priority deadline is March 15th. Late applications accepted through May 1st on a space-available basis.</p>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Housing Application Portal</div>
+                    <div class="section-content">
+                        <p>Ready to apply for campus housing? Our online application system makes it easy to submit your preferences and required documents.</p>
+                        <a href="#" class="action-button">Start New Application</a>
+                        <a href="#" class="action-button secondary">Continue Saved Application</a>
+                        
+                        <h3>Application Requirements</h3>
+                        <ul>
+                            <li>Completed housing application form</li>
+                            <li>Housing contract agreement</li>
+                            <li>$300 housing deposit (refundable)</li>
+                            <li>Immunization records</li>
+                            <li>Special accommodation requests (if applicable)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Housing Options</div>
+                    <div class="section-content">
+                        <p>Explore our variety of housing options designed to meet different preferences and budgets.</p>
+                        
+                        <div class="housing-grid">
+                            <div class="housing-option">
+                                <h4>Traditional Residence Halls</h4>
+                                <p>Double and triple occupancy rooms with shared bathrooms and common areas. Perfect for first-year students looking to build community.</p>
+                                <p class="price">$3,200 - $3,800 per semester</p>
+                            </div>
+                            
+                            <div class="housing-option">
+                                <h4>Suite-Style Living</h4>
+                                <p>Private bedrooms with shared living space and bathroom. Ideal for students who want more privacy while still having roommates.</p>
+                                <p class="price">$3,800 - $4,400 per semester</p>
+                            </div>
+                            
+                            <div class="housing-option">
+                                <h4>Apartment-Style Housing</h4>
+                                <p>Fully furnished apartments with kitchen, living room, and private bedrooms. Perfect for upperclassmen and graduate students.</p>
+                                <p class="price">$4,400 - $5,200 per semester</p>
+                            </div>
+                            
+                            <div class="housing-option">
+                                <h4>Special Interest Communities</h4>
+                                <p>Themed housing for students with shared interests, including honors, international, wellness, and academic learning communities.</p>
+                                <p class="price">$3,400 - $4,600 per semester</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Current Residents</div>
+                    <div class="section-content">
+                        <h3>Manage Your Housing</h3>
+                        <p>Access your housing account, submit maintenance requests, and manage your residence hall experience.</p>
+                        
+                        <a href="#" class="action-button">Login to Housing Portal</a>
+                        <a href="#" class="action-button secondary">Submit Maintenance Request</a>
+                        
+                        <h3>Resident Resources</h3>
+                        <ul>
+                            <li><a href="#">Room Change Process</a></li>
+                            <li><a href="#">Roommate Matching Service</a></li>
+                            <li><a href="#">Housing Contract Information</a></li>
+                            <li><a href="#">Move-In/Move-Out Guidelines</a></li>
+                            <li><a href="#">Residence Hall Policies</a></li>
+                            <li><a href="#">Emergency Procedures</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Quick Actions</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="#">Check Application Status</a></li>
+                            <li><a href="#">Pay Housing Deposit</a></li>
+                            <li><a href="#">View Room Assignment</a></li>
+                            <li><a href="#">Download Housing Contract</a></li>
+                            <li><a href="#">Request Room Change</a></li>
+                            <li><a href="#">Cancel Housing Application</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Important Dates</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Mar 15:</strong> Priority Application Deadline</li>
+                            <li><strong>Apr 1:</strong> Room Selection Begins</li>
+                            <li><strong>May 1:</strong> Final Application Deadline</li>
+                            <li><strong>Jul 15:</strong> Final Room Assignments</li>
+                            <li><strong>Aug 20:</strong> Fall Move-In Begins</li>
+                            <li><strong>Aug 25:</strong> Classes Begin</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Housing Support</div>
+                    <div class="sidebar-content">
+                        <p><strong>Housing Office:</strong><br>(555) 123-4567</p>
+                        <p><strong>Email:</strong><br>housing@university.edu</p>
+                        <p><strong>Hours:</strong><br>Mon-Fri: 8AM-5PM<br>Sat: 9AM-1PM</p>
+                        <p><strong>Emergency Maintenance:</strong><br>(555) 123-4580<br>Available 24/7</p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Related Services</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="/dining.html">Meal Plans</a></li>
+                            <li><a href="#">Parking Permits</a></li>
+                            <li><a href="#">Laundry Services</a></li>
+                            <li><a href="#">Cable & Internet</a></li>
+                            <li><a href="#">Mail Services</a></li>
+                            <li><a href="#">Storage Options</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 StarRez. All rights reserved. | Student Privacy Policy | Campus Resources</p>
+        </div>
+    </div>
+</body>
+</html>

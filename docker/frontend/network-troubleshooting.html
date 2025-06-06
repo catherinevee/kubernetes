@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StarRez Network Troubleshooting - Diagnose and fix WiFi and network connectivity issues on campus">
+    <title>Network Troubleshooting - StarRez</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Header styling - UCLA style */
+        .header {
+            background: #2774AE; /* UCLA Blue */
+            color: white;
+            padding: 0;
+        }
+        
+        .header-top {
+            background: #FFD100; /* UCLA Gold */
+            color: #2774AE;
+            padding: 8px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .header-main {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .header-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #1B4B8C; /* Darker UCLA Blue */
+            padding: 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #FFD100;
+            color: #2774AE;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Breadcrumb navigation */
+        .breadcrumb {
+            padding: 15px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        /* Left content area */
+        .content-left {
+            background: white;
+        }
+        
+        /* Page header */
+        .page-header {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2774AE;
+        }
+        
+        .page-header h1 {
+            color: #2774AE;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        .page-header p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Interactive troubleshooter */
+        .troubleshooter-widget {
+            background: linear-gradient(135deg, #e7f3ff 0%, #f0f8ff 100%);
+            border: 1px solid #b3d9ff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .troubleshooter-widget h2 {
+            color: #2774AE;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        .troubleshooter-widget p {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        
+        .problem-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .problem-option {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .problem-option:hover {
+            border-color: #2774AE;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .problem-option.selected {
+            border-color: #2774AE;
+            background: #e7f3ff;
+        }
+        
+        .problem-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .problem-option h3 {
+            color: #2774AE;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .problem-option p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            background: #2774AE;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .section-content h3 {
+            color: #2774AE;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .section-content h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+        
+        .section-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .section-content ul,
+        .section-content ol {
+            margin: 15px 0 15px 20px;
+        }
+        
+        .section-content li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Troubleshooting steps */
+        .troubleshooting-steps {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .troubleshooting-step {
+            display: flex;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .troubleshooting-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .step-number {
+            background: #2774AE;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+        
+        .step-content h5 {
+            color: #2774AE;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .step-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .step-result {
+            background: #e7f3ff;
+            border-left: 4px solid #2774AE;
+            padding: 10px 15px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #2774AE;
+        }
+        
+        /* Diagnostic tools */
+        .diagnostic-tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .diagnostic-tool {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .diagnostic-tool h4 {
+            color: #2774AE;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .diagnostic-tool p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .tool-result {
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 13px;
+            color: #333;
+        }
+        
+        /* Problem categories */
+        .problem-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .problem-category {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .category-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+        
+        .problem-category h4 {
+            color: #2774AE;
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .problem-category ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .problem-category li {
+            padding: 5px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .problem-category li::before {
+            content: "→";
+            color: #2774AE;
+            margin-right: 8px;
+        }
+        
+        /* Action buttons */
+        .action-button {
+            display: inline-block;
+            background: #28a745; /* Green for better contrast */
+            color: white !important; /* Ensure white text */
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s, transform 0.2s;
+            margin: 5px 5px 5px 0;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .action-button:hover {
+            background: #218838; /* Darker green on hover */
+            color: white !important; /* Keep white text on hover */
+            transform: translateY(-1px);
+        }
+        
+        .action-button.secondary {
+            background: #6c757d; /* Gray for secondary actions */
+            color: white !important; /* Ensure white text */
+        }
+        
+        .action-button.secondary:hover {
+            background: #545b62; /* Darker gray on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        .action-button.diagnostic {
+            background: #17a2b8;
+            color: white !important;
+        }
+        
+        .action-button.diagnostic:hover {
+            background: #138496;
+            color: white !important;
+        }
+        
+        .action-button.large {
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+        
+        /* Right sidebar */
+        .sidebar {
+            background: white;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            background: #FFD100;
+            color: #2774AE;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sidebar-content {
+            padding: 15px;
+        }
+        
+        .sidebar-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 13px;
+        }
+        
+        .sidebar-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .sidebar-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Alert box */
+        .alert {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h4 {
+            margin-bottom: 10px;
+            color: #0c5460;
+        }
+        
+        .alert.warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert.warning h4 {
+            color: #856404;
+        }
+        
+        .alert.danger {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .alert.danger h4 {
+            color: #721c24;
+        }
+        
+        /* Performance indicator */
+        .performance-indicator {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .speed-gauge {
+            display: inline-block;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(#28a745 0deg 180deg, #e9ecef 180deg 360deg);
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .speed-gauge::after {
+            content: "75%";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2774AE;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2774AE;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .problem-selector,
+            .diagnostic-tools,
+            .problem-categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .troubleshooting-step {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .step-number {
+                margin: 0 auto 15px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            Welcome to StarRez - Your gateway to campus life and services
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">StarRez</a>
+            <div class="header-links">
+                <a href="/contact.html">IT Help</a>
+                <a href="/about.html">Campus Info</a>
+                <a href="#">Emergency</a>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/">Home</a>
+            <a href="/housing.html">Housing</a>
+            <a href="/dining.html">Dining</a>
+            <a href="/services.html" class="active">Student Services</a>
+            <a href="/contact.html">Support</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Home</a> > <a href="/services.html">Student Services</a> > Network Troubleshooting
+        </div>
+        
+        <div class="main-content">
+            <div class="content-left">
+                <div class="page-header">
+                    <h1>Network Troubleshooting</h1>
+                    <p>Diagnose and resolve WiFi and network connectivity issues with our step-by-step troubleshooting guides. Get back online quickly with automated diagnostics and expert solutions.</p>
+                </div>
+                
+                <div class="alert warning">
+                    <h4>Current Network Status</h4>
+                    <p><strong>Planned Maintenance:</strong> Network upgrades scheduled for Saturday 2:00 AM - 6:00 AM. Brief intermittent connectivity expected during this window.</p>
+                </div>
+                
+                <div class="troubleshooter-widget">
+                    <h2>Interactive Troubleshooter</h2>
+                    <p>Tell us what's happening with your connection, and we'll guide you through the right solution.</p>
+                    
+                    <div class="problem-selector">
+                        <div class="problem-option" onclick="selectProblem(this, 'no-connection')">
+                            <span class="problem-icon">📶</span>
+                            <h3>Can't Connect to WiFi</h3>
+                            <p>Network not found, authentication failed, or connection errors</p>
+                        </div>
+                        
+                        <div class="problem-option" onclick="selectProblem(this, 'slow-speed')">
+                            <span class="problem-icon">🐌</span>
+                            <h3>Slow Internet Speed</h3>
+                            <p>Pages load slowly, videos buffer, or downloads are sluggish</p>
+                        </div>
+                        
+                        <div class="problem-option" onclick="selectProblem(this, 'frequent-disconnects')">
+                            <span class="problem-icon">🔄</span>
+                            <h3>Frequent Disconnections</h3>
+                            <p>WiFi keeps dropping out or disconnecting randomly</p>
+                        </div>
+                        
+                        <div class="problem-option" onclick="selectProblem(this, 'no-internet')">
+                            <span class="problem-icon">🚫</span>
+                            <h3>Connected but No Internet</h3>
+                            <p>Connected to WiFi but can't access websites or apps</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 25px;">
+                        <button class="action-button large" onclick="startTroubleshooting()">Start Guided Troubleshooting</button>
+                        <button class="action-button secondary">Run Automatic Diagnostics</button>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Quick Diagnostic Tools</div>
+                    <div class="section-content">
+                        <p>Use these tools to quickly diagnose common network issues and check your connection status.</p>
+                        
+                        <div class="diagnostic-tools">
+                            <div class="diagnostic-tool">
+                                <h4>Speed Test</h4>
+                                <p>Test your current internet speed and compare it to expected campus performance.</p>
+                                <button class="action-button diagnostic">Run Speed Test</button>
+                                <div class="tool-result">
+                                    <strong>Download:</strong> 85.3 Mbps<br>
+                                    <strong>Upload:</strong> 42.1 Mbps<br>
+                                    <strong>Ping:</strong> 12 ms<br>
+                                    <strong>Status:</strong> Good performance
+                                </div>
+                            </div>
+                            
+                            <div class="diagnostic-tool">
+                                <h4>Connection Test</h4>
+                                <p>Verify connectivity to campus servers and internet services.</p>
+                                <button class="action-button diagnostic">Test Connection</button>
+                                <div class="tool-result">
+                                    <strong>Campus Network:</strong> ✓ Connected<br>
+                                    <strong>DNS Resolution:</strong> ✓ Working<br>
+                                    <strong>External Sites:</strong> ✓ Accessible<br>
+                                    <strong>Status:</strong> All systems operational
+                                </div>
+                            </div>
+                            
+                            <div class="diagnostic-tool">
+                                <h4>Signal Strength</h4>
+                                <p>Check WiFi signal quality and identify potential interference.</p>
+                                <button class="action-button diagnostic">Check Signal</button>
+                                <div class="tool-result">
+                                    <strong>Signal Strength:</strong> -45 dBm (Excellent)<br>
+                                    <strong>Network:</strong> Campus-Secure<br>
+                                    <strong>Channel:</strong> 6 (2.4GHz)<br>
+                                    <strong>Status:</strong> Strong signal detected
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Common Issues & Solutions</div>
+                    <div class="section-content">
+                        <div class="problem-categories">
+                            <div class="problem-category">
+                                <span class="category-icon">🔗</span>
+                                <h4>Connection Problems</h4>
+                                <ul>
+                                    <li>Network not appearing in list</li>
+                                    <li>Authentication failures</li>
+                                    <li>Certificate errors</li>
+                                    <li>Unable to obtain IP address</li>
+                                    <li>Limited connectivity warnings</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="problem-category">
+                                <span class="category-icon">⚡</span>
+                                <h4>Performance Issues</h4>
+                                <ul>
+                                    <li>Slow browsing speeds</li>
+                                    <li>Video streaming problems</li>
+                                    <li>Download timeouts</li>
+                                    <li>High latency/ping times</li>
+                                    <li>Bandwidth limitations</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="problem-category">
+                                <span class="category-icon">📱</span>
+                                <h4>Device-Specific Issues</h4>
+                                <ul>
+                                    <li>Gaming console connectivity</li>
+                                    <li>Smart TV network issues</li>
+                                    <li>Mobile device problems</li>
+                                    <li>Laptop WiFi adapter issues</li>
+                                    <li>Printer network setup</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="problem-category">
+                                <span class="category-icon">🛡️</span>
+                                <h4>Security & Access</h4>
+                                <ul>
+                                    <li>Blocked websites or services</li>
+                                    <li>VPN connection issues</li>
+                                    <li>Password reset problems</li>
+                                    <li>Account lockout situations</li>
+                                    <li>Guest network access</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Step-by-Step Troubleshooting</div>
+                    <div class="section-content">
+                        <h3>Universal WiFi Troubleshooting Steps</h3>
+                        <p>Follow these steps in order to resolve most common WiFi connectivity issues:</p>
+                        
+                        <div class="troubleshooting-steps">
+                            <div class="troubleshooting-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h5>Check Network Status</h5>
+                                    <p>Verify that the campus network is operational and there are no known outages affecting your area.</p>
+                                    <div class="step-result">
+                                        ✓ Campus-Secure network is operational<br>
+                                        ✓ No reported outages in your building
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="troubleshooting-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h5>Restart Your Device</h5>
+                                    <p>Turn off your device completely, wait 30 seconds, then turn it back on. This clears temporary network settings and refreshes connections.</p>
+                                    <div class="step-result">
+                                        If this resolves the issue, your device may have had a temporary network conflict.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="troubleshooting-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h5>Forget and Reconnect to Network</h5>
+                                    <p>Remove the saved Campus-Secure network from your device settings, then reconnect by entering your credentials again.</p>
+                                    <div class="step-result">
+                                        This clears corrupted network profiles and establishes a fresh connection.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="troubleshooting-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h5>Update Network Drivers</h5>
+                                    <p>Ensure your device's WiFi adapter drivers are up to date. Check your device manufacturer's website for the latest drivers.</p>
+                                    <div class="step-result">
+                                        Outdated drivers can cause connectivity issues and poor performance.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="troubleshooting-step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    <h5>Reset Network Settings</h5>
+                                    <p>As a last resort, reset your device's network settings to factory defaults. This will remove all saved networks and passwords.</p>
+                                    <div class="step-result">
+                                        You'll need to reconnect to all networks after this step.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3>Advanced Troubleshooting</h3>
+                        <h4>DNS Issues</h4>
+                        <p>If websites won't load but you're connected to WiFi:</p>
+                        <ul>
+                            <li>Try using Google DNS: 8.8.8.8 and 8.8.4.4</li>
+                            <li>Flush your DNS cache (Windows: ipconfig /flushdns, Mac: sudo dscacheutil -flushcache)</li>
+                            <li>Check if specific sites are blocked or if it's a widespread issue</li>
+                        </ul>
+                        
+                        <h4>Firewall and Security Software</h4>
+                        <p>Security software may block network connections:</p>
+                        <ul>
+                            <li>Temporarily disable firewall to test connectivity</li>
+                            <li>Add campus networks to your trusted networks list</li>
+                            <li>Check antivirus settings for network blocking features</li>
+                            <li>Update security software to latest versions</li>
+                        </ul>
+                        
+                        <h4>Hardware Issues</h4>
+                        <p>If software solutions don't work:</p>
+                        <ul>
+                            <li>Check if WiFi is working on other devices in the same location</li>
+                            <li>Test your device in different campus locations</li>
+                            <li>Verify WiFi adapter is enabled in device manager</li>
+                            <li>Check for physical damage to WiFi antenna (laptops/tablets)</li>
+                            <li>Consider USB WiFi adapter as temporary solution</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Performance Optimization</div>
+                    <div class="section-content">
+                        <h3>Improving WiFi Speed and Reliability</h3>
+                        
+                        <div class="performance-indicator">
+                            <h4>Current Network Performance</h4>
+                            <div class="speed-gauge"></div>
+                            <p>Your connection is performing at 75% of optimal speed</p>
+                            <button class="action-button">Optimize My Connection</button>
+                        </div>
+                        
+                        <h4>Location-Based Optimization</h4>
+                        <ul>
+                            <li><strong>Find the best spot:</strong> Move closer to access points, avoid concrete walls</li>
+                            <li><strong>Reduce interference:</strong> Stay away from microwaves, Bluetooth devices</li>
+                            <li><strong>Elevation matters:</strong> Higher floors often have better signals</li>
+                            <li><strong>Check capacity:</strong> Common areas may be congested during peak hours</li>
+                        </ul>
+                        
+                        <h4>Device Configuration</h4>
+                        <ul>
+                            <li><strong>Prefer 5GHz:</strong> Connect to 5GHz networks when available for better speed</li>
+                            <li><strong>Limit background apps:</strong> Disable auto-updates and cloud syncing during critical work</li>
+                            <li><strong>Clear browser cache:</strong> Regular cleanup improves browsing performance</li>
+                            <li><strong>Use quality browsers:</strong> Chrome, Firefox, Edge perform better than older browsers</li>
+                        </ul>
+                        
+                        <h4>Time-Based Usage</h4>
+                        <ul>
+                            <li><strong>Peak hours (9 AM - 5 PM):</strong> Academic traffic prioritized, limit streaming</li>
+                            <li><strong>Evening (6 PM - 11 PM):</strong> General usage allowed, moderate speeds</li>
+                            <li><strong>Late night (11 PM - 8 AM):</strong> Full bandwidth available</li>
+                            <li><strong>Weekends:</strong> Reduced congestion, better performance</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Device-Specific Troubleshooting</div>
+                    <div class="section-content">
+                        <h3>Windows Devices</h3>
+                        <h4>Common Windows WiFi Issues:</h4>
+                        <ul>
+                            <li><strong>Network adapter disabled:</strong> Check Device Manager > Network Adapters</li>
+                            <li><strong>Power management:</strong> Disable "Allow computer to turn off this device"</li>
+                            <li><strong>Profile corruption:</strong> Delete WiFi profile in Network Settings</li>
+                            <li><strong>Driver conflicts:</strong> Uninstall and reinstall WiFi adapter driver</li>
+                        </ul>
+                        
+                        <h4>Windows Network Commands:</h4>
+                        <div class="tool-result">
+                            ipconfig /release<br>
+                            ipconfig /renew<br>
+                            ipconfig /flushdns<br>
+                            netsh wlan show profiles<br>
+                            netsh wlan delete profile name="Campus-Secure"<br>
+                            netsh int ip reset
+                        </div>
+                        
+                        <h3>Mac Devices</h3>
+                        <h4>Common Mac WiFi Issues:</h4>
+                        <ul>
+                            <li><strong>Keychain corruption:</strong> Delete WiFi passwords from Keychain Access</li>
+                            <li><strong>Location services:</strong> Enable location services for WiFi</li>
+                            <li><strong>Network order:</strong> Set WiFi as top priority in Network preferences</li>
+                            <li><strong>DNS cache:</strong> Clear DNS cache with Terminal commands</li>
+                        </ul>
+                        
+                        <h4>Mac Network Commands:</h4>
+                        <div class="tool-result">
+                            sudo dscacheutil -flushcache<br>
+                            sudo killall -HUP mDNSResponder<br>
+                            networksetup -setairportpower en0 off<br>
+                            networksetup -setairportpower en0 on<br>
+                            sudo ifconfig en0 down && sudo ifconfig en0 up
+                        </div>
+                        
+                        <h3>Mobile Devices</h3>
+                        <h4>iPhone/iPad Issues:</h4>
+                        <ul>
+                            <li><strong>iOS updates:</strong> Keep iOS updated for latest network improvements</li>
+                            <li><strong>WiFi Assist:</strong> Disable if experiencing data overage</li>
+                            <li><strong>Private Address:</strong> Turn off for campus networks</li>
+                            <li><strong>Reset Network Settings:</strong> Settings > General > Reset > Reset Network Settings</li>
+                        </ul>
+                        
+                        <h4>Android Issues:</h4>
+                        <ul>
+                            <li><strong>Adaptive WiFi:</strong> Disable adaptive connectivity in WiFi settings</li>
+                            <li><strong>MAC randomization:</strong> Turn off for campus networks</li>
+                            <li><strong>Battery optimization:</strong> Exclude WiFi from battery optimization</li>
+                            <li><strong>Network reset:</strong> Settings > System > Reset > Reset Network Settings</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="alert danger">
+                    <h4>When to Contact IT Support</h4>
+                    <p>Contact the IT Help Desk if you experience:</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Issues persist after trying all troubleshooting steps</li>
+                        <li>Multiple devices can't connect in the same location</li>
+                        <li>Suspected hardware failure or damage</li>
+                        <li>Account authentication problems</li>
+                        <li>Need assistance with enterprise device setup</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Quick Fixes</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="#" onclick="runQuickFix('restart')">Restart Network Adapter</a></li>
+                            <li><a href="#" onclick="runQuickFix('dns')">Reset DNS Settings</a></li>
+                            <li><a href="#" onclick="runQuickFix('profile')">Rebuild WiFi Profile</a></li>
+                            <li><a href="#" onclick="runQuickFix('cache')">Clear Network Cache</a></li>
+                            <li><a href="#" onclick="runQuickFix('drivers')">Update WiFi Drivers</a></li>
+                            <li><a href="#" onclick="runQuickFix('firewall')">Check Firewall Settings</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Network Status</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Campus-Secure:</strong> <span style="color: #28a745;">Operational</span></li>
+                            <li><strong>Campus-Guest:</strong> <span style="color: #28a745;">Operational</span></li>
+                            <li><strong>Eduroam:</strong> <span style="color: #28a745;">Operational</span></li>
+                            <li><strong>Campus-Devices:</strong> <span style="color: #ffc107;">Maintenance</span></li>
+                        </ul>
+                        <p style="margin-top: 10px; font-size: 12px;">
+                            <a href="#" style="color: #2774AE;">View Outage Map</a><br>
+                            <a href="#" style="color: #2774AE;">Subscribe to Alerts</a>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Performance Metrics</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Current Speed:</strong> 85.3 Mbps down</li>
+                            <li><strong>Expected Speed:</strong> 100+ Mbps</li>
+                            <li><strong>Ping:</strong> 12 ms (Excellent)</li>
+                            <li><strong>Signal Strength:</strong> -45 dBm (Strong)</li>
+                            <li><strong>Connected Users:</strong> 847 on network</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-size: 12px;">
+                            <a href="#" style="color: #2774AE;">Run Full Speed Test</a>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Troubleshooting Tools</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="#">Network Diagnostic Tool</a></li>
+                            <li><a href="#">WiFi Analyzer</a></li>
+                            <li><a href="#">Connection History</a></li>
+                            <li><a href="#">Signal Strength Map</a></li>
+                            <li><a href="#">Bandwidth Usage Monitor</a></li>
+                            <li><a href="#">Device Compatibility Checker</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Common Error Codes</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Error 651:</strong> <a href="#">Modem connection issue</a></li>
+                            <li><strong>Error 678:</strong> <a href="#">Remote computer not responding</a></li>
+                            <li><strong>Error 769:</strong> <a href="#">Network adapter disabled</a></li>
+                            <li><strong>DNS_PROBE_FINISHED:</strong> <a href="#">DNS resolution failure</a></li>
+                            <li><strong>Limited Connectivity:</strong> <a href="#">IP configuration problem</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Get Additional Help</div>
+                    <div class="sidebar-content">
+                        <p><strong>IT Help Desk:</strong><br>(555) 123-4569</p>
+                        <p><strong>Emergency IT:</strong><br>(555) 123-4580</p>
+                        <p><strong>Email:</strong><br>support@university.edu</p>
+                        <p><strong>Live Chat:</strong><br>Available 24/7</p>
+                        <p><strong>Walk-in Support:</strong><br>Library, 1st Floor<br>Mon-Fri: 8AM-8PM</p>
+                        <p style="margin-top: 10px;">
+                            <a href="/contact.html">Submit Support Ticket</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 StarRez. All rights reserved. | Student Privacy Policy | Campus Resources</p>
+        </div>
+    </div>
+    
+    <script>
+        let selectedProblem = null;
+        
+        function selectProblem(element, problemType) {
+            // Remove selected class from all problem options
+            document.querySelectorAll('.problem-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            selectedProblem = problemType;
+        }
+        
+        function startTroubleshooting() {
+            if (!selectedProblem) {
+                alert('Please select the issue you\'re experiencing first.');
+                return;
+            }
+            
+            // Simulate starting guided troubleshooting
+            alert(`Starting guided troubleshooting for: ${selectedProblem}\n\nThis would normally open a step-by-step wizard to help resolve your specific issue.`);
+        }
+        
+        function runQuickFix(fixType) {
+            // Simulate running quick fixes
+            const fixes = {
+                'restart': 'Restarting network adapter...',
+                'dns': 'Resetting DNS settings to campus defaults...',
+                'profile': 'Rebuilding WiFi profile for Campus-Secure...',
+                'cache': 'Clearing network configuration cache...',
+                'drivers': 'Checking for WiFi driver updates...',
+                'firewall': 'Reviewing firewall and security settings...'
+            };
+            
+            alert(fixes[fixType] + '\n\nThis would normally execute the automated fix and show results.');
+        }
+        
+        // Simulate dynamic updates to performance metrics
+        function updateMetrics() {
+            // This would normally fetch real network metrics
+            const speedElement = document.querySelector('.speed-gauge::after');
+            // Update performance indicators periodically
+        }
+        
+        // Update metrics every 30 seconds
+        setInterval(updateMetrics, 30000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to our website - providing quality services and solutions">
+    <title>StarRez Student Portal</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Header styling - UCLA style */
+        .header {
+            background: #2774AE; /* UCLA Blue */
+            color: white;
+            padding: 0;
+        }
+        
+        .header-top {
+            background: #FFD100; /* UCLA Gold */
+            color: #2774AE;
+            padding: 8px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .header-main {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .header-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #1B4B8C; /* Darker UCLA Blue */
+            padding: 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #FFD100;
+            color: #2774AE;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        /* Left content area */
+        .content-left {
+            background: white;
+        }
+        
+        /* Welcome section */
+        .welcome-banner {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2774AE;
+        }
+        
+        .welcome-banner h1 {
+            color: #2774AE;
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+        
+        .welcome-banner p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            background: #2774AE;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .section-content h3 {
+            color: #2774AE;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .section-content p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .section-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .section-content li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+        
+        .section-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .section-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .section-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Right sidebar */
+        .sidebar {
+            background: white;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            background: #FFD100;
+            color: #2774AE;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sidebar-content {
+            padding: 15px;
+        }
+        
+        .sidebar-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 12px;
+        }
+        
+        .sidebar-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .sidebar-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Quick links grid */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .quick-link-item {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 15px;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        
+        .quick-link-item:hover {
+            background: #e9ecef;
+        }
+        
+        .quick-link-item a {
+            color: #2774AE;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2774AE;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .quick-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            Welcome to StarRez - Your gateway to campus life and services
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">StarRez</a>
+            <div class="header-links">
+                <a href="/contact.html">IT Help</a>
+                <a href="/about.html">Campus Info</a>
+                <a href="#">Emergency</a>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/" class="active">Home</a>
+            <a href="/housing.html">Housing</a>
+            <a href="/dining.html">Dining</a>
+            <a href="/services.html">Student Services</a>
+            <a href="/contact.html">Support</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="content-left">
+                <div class="welcome-banner">
+                    <h1>Welcome to StarRez</h1>
+                    <p>Your one-stop resource for on-campus housing, dining options, student services, and technology support. Find everything you need to make the most of your campus experience.</p>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Quick Access</div>
+                    <div class="section-content">
+                        <div class="quick-links">
+                            <div class="quick-link-item">
+                                <a href="/housing.html">Housing Portal</a>
+                            </div>
+                            <div class="quick-link-item">
+                                <a href="/dining.html">Dining Services</a>
+                            </div>
+                            <div class="quick-link-item">
+                                <a href="#">WiFi Setup</a>
+                            </div>
+                            <div class="quick-link-item">
+                                <a href="#">Student ID Card</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Campus Living Essentials</div>
+                    <div class="section-content">
+                        <ul>
+                            <li><strong>Housing Applications:</strong> Apply for dorms, apartments, and special interest housing</li>
+                            <li><strong>Meal Plans:</strong> Choose from flexible dining options that fit your lifestyle</li>
+                            <li><strong>Campus WiFi:</strong> Connect to secure wireless networks across campus</li>
+                            <li><strong>Student ID Services:</strong> Get your campus card for access and purchases</li>
+                            <li><strong>Laundry Services:</strong> Find laundry facilities and check machine availability</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Campus Updates & Announcements</div>
+                    <div class="section-content">
+                        <h3>Fall Housing Applications Now Open</h3>
+                        <p>Apply for on-campus housing for the upcoming semester. Priority deadline is March 15th.</p>
+                        
+                        <h3>New Dining Options Available</h3>
+                        <p>Check out the new food trucks and extended dining hall hours now available across campus.</p>
+                        
+                        <h3>WiFi Network Upgrade Completed</h3>
+                        <p>Faster, more reliable wireless internet is now available in all residence halls and academic buildings.</p>
+                        
+                        <h3>Student ID Card Office Hours Extended</h3>
+                        <p>Now open evenings and weekends to better serve students. Check the latest hours and location info.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Housing & Dining</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="/housing.html">Apply for Housing</a></li>
+                            <li><a href="#">Room Selection</a></li>
+                            <li><a href="/dining.html">Meal Plan Options</a></li>
+                            <li><a href="#">Dining Hall Hours</a></li>
+                            <li><a href="#">Room & Board Payments</a></li>
+                            <li><a href="#">Maintenance Requests</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Technology Services</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="#">WiFi Setup Guide</a></li>
+                            <li><a href="#">Network Troubleshooting</a></li>
+                            <li><a href="#">Software Downloads</a></li>
+                            <li><a href="#">Email Setup</a></li>
+                            <li><a href="#">Campus Computer Labs</a></li>
+                            <li><a href="#">IT Help Desk</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Student Support</div>
+                    <div class="sidebar-content">
+                        <p><strong>Housing Office:</strong><br>(555) 123-4567</p>
+                        <p><strong>Dining Services:</strong><br>(555) 123-4568</p>
+                        <p><strong>IT Help Desk:</strong><br>(555) 123-4569</p>
+                        <p><strong>Student ID Office:</strong><br>Mon-Fri: 8AM-5PM<br>Sat: 10AM-2PM</p>
+                        <p><strong>Emergency:</strong><br>Campus Safety: (555) 911</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 StarRez. All rights reserved. | Student Privacy Policy | Campus Resources</p>
+        </div>
+    </div>
+</body>
+</html>
