@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Campus Computer Labs - Access computers, software, printing services, and technical support across campus locations">
+    <title>Campus Computer Labs - StarRez</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Header styling - UCLA style */
+        .header {
+            background: #2774AE; /* UCLA Blue */
+            color: white;
+            padding: 0;
+        }
+        
+        .header-top {
+            background: #FFD100; /* UCLA Gold */
+            color: #2774AE;
+            padding: 8px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .header-main {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .header-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #1B4B8C; /* Darker UCLA Blue */
+            padding: 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #FFD100;
+            color: #2774AE;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Breadcrumb navigation */
+        .breadcrumb {
+            padding: 15px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        /* Left content area */
+        .content-left {
+            background: white;
+        }
+        
+        /* Page header */
+        .page-header {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2774AE;
+        }
+        
+        .page-header h1 {
+            color: #2774AE;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        .page-header p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Quick access banner */
+        .quick-access-banner {
+            background: linear-gradient(135deg, #2774AE 0%, #1B4B8C 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .quick-access-banner h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+        
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            background: #2774AE;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .section-content h3 {
+            color: #2774AE;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .section-content h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+        
+        .section-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .section-content ul {
+            margin: 15px 0 15px 20px;
+        }
+        
+        .section-content li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .section-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .section-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Lab locations grid */
+        .labs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .lab-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .lab-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .lab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .lab-name {
+            color: #2774AE;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .lab-status {
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-open {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-closed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-limited {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .lab-location {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .lab-details {
+            margin: 15px 0;
+        }
+        
+        .lab-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .lab-info-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        
+        .lab-info-item strong {
+            color: #2774AE;
+            display: block;
+            margin-bottom: 3px;
+        }
+        
+        .lab-features {
+            margin: 15px 0;
+        }
+        
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        
+        .feature-tag {
+            background: #e7f3ff;
+            color: #2774AE;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        /* Software categories */
+        .software-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .software-category {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .software-category h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #FFD100;
+            padding-bottom: 8px;
+        }
+        
+        .software-category ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        .software-category li {
+            padding: 6px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #e9ecef;
+            color: #666;
+        }
+        
+        .software-category li:last-child {
+            border-bottom: none;
+        }
+        
+        .software-category li strong {
+            color: #2774AE;
+        }
+        
+        /* Hours table */
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        
+        .hours-table th,
+        .hours-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e9ecef;
+        }
+        
+        .hours-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #2774AE;
+        }
+        
+        .hours-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .today-hours {
+            background: #e7f3ff !important;
+            font-weight: bold;
+        }
+        
+        /* Availability indicator */
+        .availability-indicator {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .availability-chart {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            background: #e9ecef;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 30px;
+        }
+        
+        .availability-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .available {
+            background: #28a745;
+        }
+        
+        .in-use {
+            background: #dc3545;
+        }
+        
+        .reserved {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        /* Action buttons */
+        .action-button {
+            display: inline-block;
+            background: #28a745; /* Green for better contrast */
+            color: white !important; /* Ensure white text */
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s, transform 0.2s;
+            margin: 5px 5px 5px 0;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .action-button:hover {
+            background: #218838; /* Darker green on hover */
+            color: white !important; /* Keep white text on hover */
+            transform: translateY(-1px);
+        }
+        
+        .action-button.secondary {
+            background: #6c757d; /* Gray for secondary actions */
+            color: white !important; /* Ensure white text */
+        }
+        
+        .action-button.secondary:hover {
+            background: #545b62; /* Darker gray on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        .action-button.info {
+            background: #17a2b8;
+            color: white !important;
+        }
+        
+        .action-button.info:hover {
+            background: #138496;
+            color: white !important;
+        }
+        
+        .action-button.small {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+        
+        .action-button.large {
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+        
+        /* Right sidebar */
+        .sidebar {
+            background: white;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            background: #FFD100;
+            color: #2774AE;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sidebar-content {
+            padding: 15px;
+        }
+        
+        .sidebar-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 13px;
+        }
+        
+        .sidebar-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .sidebar-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Alert box */
+        .alert {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h4 {
+            margin-bottom: 10px;
+            color: #0c5460;
+        }
+        
+        .alert.warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert.warning h4 {
+            color: #856404;
+        }
+        
+        .alert.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert.success h4 {
+            color: #155724;
+        }
+        
+        /* Policies box */
+        .policies-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .policies-box h4 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        
+        .policies-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .policies-box li {
+            color: #856404;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2774AE;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .labs-grid,
+            .software-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .lab-info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            Welcome to StarRez - Your gateway to campus life and services
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">StarRez</a>
+            <div class="header-links">
+                <a href="/contact.html">IT Help</a>
+                <a href="/about.html">Campus Info</a>
+                <a href="#">Emergency</a>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/">Home</a>
+            <a href="/housing.html">Housing</a>
+            <a href="/dining.html">Dining</a>
+            <a href="/services.html" class="active">Student Services</a>
+            <a href="/contact.html">Support</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Home</a> > <a href="/services.html">Student Services</a> > Campus Computer Labs
+        </div>
+        
+        <div class="main-content">
+            <div class="content-left">
+                <div class="page-header">
+                    <h1>Campus Computer Labs</h1>
+                    <p>Access state-of-the-art computers, specialized software, printing services, and technical support across multiple campus locations. Our labs are equipped to support your academic and research needs 24/7.</p>
+                </div>
+                
+                <div class="quick-access-banner">
+                    <h2>Quick Access</h2>
+                    <div class="quick-actions">
+                        <a href="#" class="action-button large">Reserve a Computer</a>
+                        <a href="#" class="action-button info large">Check Availability</a>
+                        <a href="#" class="action-button secondary large">Print Documents</a>
+                    </div>
+                </div>
+                
+                <div class="alert">
+                    <h4>Extended Hours During Finals</h4>
+                    <p><strong>December 11-18:</strong> Library and Engineering labs are open 24/7. Student Union lab extends hours until 2:00 AM. Additional support staff available during extended hours.</p>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Current Lab Availability</div>
+                    <div class="section-content">
+                        <div class="availability-indicator">
+                            <h4>Real-Time Campus Lab Status</h4>
+                            <p style="margin-bottom: 15px;">Updated every 5 minutes</p>
+                            <div class="availability-chart">
+                                <div class="availability-bar available" style="flex: 45;">Available: 45%</div>
+                                <div class="availability-bar in-use" style="flex: 35;">In Use: 35%</div>
+                                <div class="availability-bar reserved" style="flex: 20;">Reserved: 20%</div>
+                            </div>
+                            <p style="font-size: 14px; color: #666; margin-top: 10px;">
+                                <strong>127 computers available</strong> across all campus locations
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Lab Locations</div>
+                    <div class="section-content">
+                        <p>Find the right lab for your needs. Each location offers different software, equipment, and specializations.</p>
+                        
+                        <div class="labs-grid">
+                            <div class="lab-card">
+                                <div class="lab-header">
+                                    <div>
+                                        <div class="lab-name">Main Library Computer Lab</div>
+                                        <div class="lab-location">Library Building, 1st Floor</div>
+                                    </div>
+                                    <div class="lab-status status-open">Open</div>
+                                </div>
+                                
+                                <div class="lab-info-grid">
+                                    <div class="lab-info-item">
+                                        <strong>Computers</strong>
+                                        48 Windows PCs
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Available Now</strong>
+                                        23 computers
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Today's Hours</strong>
+                                        24/7 Access
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Printing</strong>
+                                        B&W and Color
+                                    </div>
+                                </div>
+                                
+                                <div class="lab-features">
+                                    <div class="feature-tags">
+                                        <span class="feature-tag">24/7 Access</span>
+                                        <span class="feature-tag">Quiet Study</span>
+                                        <span class="feature-tag">Scanner</span>
+                                        <span class="feature-tag">Microsoft Office</span>
+                                        <span class="feature-tag">Research Databases</span>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 15px;">
+                                    <button class="action-button small">Reserve Computer</button>
+                                    <button class="action-button secondary small">View Software</button>
+                                </div>
+                            </div>
+                            
+                            <div class="lab-card">
+                                <div class="lab-header">
+                                    <div>
+                                        <div class="lab-name">Engineering Lab</div>
+                                        <div class="lab-location">Engineering Building, Room 205</div>
+                                    </div>
+                                    <div class="lab-status status-open">Open</div>
+                                </div>
+                                
+                                <div class="lab-info-grid">
+                                    <div class="lab-info-item">
+                                        <strong>Computers</strong>
+                                        30 High-Performance PCs
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Available Now</strong>
+                                        8 computers
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Today's Hours</strong>
+                                        6:00 AM - 2:00 AM
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Specialization</strong>
+                                        CAD & Simulation
+                                    </div>
+                                </div>
+                                
+                                <div class="lab-features">
+                                    <div class="feature-tags">
+                                        <span class="feature-tag">High-Performance</span>
+                                        <span class="feature-tag">AutoCAD</span>
+                                        <span class="feature-tag">MATLAB</span>
+                                        <span class="feature-tag">SolidWorks</span>
+                                        <span class="feature-tag">3D Printing</span>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 15px;">
+                                    <button class="action-button small">Reserve Computer</button>
+                                    <button class="action-button secondary small">View Software</button>
+                                </div>
+                            </div>
+                            
+                            <div class="lab-card">
+                                <div class="lab-header">
+                                    <div>
+                                        <div class="lab-name">Student Union Tech Center</div>
+                                        <div class="lab-location">Student Union, 2nd Floor</div>
+                                    </div>
+                                    <div class="lab-status status-open">Open</div>
+                                </div>
+                                
+                                <div class="lab-info-grid">
+                                    <div class="lab-info-item">
+                                        <strong>Computers</strong>
+                                        35 PCs + 15 Macs
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Available Now</strong>
+                                        18 computers
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Today's Hours</strong>
+                                        7:00 AM - 2:00 AM
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Features</strong>
+                                        Dual Platform
+                                    </div>
+                                </div>
+                                
+                                <div class="lab-features">
+                                    <div class="feature-tags">
+                                        <span class="feature-tag">PC & Mac</span>
+                                        <span class="feature-tag">Adobe Creative</span>
+                                        <span class="feature-tag">Video Editing</span>
+                                        <span class="feature-tag">Large Monitors</span>
+                                        <span class="feature-tag">Group Study</span>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 15px;">
+                                    <button class="action-button small">Reserve Computer</button>
+                                    <button class="action-button secondary small">View Software</button>
+                                </div>
+                            </div>
+                            
+                            <div class="lab-card">
+                                <div class="lab-header">
+                                    <div>
+                                        <div class="lab-name">Business Computer Lab</div>
+                                        <div class="lab-location">Business Building, Room 110</div>
+                                    </div>
+                                    <div class="lab-status status-limited">Limited Access</div>
+                                </div>
+                                
+                                <div class="lab-info-grid">
+                                    <div class="lab-info-item">
+                                        <strong>Computers</strong>
+                                        25 Windows PCs
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Available Now</strong>
+                                        12 computers
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Today's Hours</strong>
+                                        8:00 AM - 10:00 PM
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Access</strong>
+                                        Business Students
+                                    </div>
+                                </div>
+                                
+                                <div class="lab-features">
+                                    <div class="feature-tags">
+                                        <span class="feature-tag">Business Software</span>
+                                        <span class="feature-tag">SPSS</span>
+                                        <span class="feature-tag">Bloomberg Terminal</span>
+                                        <span class="feature-tag">Presentations</span>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 15px;">
+                                    <button class="action-button small">Reserve Computer</button>
+                                    <button class="action-button secondary small">View Software</button>
+                                </div>
+                            </div>
+                            
+                            <div class="lab-card">
+                                <div class="lab-header">
+                                    <div>
+                                        <div class="lab-name">Art & Design Studio</div>
+                                        <div class="lab-location">Fine Arts Building, Room 150</div>
+                                    </div>
+                                    <div class="lab-status status-open">Open</div>
+                                </div>
+                                
+                                <div class="lab-info-grid">
+                                    <div class="lab-info-item">
+                                        <strong>Computers</strong>
+                                        20 iMac Pros
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Available Now</strong>
+                                        7 computers
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Today's Hours</strong>
+                                        8:00 AM - 11:00 PM
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Specialization</strong>
+                                        Creative Arts
+                                    </div>
+                                </div>
+                                
+                                <div class="lab-features">
+                                    <div class="feature-tags">
+                                        <span class="feature-tag">27" Displays</span>
+                                        <span class="feature-tag">Adobe CC</span>
+                                        <span class="feature-tag">Wacom Tablets</span>
+                                        <span class="feature-tag">Color Accurate</span>
+                                        <span class="feature-tag">Large Format Printing</span>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 15px;">
+                                    <button class="action-button small">Reserve Computer</button>
+                                    <button class="action-button secondary small">View Software</button>
+                                </div>
+                            </div>
+                            
+                            <div class="lab-card">
+                                <div class="lab-header">
+                                    <div>
+                                        <div class="lab-name">24/7 Study Lab</div>
+                                        <div class="lab-location">Residence Hall Commons</div>
+                                    </div>
+                                    <div class="lab-status status-open">Open 24/7</div>
+                                </div>
+                                
+                                <div class="lab-info-grid">
+                                    <div class="lab-info-item">
+                                        <strong>Computers</strong>
+                                        15 Windows PCs
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Available Now</strong>
+                                        9 computers
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Access</strong>
+                                        Residence Hall Students
+                                    </div>
+                                    <div class="lab-info-item">
+                                        <strong>Features</strong>
+                                        Always Open
+                                    </div>
+                                </div>
+                                
+                                <div class="lab-features">
+                                    <div class="feature-tags">
+                                        <span class="feature-tag">24/7 Access</span>
+                                        <span class="feature-tag">Study Space</span>
+                                        <span class="feature-tag">Basic Software</span>
+                                        <span class="feature-tag">Printing</span>
+                                        <span class="feature-tag">Quiet Hours</span>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 15px;">
+                                    <button class="action-button small">Reserve Computer</button>
+                                    <button class="action-button secondary small">View Software</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Available Software</div>
+                    <div class="section-content">
+                        <p>Our computer labs provide access to a comprehensive suite of software for academic, research, and creative work.</p>
+                        
+                        <div class="software-grid">
+                            <div class="software-category">
+                                <h4>Office & Productivity</h4>
+                                <ul>
+                                    <li><strong>Microsoft Office 365:</strong> Word, Excel, PowerPoint, Outlook</li>
+                                    <li><strong>Google Workspace:</strong> Docs, Sheets, Slides</li>
+                                    <li><strong>LibreOffice:</strong> Open-source office suite</li>
+                                    <li><strong>Adobe Acrobat Pro:</strong> PDF creation and editing</li>
+                                    <li><strong>OneNote:</strong> Digital note-taking</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="software-category">
+                                <h4>Creative & Design</h4>
+                                <ul>
+                                    <li><strong>Adobe Creative Cloud:</strong> Photoshop, Illustrator, InDesign</li>
+                                    <li><strong>Adobe Premiere Pro:</strong> Video editing</li>
+                                    <li><strong>Adobe After Effects:</strong> Motion graphics</li>
+                                    <li><strong>Sketch:</strong> UI/UX design (Mac only)</li>
+                                    <li><strong>Blender:</strong> 3D modeling and animation</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="software-category">
+                                <h4>Engineering & CAD</h4>
+                                <ul>
+                                    <li><strong>AutoCAD:</strong> 2D and 3D design</li>
+                                    <li><strong>SolidWorks:</strong> 3D CAD design</li>
+                                    <li><strong>MATLAB:</strong> Mathematical computing</li>
+                                    <li><strong>Multisim:</strong> Circuit simulation</li>
+                                    <li><strong>LabVIEW:</strong> System design platform</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="software-category">
+                                <h4>Programming & Development</h4>
+                                <ul>
+                                    <li><strong>Visual Studio:</strong> Integrated development environment</li>
+                                    <li><strong>Eclipse:</strong> Java development</li>
+                                    <li><strong>PyCharm:</strong> Python development</li>
+                                    <li><strong>Git:</strong> Version control system</li>
+                                    <li><strong>Docker:</strong> Containerization platform</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="software-category">
+                                <h4>Statistics & Analysis</h4>
+                                <ul>
+                                    <li><strong>SPSS:</strong> Statistical analysis</li>
+                                    <li><strong>R & RStudio:</strong> Statistical computing</li>
+                                    <li><strong>SAS:</strong> Advanced analytics</li>
+                                    <li><strong>Tableau:</strong> Data visualization</li>
+                                    <li><strong>NVivo:</strong> Qualitative data analysis</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="software-category">
+                                <h4>Specialized Applications</h4>
+                                <ul>
+                                    <li><strong>ArcGIS:</strong> Geographic information systems</li>
+                                    <li><strong>Bloomberg Terminal:</strong> Financial data (Business Lab)</li>
+                                    <li><strong>ChemSketch:</strong> Chemical structure drawing</li>
+                                    <li><strong>Finale:</strong> Music notation software</li>
+                                    <li><strong>Dragon NaturallySpeaking:</strong> Voice recognition</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Lab Hours & Schedule</div>
+                    <div class="section-content">
+                        <p>Lab hours vary by location and may be extended during finals week and other peak periods.</p>
+                        
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Lab Location</th>
+                                    <th>Monday-Thursday</th>
+                                    <th>Friday</th>
+                                    <th>Saturday</th>
+                                    <th>Sunday</th>
+                                    <th>Finals Week</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="today-hours">
+                                    <td><strong>Main Library</strong></td>
+                                    <td>24/7</td>
+                                    <td>24/7</td>
+                                    <td>24/7</td>
+                                    <td>24/7</td>
+                                    <td>24/7</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Engineering Lab</strong></td>
+                                    <td>6:00 AM - 2:00 AM</td>
+                                    <td>6:00 AM - 11:00 PM</td>
+                                    <td>8:00 AM - 11:00 PM</td>
+                                    <td>10:00 AM - 2:00 AM</td>
+                                    <td>24/7</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Student Union</strong></td>
+                                    <td>7:00 AM - 2:00 AM</td>
+                                    <td>7:00 AM - 11:00 PM</td>
+                                    <td>9:00 AM - 11:00 PM</td>
+                                    <td>10:00 AM - 2:00 AM</td>
+                                    <td>7:00 AM - 2:00 AM</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Business Lab</strong></td>
+                                    <td>8:00 AM - 10:00 PM</td>
+                                    <td>8:00 AM - 8:00 PM</td>
+                                    <td>10:00 AM - 6:00 PM</td>
+                                    <td>12:00 PM - 10:00 PM</td>
+                                    <td>8:00 AM - 11:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Art & Design</strong></td>
+                                    <td>8:00 AM - 11:00 PM</td>
+                                    <td>8:00 AM - 9:00 PM</td>
+                                    <td>10:00 AM - 8:00 PM</td>
+                                    <td>12:00 PM - 11:00 PM</td>
+                                    <td>8:00 AM - 11:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>24/7 Study Lab</strong></td>
+                                    <td>24/7</td>
+                                    <td>24/7</td>
+                                    <td>24/7</td>
+                                    <td>24/7</td>
+                                    <td>24/7</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <p style="font-size: 12px; color: #666; margin-top: 15px;">
+                            <strong>Note:</strong> Hours may vary during holidays, breaks, and special events. Some labs require student ID access after regular building hours.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Printing Services</div>
+                    <div class="section-content">
+                        <h3>Print Options Available</h3>
+                        <div class="lab-info-grid" style="margin: 20px 0;">
+                            <div class="lab-info-item">
+                                <strong>Black & White Printing</strong>
+                                $0.10 per page
+                            </div>
+                            <div class="lab-info-item">
+                                <strong>Color Printing</strong>
+                                $0.25 per page
+                            </div>
+                            <div class="lab-info-item">
+                                <strong>Large Format</strong>
+                                $2.00 per sq ft
+                            </div>
+                            <div class="lab-info-item">
+                                <strong>3D Printing</strong>
+                                $0.15 per gram
+                            </div>
+                        </div>
+                        
+                        <h4>How to Print</h4>
+                        <ol>
+                            <li>Send documents to campus printers from any lab computer</li>
+                            <li>Use your student ID card at any print station</li>
+                            <li>Select print options and confirm payment</li>
+                            <li>Collect your documents immediately</li>
+                        </ol>
+                        
+                        <h4>Supported Formats</h4>
+                        <ul>
+                            <li>Documents: PDF, Word, PowerPoint, Excel</li>
+                            <li>Images: JPEG, PNG, TIFF, BMP</li>
+                            <li>Large Format: PDF, AI, PSD (up to 36" wide)</li>
+                            <li>3D Models: STL, OBJ, PLY files</li>
+                        </ul>
+                        
+                        <div style="margin-top: 20px;">
+                            <a href="#" class="action-button">Print From Anywhere</a>
+                            <a href="#" class="action-button secondary">Check Print Balance</a>
+                            <a href="#" class="action-button info">3D Print Request</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="policies-box">
+                    <h4>Lab Policies & Guidelines</h4>
+                    <ul>
+                        <li>Valid student ID required for lab access</li>
+                        <li>Maximum 4-hour session limit during peak hours</li>
+                        <li>No food or drinks near computers</li>
+                        <li>Save work frequently and log off when finished</li>
+                        <li>Report technical issues to lab attendants immediately</li>
+                        <li>Respect quiet zones in designated study areas</li>
+                        <li>Personal software installation not permitted</li>
+                        <li>USB drives must be virus-scanned before use</li>
+                    </ul>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Technical Support</div>
+                    <div class="section-content">
+                        <h3>Get Help When You Need It</h3>
+                        <p>Our technical support team is available to assist with computer issues, software questions, and troubleshooting.</p>
+                        
+                        <h4>Support Options</h4>
+                        <ul>
+                            <li><strong>Lab Attendants:</strong> On-site help during staffed hours</li>
+                            <li><strong>Help Desk:</strong> Phone and chat support 24/7</li>
+                            <li><strong>Walk-in Support:</strong> Main Library IT desk</li>
+                            <li><strong>Remote Assistance:</strong> Screen sharing for complex issues</li>
+                            <li><strong>Training Sessions:</strong> Group workshops for specialized software</li>
+                        </ul>
+                        
+                        <h4>Common Issues We Help With</h4>
+                        <ul>
+                            <li>Software installation and configuration</li>
+                            <li>File recovery and backup assistance</li>
+                            <li>Printing and scanning problems</li>
+                            <li>Network connectivity issues</li>
+                            <li>Account and login problems</li>
+                            <li>Hardware troubleshooting</li>
+                        </ul>
+                        
+                        <div style="margin-top: 20px;">
+                            <a href="/contact.html" class="action-button">Contact Support</a>
+                            <a href="#" class="action-button secondary">Live Chat</a>
+                            <a href="#" class="action-button info">Schedule Training</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Quick Stats</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Total Computers:</strong> 283</li>
+                            <li><strong>Available Now:</strong> 127</li>
+                            <li><strong>Peak Usage:</strong> 2-6 PM</li>
+                            <li><strong>24/7 Locations:</strong> 2</li>
+                            <li><strong>Software Packages:</strong> 150+</li>
+                            <li><strong>Monthly Users:</strong> 8,500+</li>
+                            <li><strong>Support Staff:</strong> 24/7</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Real-Time Availability</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Library Lab:</strong> 23/48 available</li>
+                            <li><strong>Engineering:</strong> 8/30 available</li>
+                            <li><strong>Student Union:</strong> 18/50 available</li>
+                            <li><strong>Business:</strong> 12/25 available</li>
+                            <li><strong>Art & Design:</strong> 7/20 available</li>
+                            <li><strong>24/7 Study:</strong> 9/15 available</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-size: 12px;">
+                            <a href="#" style="color: #2774AE;">Refresh Status</a>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Popular Software</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li>Microsoft Office 365</li>
+                            <li>Adobe Creative Cloud</li>
+                            <li>MATLAB</li>
+                            <li>AutoCAD</li>
+                            <li>SPSS</li>
+                            <li>Visual Studio</li>
+                            <li>Chrome Browser</li>
+                            <li>Zoom</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Upcoming Maintenance</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Tonight 2-4 AM:</strong> Software updates on Engineering lab computers</li>
+                            <li><strong>Sunday 6-8 AM:</strong> Network maintenance may affect printing</li>
+                            <li><strong>Dec 20:</strong> Holiday break closure begins</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Training & Workshops</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Dec 15:</strong> Adobe Photoshop Basics</li>
+                            <li><strong>Dec 16:</strong> MATLAB for Beginners</li>
+                            <li><strong>Dec 17:</strong> 3D Printing Workshop</li>
+                            <li><strong>Jan 8:</strong> Statistical Analysis with SPSS</li>
+                        </ul>
+                        <p style="margin-top: 10px;">
+                            <a href="#" style="color: #2774AE;">View All Workshops</a>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Contact Lab Support</div>
+                    <div class="sidebar-content">
+                        <p><strong>IT Help Desk:</strong><br>(555) 123-4569</p>
+                        <p><strong>Lab Coordinator:</strong><br>(555) 123-4577</p>
+                        <p><strong>Email:</strong><br>labs@catherine.it.com</p>
+                        <p><strong>Emergency Support:</strong><br>(555) 123-4580</p>
+                        <p><strong>Walk-in Hours:</strong><br>Mon-Fri: 8AM-8PM<br>Weekends: 10AM-6PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 StarRez. All rights reserved. | Student Privacy Policy | Campus Resources</p>
+        </div>
+    </div>
+</body>
+</html>

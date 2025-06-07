@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StarRez IT Help Desk - Get technical support, submit tickets, and access self-service resources for all your technology needs">
+    <title>IT Help Desk - StarRez</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Header styling - UCLA style */
+        .header {
+            background: #2774AE; /* UCLA Blue */
+            color: white;
+            padding: 0;
+        }
+        
+        .header-top {
+            background: #FFD100; /* UCLA Gold */
+            color: #2774AE;
+            padding: 8px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .header-main {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .header-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #1B4B8C; /* Darker UCLA Blue */
+            padding: 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #FFD100;
+            color: #2774AE;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Breadcrumb navigation */
+        .breadcrumb {
+            padding: 15px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        /* Left content area */
+        .content-left {
+            background: white;
+        }
+        
+        /* Page header */
+        .page-header {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2774AE;
+        }
+        
+        .page-header h1 {
+            color: #2774AE;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        .page-header p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Help options grid */
+        .help-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .help-option {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .help-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #2774AE;
+        }
+        
+        .help-option.urgent {
+            border-color: #dc3545;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffeaea 100%);
+        }
+        
+        .help-option.urgent::before {
+            content: "Urgent";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #dc3545;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .help-option.popular {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
+        }
+        
+        .help-option.popular::before {
+            content: "Most Popular";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .help-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .help-option h3 {
+            color: #2774AE;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .help-option p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .help-meta {
+            font-size: 12px;
+            color: #999;
+            margin-top: 10px;
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            background: #2774AE;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .section-content h3 {
+            color: #2774AE;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .section-content h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+        
+        .section-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .section-content ul,
+        .section-content ol {
+            margin: 15px 0 15px 20px;
+        }
+        
+        .section-content li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .section-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .section-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Ticket form */
+        .ticket-form {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .ticket-form h3 {
+            color: #2774AE;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .form-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .form-section h4 {
+            color: #2774AE;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-row.single {
+            grid-template-columns: 1fr;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2774AE;
+            font-size: 14px;
+        }
+        
+        .form-group label.required::after {
+            content: " *";
+            color: #dc3545;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #2774AE;
+            outline: none;
+            box-shadow: 0 0 5px rgba(39, 116, 174, 0.3);
+        }
+        
+        /* FAQ section */
+        .faq-section {
+            margin: 25px 0;
+        }
+        
+        .faq-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2774AE;
+            transition: background 0.2s;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 14px;
+        }
+        
+        .faq-question:hover {
+            background: #e9ecef;
+        }
+        
+        .faq-question.active {
+            background: #2774AE;
+            color: white;
+        }
+        
+        .faq-answer {
+            padding: 15px 20px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            display: none;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .faq-answer.active {
+            display: block;
+        }
+        
+        /* Service status indicators */
+        .service-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .status-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .status-operational {
+            background: #28a745;
+        }
+        
+        .status-warning {
+            background: #ffc107;
+        }
+        
+        .status-down {
+            background: #dc3545;
+        }
+        
+        .status-item h4 {
+            color: #2774AE;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .status-item p {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Action buttons */
+        .action-button {
+            display: inline-block;
+            background: #28a745; /* Green for better contrast */
+            color: white !important; /* Ensure white text */
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s, transform 0.2s;
+            margin: 5px 5px 5px 0;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .action-button:hover {
+            background: #218838; /* Darker green on hover */
+            color: white !important; /* Keep white text on hover */
+            transform: translateY(-1px);
+        }
+        
+        .action-button.secondary {
+            background: #6c757d; /* Gray for secondary actions */
+            color: white !important; /* Ensure white text */
+        }
+        
+        .action-button.secondary:hover {
+            background: #545b62; /* Darker gray on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        .action-button.urgent {
+            background: #dc3545;
+            color: white !important;
+        }
+        
+        .action-button.urgent:hover {
+            background: #c82333;
+            color: white !important;
+        }
+        
+        .action-button.info {
+            background: #17a2b8;
+            color: white !important;
+        }
+        
+        .action-button.info:hover {
+            background: #138496;
+            color: white !important;
+        }
+        
+        .action-button.large {
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+        
+        /* Knowledge base search */
+        .kb-search {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .kb-search h4 {
+            color: #2774AE;
+            margin-bottom: 15px;
+        }
+        
+        .search-box {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 10px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .search-box button {
+            padding: 10px 20px;
+            background: #2774AE;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .search-box button:hover {
+            background: #1B4B8C;
+        }
+        
+        /* Contact methods grid */
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .contact-method {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .contact-method:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .contact-method h4 {
+            color: #2774AE;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .contact-method p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .contact-method .contact-info {
+            font-weight: bold;
+            color: #2774AE;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .contact-method .availability {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Right sidebar */
+        .sidebar {
+            background: white;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            background: #FFD100;
+            color: #2774AE;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sidebar-content {
+            padding: 15px;
+        }
+        
+        .sidebar-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 13px;
+        }
+        
+        .sidebar-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .sidebar-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Alert box */
+        .alert {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h4 {
+            margin-bottom: 10px;
+            color: #0c5460;
+        }
+        
+        .alert.warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert.warning h4 {
+            color: #856404;
+        }
+        
+        .alert.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert.success h4 {
+            color: #155724;
+        }
+        
+        .alert.danger {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .alert.danger h4 {
+            color: #721c24;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2774AE;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .help-options,
+            .contact-methods,
+            .service-status {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            Welcome to StarRez - Your gateway to campus life and services
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">StarRez</a>
+            <div class="header-links">
+                <a href="/contact.html">IT Help</a>
+                <a href="/about.html">Campus Info</a>
+                <a href="#">Emergency</a>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/">Home</a>
+            <a href="/housing.html">Housing</a>
+            <a href="/dining.html">Dining</a>
+            <a href="/services.html" class="active">Student Services</a>
+            <a href="/contact.html">Support</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Home</a> > <a href="/services.html">Student Services</a> > IT Help Desk
+        </div>
+        
+        <div class="main-content">
+            <div class="content-left">
+                <div class="page-header">
+                    <h1>IT Help Desk</h1>
+                    <p>Get technical support for all your campus technology needs. From WiFi troubleshooting to software installation, our expert team is here to help you stay connected and productive.</p>
+                </div>
+                
+                <div class="alert success">
+                    <h4>All Systems Operational</h4>
+                    <p>Campus networks and services are running normally. Response times are currently under 15 minutes for urgent issues.</p>
+                </div>
+                
+
+                
+                <div class="content-section">
+                    <div class="section-header">Submit a Support Ticket</div>
+                    <div class="section-content">
+                        <p>Can't find the answer you need? Submit a detailed support ticket and our technical team will get back to you quickly.</p>
+                        
+                        <div class="ticket-form">
+                            <h3>Create Support Ticket</h3>
+                            
+                            <form action="#" method="POST">
+                                <div class="form-section">
+                                    <h4>Contact Information</h4>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="student-id" class="required">Student/Employee ID</label>
+                                            <input type="text" id="student-id" name="student_id" required>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="full-name" class="required">Full Name</label>
+                                            <input type="text" id="full-name" name="full_name" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="email" class="required">Email Address</label>
+                                            <input type="email" id="email" name="email" required>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="phone">Phone Number</label>
+                                            <input type="tel" id="phone" name="phone">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <h4>Issue Details</h4>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="category" class="required">Issue Category</label>
+                                            <select id="category" name="category" required>
+                                                <option value="">Select a category...</option>
+                                                <option value="network">Network & WiFi</option>
+                                                <option value="email">Email & Accounts</option>
+                                                <option value="software">Software & Applications</option>
+                                                <option value="hardware">Hardware & Devices</option>
+                                                <option value="printing">Printing Services</option>
+                                                <option value="security">Security & Access</option>
+                                                <option value="training">Training & Learning</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="priority" class="required">Priority Level</label>
+                                            <select id="priority" name="priority" required>
+                                                <option value="low">Low - General question</option>
+                                                <option value="medium" selected>Medium - Need help soon</option>
+                                                <option value="high">High - Urgent issue</option>
+                                                <option value="emergency">Emergency - Critical problem</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row single">
+                                        <div class="form-group">
+                                            <label for="subject" class="required">Subject/Title</label>
+                                            <input type="text" id="subject" name="subject" placeholder="Brief description of your issue" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row single">
+                                        <div class="form-group">
+                                            <label for="description" class="required">Detailed Description</label>
+                                            <textarea id="description" name="description" placeholder="Please provide as much detail as possible including:&#10;- What you were trying to do&#10;- What happened instead&#10;- Any error messages&#10;- Steps you've already tried&#10;- When the problem started" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <h4>Device & System Information</h4>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="device-type">Device Type</label>
+                                            <select id="device-type" name="device_type">
+                                                <option value="">Select device type...</option>
+                                                <option value="windows-laptop">Windows Laptop</option>
+                                                <option value="windows-desktop">Windows Desktop</option>
+                                                <option value="mac-laptop">Mac Laptop</option>
+                                                <option value="mac-desktop">Mac Desktop</option>
+                                                <option value="iphone">iPhone</option>
+                                                <option value="ipad">iPad</option>
+                                                <option value="android-phone">Android Phone</option>
+                                                <option value="android-tablet">Android Tablet</option>
+                                                <option value="chromebook">Chromebook</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="location">Campus Location</label>
+                                            <select id="location" name="location">
+                                                <option value="">Where are you located?</option>
+                                                <option value="residence-hall">Residence Hall</option>
+                                                <option value="library">Library</option>
+                                                <option value="student-union">Student Union</option>
+                                                <option value="academic-building">Academic Building</option>
+                                                <option value="computer-lab">Computer Lab</option>
+                                                <option value="off-campus">Off Campus</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row single">
+                                        <div class="form-group">
+                                            <label for="operating-system">Operating System & Version</label>
+                                            <input type="text" id="operating-system" name="operating_system" placeholder="e.g., Windows 11, macOS Monterey, iOS 15.3">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div style="text-align: center; margin-top: 30px;">
+                                    <button type="submit" class="action-button large">Submit Support Ticket</button>
+                                    <button type="button" class="action-button secondary">Save as Draft</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Contact Methods</div>
+                    <div class="section-content">
+                        <p>Choose the contact method that works best for your situation and schedule.</p>
+                        
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <h4>Phone Support</h4>
+                                <p>Speak directly with a technician for immediate assistance with urgent issues.</p>
+                                <div class="contact-info">(555) 123-4569</div>
+                                <div class="availability">24/7 for emergencies<br>Mon-Fri 8AM-8PM for general support</div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <h4>Email Support</h4>
+                                <p>Send detailed questions and non-urgent requests via email for thorough responses.</p>
+                                <div class="contact-info">support@university.edu</div>
+                                <div class="availability">Response within 24 hours<br>Urgent issues: 2-4 hours</div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <h4>Remote Assistance</h4>
+                                <p>Allow our technicians to remotely access your device to diagnose and fix issues.</p>
+                                <div class="contact-info">Schedule Remote Session</div>
+                                <div class="availability">By appointment<br>Mon-Fri 9AM-5PM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Frequently Asked Questions</div>
+                    <div class="section-content">
+                        <div class="faq-section">
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaq(this)">How do I reset my campus password?</button>
+                                <div class="faq-answer">
+                                    <p>You can reset your password using the self-service portal at password.university.edu. You'll need your student ID and access to your recovery email or phone number. If you can't access these, visit the IT Help Desk with a photo ID.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaq(this)">Why can't I connect to the WiFi?</button>
+                                <div class="faq-answer">
+                                    <p>First, make sure you're connecting to "Campus-Secure" with your student credentials. Try forgetting the network and reconnecting. If issues persist, check our WiFi troubleshooting guide or contact support for device-specific help.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaq(this)">How do I get Microsoft Office?</button>
+                                <div class="faq-answer">
+                                    <p>All students get free Microsoft Office 365. Visit office.com and sign in with your university email address. You can install Office on up to 5 devices and access online versions through any web browser.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaq(this)">My email isn't working on my phone. What should I do?</button>
+                                <div class="faq-answer">
+                                    <p>Check our mobile email setup guide for step-by-step instructions. Make sure you're using the correct server settings and that two-factor authentication is properly configured. Contact us if you need help with the setup process.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaq(this)">How do I print from my personal laptop?</button>
+                                <div class="faq-answer">
+                                    <p>Install the campus printing software from our downloads page. You'll need to be connected to Campus-Secure WiFi and have your student ID ready for authentication. Print jobs are charged to your student account.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaq(this)">Can you help with my personal device/software?</button>
+                                <div class="faq-answer">
+                                    <p>We provide support for connecting personal devices to campus services (WiFi, email, etc.) and can help with university-provided software. For general device issues or personal software, we offer basic guidance but recommend contacting the manufacturer.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Service Status Dashboard</div>
+                    <div class="section-content">
+                        <p>Current status of major campus technology services:</p>
+                        
+                        <div class="service-status">
+                            <div class="status-item">
+                                <h4><span class="status-indicator status-operational"></span>Campus WiFi</h4>
+                                <p>All networks operational<br>99.8% uptime</p>
+                            </div>
+                            
+                            <div class="status-item">
+                                <h4><span class="status-indicator status-operational"></span>Email Services</h4>
+                                <p>All systems running normally<br>Last updated: 2 min ago</p>
+                            </div>
+                            
+                            <div class="status-item">
+                                <h4><span class="status-indicator status-operational"></span>Student Portal</h4>
+                                <p>Online and accessible<br>Response time: 0.8s</p>
+                            </div>
+                            
+                            <div class="status-item">
+                                <h4><span class="status-indicator status-warning"></span>Printing Services</h4>
+                                <p>Some printers offline<br>Library Level 2 affected</p>
+                            </div>
+                            
+                            <div class="status-item">
+                                <h4><span class="status-indicator status-operational"></span>Computer Labs</h4>
+                                <p>All labs available<br>87% capacity currently</p>
+                            </div>
+                            
+                            <div class="status-item">
+                                <h4><span class="status-indicator status-operational"></span>VPN Access</h4>
+                                <p>Connected users: 1,247<br>Performance: Normal</p>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button class="action-button secondary">View Detailed Status</button>
+                            <button class="action-button secondary">Subscribe to Alerts</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Emergency Contacts</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>IT Emergency:</strong> (555) 123-4580</li>
+                            <li><strong>Campus Safety:</strong> (555) 123-SAFE</li>
+                            <li><strong>After Hours Support:</strong> (555) 123-4581</li>
+                            <li><strong>Security Incidents:</strong> security@university.edu</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-size: 12px; color: #dc3545;">
+                            <strong>For life-threatening emergencies, call 911</strong>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Support Hours</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Phone Support:</strong><br>Mon-Fri: 8AM-8PM<br>Emergency: 24/7</li>
+                            <li><strong>Walk-in Help Desk:</strong><br>Mon-Fri: 8AM-8PM<br>Sat: 10AM-4PM<br>Sun: 12PM-8PM</li>
+                            <li><strong>Live Chat:</strong><br>Mon-Fri: 8AM-8PM<br>Sat-Sun: 10AM-6PM</li>
+                            <li><strong>Email Response:</strong><br>Within 24 hours<br>Urgent: 2-4 hours</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Quick Downloads</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="#">WiFi Setup Profiles</a></li>
+                            <li><a href="#">VPN Client Software</a></li>
+                            <li><a href="#">Campus Printing Software</a></li>
+                            <li><a href="#">Antivirus Protection</a></li>
+                            <li><a href="#">Microsoft Office 365</a></li>
+                            <li><a href="#">Adobe Creative Cloud</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Self-Service Tools</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="#">Password Reset Portal</a></li>
+                            <li><a href="#">Account Status Checker</a></li>
+                            <li><a href="#">Device Registration</a></li>
+                            <li><a href="#">Software License Manager</a></li>
+                            <li><a href="#">Network Speed Test</a></li>
+                            <li><a href="#">Ticket Status Tracker</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Popular Guides</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="/wifi-setup-guide.html">WiFi Setup Guide</a></li>
+                            <li><a href="/email-setup.html">Email Configuration</a></li>
+                            <li><a href="/network-troubleshooting.html">Network Troubleshooting</a></li>
+                            <li><a href="#">Printing from Personal Devices</a></li>
+                            <li><a href="#">Two-Factor Authentication</a></li>
+                            <li><a href="#">Software Installation Help</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Training & Workshops</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Next Sessions:</strong></li>
+                            <li>Digital Security Workshop<br><small>Jan 25, 2:00 PM</small></li>
+                            <li>Microsoft Excel Basics<br><small>Jan 27, 10:00 AM</small></li>
+                            <li>WiFi Troubleshooting<br><small>Jan 30, 3:00 PM</small></li>
+                            <li>Research Tools Training<br><small>Feb 1, 1:00 PM</small></li>
+                        </ul>
+                        <p style="margin-top: 10px;">
+                            <a href="#">View All Training</a>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Feedback & Surveys</div>
+                    <div class="sidebar-content">
+                        <p>Help us improve our services:</p>
+                        <ul>
+                            <li><a href="#">Rate Recent Support</a></li>
+                            <li><a href="#">Suggest Improvements</a></li>
+                            <li><a href="#">Report Service Issues</a></li>
+                            <li><a href="#">Request New Services</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 StarRez. All rights reserved. | Student Privacy Policy | Campus Resources</p>
+        </div>
+    </div>
+    
+    <script>
+        function toggleFaq(button) {
+            const answer = button.nextElementSibling;
+            const isActive = button.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-question').forEach(q => {
+                q.classList.remove('active');
+                q.nextElementSibling.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't already active
+            if (!isActive) {
+                button.classList.add('active');
+                answer.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About StarRez - Learn about our campus services, mission, contact information and university resources">
+    <title>About StarRez - Campus Information</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Header styling - UCLA style */
+        .header {
+            background: #2774AE; /* UCLA Blue */
+            color: white;
+            padding: 0;
+        }
+        
+        .header-top {
+            background: #FFD100; /* UCLA Gold */
+            color: #2774AE;
+            padding: 8px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .header-main {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .header-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #1B4B8C; /* Darker UCLA Blue */
+            padding: 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #FFD100;
+            color: #2774AE;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Breadcrumb navigation */
+        .breadcrumb {
+            padding: 15px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        /* Left content area */
+        .content-left {
+            background: white;
+        }
+        
+        /* Page header */
+        .page-header {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2774AE;
+        }
+        
+        .page-header h1 {
+            color: #2774AE;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        .page-header p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Mission statement banner */
+        .mission-banner {
+            background: linear-gradient(135deg, #2774AE 0%, #1B4B8C 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .mission-banner h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+        
+        .mission-banner p {
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            background: #2774AE;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .section-content h3 {
+            color: #2774AE;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .section-content h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+        
+        .section-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .section-content ul {
+            margin: 15px 0 15px 20px;
+        }
+        
+        .section-content li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .section-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .section-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Services grid */
+        .services-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .service-highlight {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .service-highlight:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .service-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .service-highlight h4 {
+            color: #2774AE;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .service-highlight p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Statistics grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .stat-card {
+            background: #e7f3ff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2774AE;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Team/Contact cards */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .contact-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .contact-card h5 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .contact-card p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .contact-card strong {
+            color: #2774AE;
+        }
+        
+        /* Timeline */
+        .timeline {
+            border-left: 3px solid #2774AE;
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .timeline-item {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            background: #2774AE;
+            border-radius: 50%;
+            position: absolute;
+            left: -26px;
+            top: 5px;
+        }
+        
+        .timeline-year {
+            color: #2774AE;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-content {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Action buttons */
+        .action-button {
+            display: inline-block;
+            background: #28a745; /* Green for better contrast */
+            color: white !important; /* Ensure white text */
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s, transform 0.2s;
+            margin: 5px 5px 5px 0;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .action-button:hover {
+            background: #218838; /* Darker green on hover */
+            color: white !important; /* Keep white text on hover */
+            transform: translateY(-1px);
+        }
+        
+        .action-button.secondary {
+            background: #6c757d; /* Gray for secondary actions */
+            color: white !important; /* Ensure white text */
+        }
+        
+        .action-button.secondary:hover {
+            background: #545b62; /* Darker gray on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        .action-button.info {
+            background: #17a2b8;
+            color: white !important;
+        }
+        
+        .action-button.info:hover {
+            background: #138496;
+            color: white !important;
+        }
+        
+        /* Right sidebar */
+        .sidebar {
+            background: white;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            background: #FFD100;
+            color: #2774AE;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sidebar-content {
+            padding: 15px;
+        }
+        
+        .sidebar-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 13px;
+        }
+        
+        .sidebar-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .sidebar-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Alert box */
+        .alert {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h4 {
+            margin-bottom: 10px;
+            color: #0c5460;
+        }
+        
+        .alert.info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        
+        .alert.info h4 {
+            color: #0c5460;
+        }
+        
+        /* Special highlight boxes */
+        .highlight-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .highlight-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .highlight-box p {
+            color: #856404;
+            margin: 0;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2774AE;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .services-overview,
+            .stats-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline {
+                margin-left: 10px;
+                padding-left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            Welcome to StarRez - Your gateway to campus life and services
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">StarRez</a>
+            <div class="header-links">
+                <a href="/contact.html">IT Help</a>
+                <a href="/about.html" class="active">Campus Info</a>
+                <a href="#">Emergency</a>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/">Home</a>
+            <a href="/housing.html">Housing</a>
+            <a href="/dining.html">Dining</a>
+            <a href="/services.html">Student Services</a>
+            <a href="/contact.html">Support</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Home</a> > About StarRez
+        </div>
+        
+        <div class="main-content">
+            <div class="content-left">
+                <div class="page-header">
+                    <h1>About StarRez</h1>
+                    <p>StarRez is your comprehensive campus life platform, providing seamless access to housing, dining, student services, and technology resources. We're committed to enhancing your university experience through innovative solutions and exceptional support.</p>
+                </div>
+                
+                <div class="mission-banner">
+                    <h2>Our Mission</h2>
+                    <p>To empower students with the tools, resources, and support they need to thrive in their academic journey. We believe that exceptional campus life services create the foundation for student success, community building, and lifelong memories.</p>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">What We Do</div>
+                    <div class="section-content">
+                        <p>StarRez serves as the central hub for all aspects of campus living, offering integrated solutions that make student life easier, more connected, and more enjoyable.</p>
+                        
+                        <div class="services-overview">
+                            <div class="service-highlight">
+                                <h4>Housing Services</h4>
+                                <p>Complete housing management from application to move-out, including room selection, maintenance requests, and payment processing.</p>
+                            </div>
+                            
+                            <div class="service-highlight">
+                                <h4>Dining Solutions</h4>
+                                <p>Flexible meal plans, diverse dining options, and seamless payment systems that cater to every dietary need and preference.</p>
+                            </div>
+                            
+                            <div class="service-highlight">
+                                <h4>Technology Services</h4>
+                                <p>Comprehensive IT support including WiFi setup, software access, technical troubleshooting, and digital resources.</p>
+                            </div>
+                            
+                            <div class="service-highlight">
+                                <h4>Student Support</h4>
+                                <p>Dedicated assistance for account management, payment processing, academic resources, and campus life guidance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Our Impact</div>
+                    <div class="section-content">
+                        <p>Since our establishment, StarRez has been dedicated to improving campus life through data-driven solutions and student-centered services.</p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <span class="stat-number">15,000+</span>
+                                <div class="stat-label">Students Served</div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <span class="stat-number">12</span>
+                                <div class="stat-label">Residence Halls</div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <span class="stat-number">25</span>
+                                <div class="stat-label">Dining Locations</div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <span class="stat-number">99.9%</span>
+                                <div class="stat-label">System Uptime</div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <span class="stat-number">24/7</span>
+                                <div class="stat-label">Support Available</div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <span class="stat-number">4.8/5</span>
+                                <div class="stat-label">Student Satisfaction</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Our History</div>
+                    <div class="section-content">
+                        <p>StarRez has evolved alongside our university community, continuously adapting to meet changing student needs and technological advances.</p>
+                        
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-year">2018</div>
+                                <div class="timeline-content">StarRez platform launched with basic housing and dining management capabilities for 5,000 students.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-year">2019</div>
+                                <div class="timeline-content">Expanded to include comprehensive IT services, WiFi management, and mobile app development.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-year">2020</div>
+                                <div class="timeline-content">Adapted services for remote learning support, enhanced digital resources, and contactless solutions during global challenges.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-year">2021</div>
+                                <div class="timeline-content">Integrated advanced analytics, predictive maintenance systems, and enhanced student portal features.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-year">2022</div>
+                                <div class="timeline-content">Launched innovative sustainability initiatives, smart building technologies, and expanded meal plan flexibility.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-year">2023</div>
+                                <div class="timeline-content">Achieved 99.9% system uptime, implemented AI-powered support systems, and expanded to serve over 15,000 students.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-year">2024</div>
+                                <div class="timeline-content">Continuing innovation with enhanced security features, expanded dining options, and next-generation campus technologies.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Our Values</div>
+                    <div class="section-content">
+                        <h3>Student-Centered Excellence</h3>
+                        <p>Every decision we make is guided by what's best for our students. We listen to feedback, anticipate needs, and continuously improve our services to exceed expectations.</p>
+                        
+                        <h3>Innovation & Reliability</h3>
+                        <p>We embrace cutting-edge technology while maintaining the reliability students depend on. Our systems are designed for 24/7 availability with robust security and performance.</p>
+                        
+                        <h3>Community Building</h3>
+                        <p>We believe great campus services foster community connections. Our platforms and spaces are designed to bring students together and create lasting relationships.</p>
+                        
+                        <h3>Sustainability</h3>
+                        <p>We're committed to environmental responsibility through energy-efficient systems, waste reduction programs, and sustainable dining practices.</p>
+                        
+                        <h3>Accessibility & Inclusion</h3>
+                        <p>Our services are designed to be accessible to all students, regardless of background, ability, or circumstances. We strive for inclusive solutions that serve our diverse community.</p>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Leadership & Support Teams</div>
+                    <div class="section-content">
+                        <p>Our dedicated team of professionals works around the clock to ensure exceptional service delivery and continuous improvement.</p>
+                        
+                        <div class="contact-grid">
+                            <div class="contact-card">
+                                <h5>Housing & Residence Life</h5>
+                                <p><strong>Director:</strong> Sarah Johnson</p>
+                                <p><strong>Phone:</strong> (555) 123-4567</p>
+                                <p><strong>Email:</strong> housing@catherine.it.com</p>
+                                <p><strong>Hours:</strong> Mon-Fri 8AM-5PM</p>
+                            </div>
+                            
+                            <div class="contact-card">
+                                <h5>Dining Services</h5>
+                                <p><strong>Director:</strong> Michael Chen</p>
+                                <p><strong>Phone:</strong> (555) 123-4568</p>
+                                <p><strong>Email:</strong> dining@catherine.it.com</p>
+                                <p><strong>Hours:</strong> Mon-Fri 8AM-5PM</p>
+                            </div>
+                            
+                            <div class="contact-card">
+                                <h5>Information Technology</h5>
+                                <p><strong>Director:</strong> Dr. Amanda Rodriguez</p>
+                                <p><strong>Phone:</strong> (555) 123-4569</p>
+                                <p><strong>Email:</strong> support@catherine.it.com</p>
+                                <p><strong>Hours:</strong> 24/7 Support Available</p>
+                            </div>
+                            
+                            <div class="contact-card">
+                                <h5>Student Services</h5>
+                                <p><strong>Director:</strong> James Wilson</p>
+                                <p><strong>Phone:</strong> (555) 123-4570</p>
+                                <p><strong>Email:</strong> services@catherine.it.com</p>
+                                <p><strong>Hours:</strong> Mon-Fri 8AM-6PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>Continuous Improvement</h4>
+                    <p>We regularly survey students, analyze usage data, and implement improvements based on your feedback. Your voice shapes our services and helps us better serve the campus community.</p>
+                </div>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="/contact.html" class="action-button">Contact Our Team</a>
+                    <a href="/services.html" class="action-button info">Explore Our Services</a>
+                    <a href="#" class="action-button secondary">Download Annual Report</a>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Quick Facts</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Established:</strong> 2018</li>
+                            <li><strong>Students Served:</strong> 15,000+</li>
+                            <li><strong>Campus Buildings:</strong> 45</li>
+                            <li><strong>Residence Halls:</strong> 12</li>
+                            <li><strong>Dining Locations:</strong> 25</li>
+                            <li><strong>Staff Members:</strong> 150+</li>
+                            <li><strong>System Uptime:</strong> 99.9%</li>
+                            <li><strong>Support Languages:</strong> 8</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Campus Locations</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Main Office:</strong><br>Student Services Building<br>Room 101</li>
+                            <li><strong>Housing Office:</strong><br>Residence Life Center<br>Ground Floor</li>
+                            <li><strong>IT Help Desk:</strong><br>Library Building<br>1st Floor</li>
+                            <li><strong>Dining Services:</strong><br>Student Union<br>Administrative Wing</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Operating Hours</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Main Office:</strong><br>Mon-Fri: 8AM-5PM</li>
+                            <li><strong>IT Support:</strong><br>24/7 Available</li>
+                            <li><strong>Emergency Services:</strong><br>24/7 Available</li>
+                            <li><strong>Weekend Support:</strong><br>Sat-Sun: 10AM-6PM</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Connect With Us</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="#">Facebook</a></li>
+                            <li><a href="#">Twitter</a></li>
+                            <li><a href="#">Instagram</a></li>
+                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="#">YouTube</a></li>
+                            <li><a href="#">Campus Newsletter</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Resources</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><a href="#">Annual Report 2023</a></li>
+                            <li><a href="#">Student Handbook</a></li>
+                            <li><a href="#">Campus Map</a></li>
+                            <li><a href="#">Emergency Procedures</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Student Feedback</div>
+                    <div class="sidebar-content">
+                        <p style="font-style: italic; font-size: 13px; margin-bottom: 10px;">
+                            "StarRez has made my campus experience so much easier. Everything I need is in one place!"
+                        </p>
+                        <p style="font-size: 12px; color: #666;">- Sarah M., Junior</p>
+                        
+                        <p style="font-style: italic; font-size: 13px; margin: 15px 0 10px 0;">
+                            "The 24/7 IT support saved my project when my WiFi went down at 2 AM."
+                        </p>
+                        <p style="font-size: 12px; color: #666;">- Alex T., Sophomore</p>
+                        
+                        <p style="margin-top: 15px;">
+                            <a href="#" style="color: #2774AE;">Share Your Feedback</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 StarRez. All rights reserved. | Student Privacy Policy | Campus Resources</p>
+        </div>
+    </div>
+</body>
+</html>
