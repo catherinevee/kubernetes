@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StarRez Check Application Status - Track your housing application, view requirements, and get updates on your application progress">
+    <title>Check Application Status - StarRez</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Header styling - UCLA style */
+        .header {
+            background: #2774AE; /* UCLA Blue */
+            color: white;
+            padding: 0;
+        }
+        
+        .header-top {
+            background: #FFD100; /* UCLA Gold */
+            color: #2774AE;
+            padding: 8px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .header-main {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .header-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #1B4B8C; /* Darker UCLA Blue */
+            padding: 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #FFD100;
+            color: #2774AE;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Breadcrumb navigation */
+        .breadcrumb {
+            padding: 15px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        /* Left content area */
+        .content-left {
+            background: white;
+        }
+        
+        /* Page header */
+        .page-header {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2774AE;
+        }
+        
+        .page-header h1 {
+            color: #2774AE;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        .page-header p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Status lookup section */
+        .status-lookup {
+            background: linear-gradient(135deg, #e7f3ff 0%, #f0f8ff 100%);
+            border: 1px solid #b3d9ff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .status-lookup h2 {
+            color: #2774AE;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+        
+        .lookup-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2774AE;
+            font-size: 14px;
+        }
+        
+        .form-group label.required::after {
+            content: " *";
+            color: #dc3545;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2774AE;
+            outline: none;
+            box-shadow: 0 0 5px rgba(39, 116, 174, 0.3);
+        }
+        
+        .form-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        /* Application status display */
+        .status-display {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            display: none;
+        }
+        
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .application-info h3 {
+            color: #2774AE;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .application-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-submitted {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-under-review {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-incomplete {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-waitlisted {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        /* Progress tracker */
+        .progress-tracker {
+            margin: 25px 0;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .progress-line {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e9ecef;
+            z-index: 1;
+        }
+        
+        .progress-line-fill {
+            height: 100%;
+            background: #28a745;
+            width: 60%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-step {
+            background: white;
+            border: 3px solid #e9ecef;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #666;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .progress-step.completed {
+            border-color: #28a745;
+            background: #28a745;
+            color: white;
+        }
+        
+        .progress-step.current {
+            border-color: #2774AE;
+            background: #2774AE;
+            color: white;
+        }
+        
+        .step-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .step-label {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            max-width: 80px;
+        }
+        
+        .step-label.completed {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .step-label.current {
+            color: #2774AE;
+            font-weight: bold;
+        }
+        
+        /* Requirements checklist */
+        .requirements-list {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .requirements-list h4 {
+            color: #2774AE;
+            margin-bottom: 15px;
+        }
+        
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .requirement-item:last-child {
+            border-bottom: none;
+        }
+        
+        .requirement-status {
+            margin-right: 12px;
+            font-size: 16px;
+        }
+        
+        .requirement-status.complete {
+            color: #28a745;
+        }
+        
+        .requirement-status.incomplete {
+            color: #dc3545;
+        }
+        
+        .requirement-status.pending {
+            color: #ffc107;
+        }
+        
+        .requirement-text {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        .requirement-date {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            background: #2774AE;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .section-content h3 {
+            color: #2774AE;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .section-content h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+        
+        .section-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .section-content ul,
+        .section-content ol {
+            margin: 15px 0 15px 20px;
+        }
+        
+        .section-content li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .section-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .section-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Status definitions */
+        .status-definitions {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .status-definition {
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .status-definition:last-child {
+            border-bottom: none;
+        }
+        
+        .status-definition h5 {
+            color: #2774AE;
+            margin-bottom: 5px;
+        }
+        
+        .status-definition p {
+            font-size: 13px;
+            color: #666;
+            margin: 0;
+        }
+        
+        /* Action buttons */
+        .action-button {
+            display: inline-block;
+            background: #28a745;
+            color: white !important;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s, transform 0.2s;
+            margin: 5px 5px 5px 0;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .action-button:hover {
+            background: #218838;
+            color: white !important;
+            transform: translateY(-1px);
+        }
+        
+        .action-button.secondary {
+            background: #6c757d;
+            color: white !important;
+        }
+        
+        .action-button.secondary:hover {
+            background: #545b62;
+            color: white !important;
+        }
+        
+        .action-button.large {
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+        
+        /* Right sidebar */
+        .sidebar {
+            background: white;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            background: #FFD100;
+            color: #2774AE;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sidebar-content {
+            padding: 15px;
+        }
+        
+        .sidebar-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 13px;
+        }
+        
+        .sidebar-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .sidebar-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Alert box */
+        .alert {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h4 {
+            margin-bottom: 10px;
+            color: #0c5460;
+        }
+        
+        .alert.warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert.warning h4 {
+            color: #856404;
+        }
+        
+        .alert.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert.success h4 {
+            color: #155724;
+        }
+        
+        .alert.danger {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .alert.danger h4 {
+            color: #721c24;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2774AE;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .lookup-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .progress-steps {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .step-labels {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            Welcome to StarRez - Your gateway to campus life and services
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">StarRez</a>
+            <div class="header-links">
+                <a href="/contact.html">IT Help</a>
+                <a href="/about.html">Campus Info</a>
+                <a href="#">Emergency</a>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/">Home</a>
+            <a href="/housing.html" class="active">Housing</a>
+            <a href="/dining.html">Dining</a>
+            <a href="/services.html">Student Services</a>
+            <a href="/contact.html">Support</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Home</a> > <a href="/housing.html">Housing</a> > Check Application Status
+        </div>
+        
+        <div class="main-content">
+            <div class="content-left">
+                <div class="page-header">
+                    <h1>Check Application Status</h1>
+                    <p>Track your housing application progress, view requirements, and get real-time updates on your application status. Stay informed about deadlines and next steps in the housing process.</p>
+                </div>
+                
+                <div class="alert">
+                    <h4>Application Period Active</h4>
+                    <p><strong>Spring 2024 Applications:</strong> Applications are currently being processed. Priority deadline was March 15th. Regular processing continues through May 1st.</p>
+                </div>
+                
+                <div class="status-lookup">
+                    <h2>Look Up Your Application</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 25px;">Enter your information below to view your current application status and requirements</p>
+                    
+                    <form class="lookup-form">
+                        <div class="form-group">
+                            <label for="student-id" class="required">Student ID Number</label>
+                            <input type="text" id="student-id" name="student_id" placeholder="Enter your student ID" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="last-name" class="required">Last Name</label>
+                            <input type="text" id="last-name" name="last_name" placeholder="Enter your last name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="date-of-birth" class="required">Date of Birth</label>
+                            <input type="date" id="date-of-birth" name="date_of_birth" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="application-term" class="required">Application Term</label>
+                            <select id="application-term" name="application_term" required>
+                                <option value="">Select term...</option>
+                                <option value="spring-2024">Spring 2024</option>
+                                <option value="fall-2024">Fall 2024</option>
+                                <option value="summer-2024">Summer 2024</option>
+                            </select>
+                        </div>
+                    </form>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="action-button large" onclick="checkStatus()">Check Application Status</button>
+                        <button type="button" class="action-button secondary">Reset Form</button>
+                    </div>
+                </div>
+                
+                <div class="status-display" id="status-display">
+                    <div class="status-header">
+                        <div class="application-info">
+                            <h3>Housing Application #HA-2024-05847</h3>
+                            <p>Spring 2024 • Submitted: February 28, 2024 • Last Updated: March 10, 2024</p>
+                        </div>
+                        <div class="status-badge status-under-review">Under Review</div>
+                    </div>
+                    
+                    <div class="progress-tracker">
+                        <h4 style="color: #2774AE; margin-bottom: 20px;">Application Progress</h4>
+                        <div class="progress-steps">
+                            <div class="progress-line">
+                                <div class="progress-line-fill"></div>
+                            </div>
+                            <div class="progress-step completed">✓</div>
+                            <div class="progress-step completed">✓</div>
+                            <div class="progress-step current">3</div>
+                            <div class="progress-step">4</div>
+                            <div class="progress-step">5</div>
+                        </div>
+                        <div class="step-labels">
+                            <div class="step-label completed">Application Submitted</div>
+                            <div class="step-label completed">Documents Received</div>
+                            <div class="step-label current">Under Review</div>
+                            <div class="step-label">Assignment</div>
+                            <div class="step-label">Complete</div>
+                        </div>
+                    </div>
+                    
+                    <div class="requirements-list">
+                        <h4>Application Requirements</h4>
+                        <div class="requirement-item">
+                            <div class="requirement-status complete">✓</div>
+                            <div class="requirement-text">Housing Application Form</div>
+                            <div class="requirement-date">Completed: Feb 28, 2024</div>
+                        </div>
+                        <div class="requirement-item">
+                            <div class="requirement-status complete">✓</div>
+                            <div class="requirement-text">Housing Contract Signature</div>
+                            <div class="requirement-date">Completed: Feb 28, 2024</div>
+                        </div>
+                        <div class="requirement-item">
+                            <div class="requirement-status complete">✓</div>
+                            <div class="requirement-text">Housing Deposit ($300)</div>
+                            <div class="requirement-date">Paid: Mar 1, 2024</div>
+                        </div>
+                        <div class="requirement-item">
+                            <div class="requirement-status complete">✓</div>
+                            <div class="requirement-text">Immunization Records</div>
+                            <div class="requirement-date">Received: Mar 5, 2024</div>
+                        </div>
+                        <div class="requirement-item">
+                            <div class="requirement-status pending">⏳</div>
+                            <div class="requirement-text">Background Check (if required)</div>
+                            <div class="requirement-date">In Progress</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e9ecef;">
+                        <p><strong>Next Steps:</strong> Your application is currently under review by the Housing Office. You will receive an email notification once your housing assignment is available. Room selection for your priority group begins April 15, 2024.</p>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <button class="action-button">View Full Application</button>
+                        <button class="action-button secondary">Update Contact Info</button>
+                        <button class="action-button secondary">Withdraw Application</button>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Application Status Definitions</div>
+                    <div class="section-content">
+                        <div class="status-definitions">
+                            <div class="status-definition">
+                                <h5>Submitted</h5>
+                                <p>Your application has been received and is in the queue for initial processing.</p>
+                            </div>
+                            
+                            <div class="status-definition">
+                                <h5>Under Review</h5>
+                                <p>Housing staff are reviewing your application and verifying all requirements have been met.</p>
+                            </div>
+                            
+                            <div class="status-definition">
+                                <h5>Approved</h5>
+                                <p>Your application has been approved and you're eligible for housing assignment based on your priority date.</p>
+                            </div>
+                            
+                            <div class="status-definition">
+                                <h5>Waitlisted</h5>
+                                <p>Housing is currently full, but you're on the waitlist and will be notified if space becomes available.</p>
+                            </div>
+                            
+                            <div class="status-definition">
+                                <h5>Incomplete</h5>
+                                <p>Additional information or documentation is required before your application can be processed.</p>
+                            </div>
+                            
+                            <div class="status-definition">
+                                <h5>Assigned</h5>
+                                <p>You have been assigned housing and will receive detailed information about your room and move-in process.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Common Questions</div>
+                    <div class="section-content">
+                        <h4>How long does the review process take?</h4>
+                        <p>Most complete applications are reviewed within 2-3 weeks of submission. During peak periods (February-April), processing may take up to 4 weeks.</p>
+                        
+                        <h4>What if my status shows "Incomplete"?</h4>
+                        <p>Check your email for a message from the Housing Office detailing what's missing. You can also call (555) 123-4567 for specific information about your application.</p>
+                        
+                        <h4>When will I find out my room assignment?</h4>
+                        <p>Room assignments are made based on your application priority date. You'll receive an email when your assignment is ready, typically 2-4 weeks before the semester begins.</p>
+                        
+                        <h4>Can I change my housing preferences after submitting?</h4>
+                        <p>Yes, you can update your preferences until your application moves to "Under Review" status. Contact the Housing Office to make changes.</p>
+                        
+                        <h4>What happens if I'm waitlisted?</h4>
+                        <p>You'll remain on the waitlist and be contacted if space becomes available. Continue to check your status regularly as situations can change quickly.</p>
+                        
+                        <h4>How do I know if all my documents were received?</h4>
+                        <p>Your application status page will show which requirements have been completed. Missing items will be clearly marked and you'll receive email reminders.</p>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Need Help?</div>
+                    <div class="section-content">
+                        <h3>Contact the Housing Office</h3>
+                        <p>If you have questions about your application status or need assistance with the housing process, our staff is here to help.</p>
+                        
+                        <ul>
+                            <li><strong>Phone:</strong> (555) 123-4567</li>
+                            <li><strong>Email:</strong> housing@university.edu</li>
+                            <li><strong>Office Hours:</strong> Monday-Friday 8:00 AM - 5:00 PM</li>
+                            <li><strong>Location:</strong> Student Services Building, Room 200</li>
+                            <li><strong>Online Chat:</strong> Available during business hours</li>
+                        </ul>
+                        
+                        <h3>Application Support</h3>
+                        <ul>
+                            <li>Technical issues with the online system</li>
+                            <li>Questions about required documentation</li>
+                            <li>Housing preference guidance</li>
+                            <li>Priority date and waitlist information</li>
+                            <li>Room assignment timeline</li>
+                            <li>Special accommodation requests</li>
+                        </ul>
+                        
+                        <button class="action-button">Submit Support Request</button>
+                        <button class="action-button secondary">Schedule Appointment</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Important Dates</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li><strong>Mar 15:</strong> Priority Application Deadline</li>
+                            <li><strong>Apr 1:</strong> Room Selection Opens</li>
+                            <li><strong>Apr 15:</strong> Group 1 Selection</li>
+                            <li><strong>Apr 22:</strong> Group 2 Selection</li>
+                            <li><strong>May 1:</strong> Final Application Deadline</li>
+                            <li><strong>Jul 15:</strong> Final Assignments</li>
+                            <li><strong>Aug 20:</strong> Move-In Begins</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Required Documents</div>
+                    <div class="sidebar-content">
+                        <ul>
+                            <li>Completed housing application</li>
+                            <li>Signed housing contract</li>
+                            <li>Housing deposit payment</li>
+                            <li>Immunization records</li>
+                            <li>Emergency contact information</li>
+                            <li>Special accommodation requests (if needed)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Priority Groups</div>
+                    <div class="sidebar-content">
+                        <p><strong>Group 1:</strong> Applications submitted by Feb 1</p>
+                        <p><strong>Group 2:</strong> Applications submitted Feb 2 - Mar 15</p>
+                        <p><strong>Group 3:</strong> Applications submitted after Mar 15</p>
+                        <p style="margin-top: 10px; font-size: 12px;">
+                            Room selection appointments are assigned based on your priority group and application date.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Contact Information</div>
+                    <div class="sidebar-content">
+                        <p><strong>Housing Office:</strong><br>(555) 123-4567</p>
+                        <p><strong>Email:</strong><br>housing@university.edu</p>
+                        <p><strong>Hours:</strong><br>Mon-Fri: 8AM-5PM<br>Sat: 9AM-1PM</p>
+                        <p><strong>Emergency:</strong><br>(555) 123-4580</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 StarRez. All rights reserved. | Student Privacy Policy | Campus Resources</p>
+        </div>
+    </div>
+    
+    <script>
+        function checkStatus() {
+            const studentId = document.getElementById('student-id').value;
+            const lastName = document.getElementById('last-name').value;
+            const dateOfBirth = document.getElementById('date-of-birth').value;
+            const applicationTerm = document.getElementById('application-term').value;
+            
+            if (!studentId || !lastName || !dateOfBirth || !applicationTerm) {
+                alert('Please fill in all required fields to check your application status.');
+                return;
+            }
+            
+            // Simulate status lookup
+            const statusDisplay = document.getElementById('status-display');
+            statusDisplay.style.display = 'block';
+            
+            // Scroll to status display
+            statusDisplay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // In a real application, this would make an API call to get the actual status
+            // For demo purposes, we're showing a static example
+        }
+        
+        // Simulate form reset
+        document.addEventListener('DOMContentLoaded', function() {
+            const resetButton = document.querySelector('.action-button.secondary');
+            if (resetButton) {
+                resetButton.addEventListener('click', function() {
+                    document.querySelector('.lookup-form').reset();
+                    document.getElementById('status-display').style.display = 'none';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

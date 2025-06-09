@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StarRez Student ID Cards - Get your campus ID card, add funds, report lost cards, and access campus services">
+    <title>Student ID Cards - StarRez</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Header styling - UCLA style */
+        .header {
+            background: #2774AE; /* UCLA Blue */
+            color: white;
+            padding: 0;
+        }
+        
+        .header-top {
+            background: #FFD100; /* UCLA Gold */
+            color: #2774AE;
+            padding: 8px 0;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .header-main {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        
+        .header-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #1B4B8C; /* Darker UCLA Blue */
+            padding: 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #FFD100;
+            color: #2774AE;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Breadcrumb navigation */
+        .breadcrumb {
+            padding: 15px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        /* Left content area */
+        .content-left {
+            background: white;
+        }
+        
+        /* Page header */
+        .page-header {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2774AE;
+        }
+        
+        .page-header h1 {
+            color: #2774AE;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        .page-header p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* ID Card preview section */
+        .id-card-preview {
+            background: linear-gradient(135deg, #e7f3ff 0%, #f0f8ff 100%);
+            border: 1px solid #b3d9ff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .id-card-preview h2 {
+            color: #2774AE;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .card-mockup {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: inline-block;
+            margin: 20px;
+            width: 320px;
+            position: relative;
+        }
+        
+        .card-header {
+            background: #2774AE;
+            color: white;
+            padding: 10px;
+            margin: -20px -20px 15px -20px;
+            border-radius: 12px 12px 0 0;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .card-content {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .card-photo {
+            width: 80px;
+            height: 100px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .card-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .card-info h4 {
+            color: #2774AE;
+            margin-bottom: 5px;
+        }
+        
+        .card-info p {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .card-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .card-feature {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .card-feature h4 {
+            color: #2774AE;
+            margin-bottom: 8px;
+        }
+        
+        .card-feature p {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            background: #2774AE;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .section-content h3 {
+            color: #2774AE;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .section-content h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+        
+        .section-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .section-content ul,
+        .section-content ol {
+            margin: 15px 0 15px 20px;
+        }
+        
+        .section-content li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .section-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .section-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Service categories grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .service-category {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .service-category:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .service-category h4 {
+            color: #2774AE;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #FFD100;
+            padding-bottom: 8px;
+        }
+        
+        .service-category ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        .service-category li {
+            padding: 5px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .service-category li:last-child {
+            border-bottom: none;
+        }
+        
+        /* Step-by-step process */
+        .process-steps {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .process-step {
+            display: flex;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .process-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .step-number {
+            background: #2774AE;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+        
+        .step-content h5 {
+            color: #2774AE;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .step-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .step-requirements {
+            background: #e7f3ff;
+            border-left: 4px solid #2774AE;
+            padding: 10px 15px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #2774AE;
+        }
+        
+        /* Card balance section */
+        .balance-checker {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .balance-checker h4 {
+            color: #2774AE;
+            margin-bottom: 15px;
+        }
+        
+        .balance-form {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+        
+        .balance-form .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .balance-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2774AE;
+            font-size: 14px;
+        }
+        
+        .balance-form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .balance-display {
+            background: white;
+            border-radius: 4px;
+            padding: 20px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+        
+        .balance-amount {
+            font-size: 32px;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        
+        .balance-details {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Fees table */
+        .fees-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .fees-table th,
+        .fees-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e9ecef;
+        }
+        
+        .fees-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #2774AE;
+        }
+        
+        .fees-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .fee-amount {
+            font-weight: bold;
+            color: #dc3545;
+        }
+        
+        /* Action buttons */
+        .action-button {
+            display: inline-block;
+            background: #28a745; /* Green for better contrast */
+            color: white !important; /* Ensure white text */
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s, transform 0.2s;
+            margin: 5px 5px 5px 0;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .action-button:hover {
+            background: #218838; /* Darker green on hover */
+            color: white !important; /* Keep white text on hover */
+            transform: translateY(-1px);
+        }
+        
+        .action-button.secondary {
+            background: #6c757d; /* Gray for secondary actions */
+            color: white !important; /* Ensure white text */
+        }
+        
+        .action-button.secondary:hover {
+            background: #545b62; /* Darker gray on hover */
+            color: white !important; /* Keep white text on hover */
+        }
+        
+        .action-button.danger {
+            background: #dc3545;
+            color: white !important;
+        }
+        
+        .action-button.danger:hover {
+            background: #c82333;
+            color: white !important;
+        }
+        
+        .action-button.large {
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+        
+        /* Right sidebar */
+        .sidebar {
+            background: white;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            background: #FFD100;
+            color: #2774AE;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sidebar-content {
+            padding: 15px;
+        }
+        
+        .sidebar-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 13px;
+        }
+        
+        .sidebar-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-content a {
+            color: #2774AE;
+            text-decoration: none;
+        }
+        
+        .sidebar-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Alert box */
+        .alert {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h4 {
+            margin-bottom: 10px;
+            color: #0c5460;
+        }
+        
+        .alert.warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert.warning h4 {
+            color: #856404;
+        }
+        
+        .alert.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert.success h4 {
+            color: #155724;
+        }
+        
+        .alert.danger {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .alert.danger h4 {
+            color: #721c24;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2774AE;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .services-grid,
+            .card-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-mockup {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .balance-form {
+                flex-direction: column;
+            }
+            
+            .process-step {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .step-number {
+                margin: 0 auto 15px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            Welcome to StarRez - Your gateway to campus life and services
+        </div>
+        <div class="header-main">
+            <a href="/" class="logo">StarRez</a>
+            <div class="header-links">
+                <a href="/contact.html">IT Help</a>
+                <a href="/about.html">Campus Info</a>
+                <a href="#">Emergency</a>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="/">Home</a>
+            <a href="/housing.html">Housing</a>
+            <a href="/dining.html">Dining</a>
+            <a href="/services.html" class="active">Student Services</a>
+            <a href="/contact.html">Support</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Home</a> > <a href="/services.html">Student Services</a> > Student ID Cards
+        </div>
+        
+        <div class="main-content">
+            <div class="content-left">
+                <div class="page-header">
+                    <h1>Student ID Cards</h1>
+                    <p>Your campus ID card is your key to university life. Use it for dining, library access, building entry, making purchases, and more. Get your card, manage your account, and access all campus services.</p>
+                </div>
+                
+                <div class="alert success">
+                    <h4>Spring ID Card Services</h4>
+                    <p><strong>Extended Hours:</strong> The ID Card Office will have extended hours during the first two weeks of the semester to accommodate new students. Walk-ins welcome!</p>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Getting Your First ID Card</div>
+                    <div class="section-content">
+                        <p>New students can get their campus ID card during orientation week or by visiting the ID Card Office. The process is quick and easy!</p>
+                        
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h5>Gather Required Documents</h5>
+                                    <p>Bring a government-issued photo ID (driver's license, passport, or state ID) and your student enrollment verification.</p>
+                                    <div class="step-requirements">
+                                        <strong>Required:</strong> Photo ID, Enrollment verification, Payment for card fee ($25 for new students)
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="process-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h5>Visit the ID Card Office</h5>
+                                    <p>Come to the Student Union, Room 120 during business hours. Walk-ins are welcome, but appointments are recommended during busy periods.</p>
+                                    <div class="step-requirements">
+                                        <strong>Location:</strong> Student Union Building, Room 120<br>
+                                        <strong>Hours:</strong> Mon-Fri 8AM-5PM, Sat 10AM-2PM
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="process-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h5>Complete the Application</h5>
+                                    <p>Fill out the ID card application form with your personal information and verify your student details.</p>
+                                    <div class="step-requirements">
+                                        <strong>Info Needed:</strong> Name, Student ID, Address, Emergency contact, Photo preferences
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="process-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h5>Take Your Photo</h5>
+                                    <p>Our staff will take your ID photo. Make sure to dress appropriately and follow photo guidelines for the best result.</p>
+                                    <div class="step-requirements">
+                                        <strong>Photo Tips:</strong> Face camera directly, neutral expression, no hats or sunglasses, solid background
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="process-step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    <h5>Receive Your Card</h5>
+                                    <p>Your card will be printed immediately and activated for all campus services. Test it before leaving to ensure everything works properly.</p>
+                                    <div class="step-requirements">
+                                        <strong>Activation:</strong> Dining access, building entry, library services, and campus purchases ready immediately
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="action-button large">Schedule ID Card Appointment</button>
+                        <button class="action-button secondary">Download Application Form</button>
+                    </div>
+                </div>
+                
+
+                
+                <div class="content-section">
+                    <div class="section-header">Lost or Damaged Cards</div>
+                    <div class="section-content">
+                        <div class="alert danger">
+                            <h4>Lost Your Card?</h4>
+                            <p><strong>Report it immediately!</strong> Call (555) 123-4570 or use our online system to deactivate your card and prevent unauthorized use.</p>
+                        </div>
+                        
+                        <h3>Replacement Process</h3>
+                        <ol>
+                            <li><strong>Report the loss immediately</strong> - Call the ID Card Office or use the online reporting system</li>
+                            <li><strong>Deactivate your card</strong> - This prevents anyone from using it for purchases or access</li>
+                            <li><strong>Request a replacement</strong> - Schedule an appointment or visit during walk-in hours</li>
+                            <li><strong>Pay the replacement fee</strong> - $15 for standard replacement, $25 for expedited</li>
+                            <li><strong>Get your new card</strong> - Usually available same day or next business day</li>
+                        </ol>
+                        
+                        <button class="action-button danger">Report Lost Card</button>
+                        <button class="action-button">Request Replacement</button>
+                        <button class="action-button secondary">Get Temporary Card</button>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Campus Access & Security</div>
+                    <div class="section-content">
+                        <h3>What Your ID Card Unlocks</h3>
+                        <ul>
+                            <li><strong>Residence Halls:</strong> Your assigned building and floor access</li>
+                            <li><strong>Academic Buildings:</strong> Classrooms, labs, and study spaces</li>
+                            <li><strong>Library:</strong> Main library and branch locations</li>
+                            <li><strong>Recreation Center:</strong> Fitness facilities and sports equipment</li>
+                            <li><strong>Dining Facilities:</strong> All dining halls and food courts</li>
+                            <li><strong>Computer Labs:</strong> Technology centers and study areas</li>
+                            <li><strong>Parking Garages:</strong> Student parking areas (with permit)</li>
+                            <li><strong>Special Events:</strong> Campus activities and restricted venues</li>
+                        </ul>
+                        
+                        <h3>Security Features</h3>
+                        <ul>
+                            <li><strong>Encrypted Data:</strong> All information is securely encrypted</li>
+                            <li><strong>Access Logging:</strong> All card uses are tracked for security</li>
+                            <li><strong>Photo Verification:</strong> Your photo helps verify identity</li>
+                            <li><strong>Expiration Date:</strong> Cards automatically expire for security</li>
+                            <li><strong>Immediate Deactivation:</strong> Lost cards can be instantly disabled</li>
+                            <li><strong>Backup Systems:</strong> Multiple verification methods available</li>
+                        </ul>
+                        
+                        <div class="alert warning">
+                            <h4>Security Reminders</h4>
+                            <p>Never lend your ID card to others. Don't share your PIN. Report suspicious activity immediately. Keep your card in a safe place when not in use.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="section-header">Frequently Asked Questions</div>
+                    <div class="section-content">
+                        <h4>How long does it take to get a new ID card?</h4>
+                        <p>Most ID cards are produced immediately while you wait. During busy periods (first weeks of semester), there may be a short wait of 15-30 minutes.</p>
+                        
+                        <h4>Can I use my ID card off-campus?</h4>
+                        <p>Some local businesses accept campus ID cards for payment. Check with individual merchants. Your card also works at other universities that participate in reciprocal programs.</p>
+                        
+                        <h4>What if my card stops working?</h4>
+                        <p>Cards can stop working due to damage, demagnetization, or account issues. Visit the ID Card Office for testing and replacement if needed.</p>
+                        
+                        <h4>Can I get a photo retake?</h4>
+                        <p>Photo retakes are allowed once per academic year for $10. Additional retakes are $15 each. Photos must meet university standards.</p>
+                        
+                        <h4>How do I add money to my card?</h4>
+                        <p>Add funds online through the student portal, at campus kiosks, in person at the ID Card Office, or set up auto-reload from a bank account or credit card.</p>
+                        
+                        <h4>What happens to my balance when I graduate?</h4>
+                        <p>Remaining balances can be refunded to you after graduation. Requests must be made within 30 days of graduation. Small balances under $5 may be donated to student emergency funds.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Office Information</div>
+                    <div class="sidebar-content">
+                        <p><strong>Location:</strong><br>Student Union Building<br>Room 120</p>
+                        <p><strong>Phone:</strong><br>(555) 123-4570</p>
+                        <p><strong>Email:</strong><br>idcards@university.edu</p>
+                        <p><strong>Hours:</strong><br>Mon-Fri: 8AM-5PM<br>Sat: 10AM-2PM<br>Sun: Closed</p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Extended Hours</div>
+                    <div class="sidebar-content">
+                        <p><strong>First Week of Semester:</strong></p>
+                        <ul>
+                            <li>Mon-Fri: 7AM-7PM</li>
+                            <li>Sat: 9AM-5PM</li>
+                            <li>Sun: 12PM-5PM</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Finals Week:</strong></p>
+                        <ul>
+                            <li>Extended until 8PM Mon-Thu</li>
+                            <li>Saturday service available</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Popular Locations</div>
+                    <div class="sidebar-content">
+                        <p><strong>Add Funds Kiosks:</strong></p>
+                        <ul>
+                            <li>Student Union (Main Floor)</li>
+                            <li>Library (Entrance)</li>
+                            <li>Recreation Center</li>
+                            <li>Each Dining Hall</li>
+                            <li>Residence Hall Lobbies</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-header">Emergency Contact</div>
+                    <div class="sidebar-content">
+                        <p><strong>Lost Card Hotline:</strong><br>(555) 123-4580<br>Available 24/7</p>
+                        <p><strong>After Hours:</strong><br>Campus Safety can provide temporary access<br>(555) 123-SAFE</p>
+                        <p style="margin-top: 10px;">
+                            <a href="#">Online Lost Card Report</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 StarRez. All rights reserved. | Student Privacy Policy | Campus Resources</p>
+        </div>
+    </div>
+    
+    <script>
+        function checkBalance() {
+            const studentId = document.getElementById('student-id').value;
+            const pin = document.getElementById('pin').value;
+            
+            if (!studentId || !pin) {
+                alert('Please enter both your Student ID and PIN to check your balance.');
+                return;
+            }
+            
+            // Simulate balance check
+            const balanceDisplay = document.getElementById('balance-display');
+            balanceDisplay.style.display = 'block';
+            
+            // In a real application, this would make an API call to get the actual balance
+            // For demo purposes, we're showing a static example
+        }
+        
+        // Simulate card features interaction
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceCategories = document.querySelectorAll('.service-category');
+            serviceCategories.forEach(category => {
+                category.addEventListener('click', function() {
+                    // Add visual feedback when clicking service categories
+                    this.style.transform = 'translateY(-2px)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
