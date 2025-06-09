@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: starrez
-        image: nginx
+        image: catherinevee/starrez:1.01
         resources:
           limits:
             memory: 1Gi
