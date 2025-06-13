@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: starrez-ingress
+  namespace: development
+  annotations:
+    kubernetes.io/ingress.ingressClassName: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+    - starrez.catherine.it.com
+    secretName: letsencrypt-prod-private-key
+  rules:
+  - host: "starrez.catherine.it.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: starrez-entrypoint
+            port:
+              number: 80

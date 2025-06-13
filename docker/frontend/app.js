@@ -111,11 +111,10 @@ http.createServer(function (req, res) {
 
     });
 
-  }).listen(8080, function() {
+  }).listen(31916, function() {
     // Enhanced server startup logging
     console.log('=================================');
-    console.log('🚀 Server running successfully!');
-    console.log('📍 URL: http://localhost:8080');
-    console.log('📝 Logs: Check console for errors');
+    console.log('Server running successfully!');
+    console.log('Logs: Check console for errors');
     console.log('=================================');
   });
