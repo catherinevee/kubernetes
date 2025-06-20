@@ -1,39 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: starrez
-  namespace: development
+  name: catstar
+  namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: starrez
+      app: catstar
   template:
     metadata:
       labels:
-        app: starrez
+        app: catstar
     spec:
       containers:
-      - name: starrez
+      - name: catstar
         image: catherinevee/starrez:1.01
         ports:
         - containerPort: 31916
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: starrez-entrypoint
-  namespace: development
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-spec:
-  selector:
-    app: starrez
-  type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 31916
-    name: http
-  - port: 443
-    targetPort: 31917
-    name: https
+          name: http
+        resources:
+          requests:
+            cpu: 100m
+            memory: 50Mi
+          limits:
+            cpu: 200m
+            memory: 100Mi

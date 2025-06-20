@@ -5,5 +5,5 @@ COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
 RUN npm run build
-EXPOSE 31916
+EXPOSE 443 31916
 CMD [ "node", "app.js" ]

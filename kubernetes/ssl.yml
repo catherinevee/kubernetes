@@ -1,8 +1,8 @@
 apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
+kind: Issuer
 metadata:
   name: letsencrypt-prod
-  namespace: development
+  namespace: default
 spec:
   acme:
     # Email address used for ACME registration
@@ -10,9 +10,34 @@ spec:
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       # Name of a secret used to store the ACME account private key
-      name: letsencrypt-prod-private-key
+      name: catherine.it.com1
     # Add a single challenge solver, HTTP01 using nginx
     solvers:
     - http01:
         ingress:
           class: nginx
+    - dns01:
+        digitalocean:
+          tokenSecretRef:
+            name: digitalocean-dns
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: catherine.it.com
+  # Cert-Manager will put the resulting Secret in the same Kubernetes namespace as the Certificate.
+  namespace: default
+spec:
+  # Secret name to create, where the private key and certificate should be stored.
+  secretName: catherine.it.com1
+  # What Issuer to use for getting the certificate.
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+    group: cert-manager.io
+  # Common name to be used on the Certificate.
+  commonName: "*.catherine.it.com"
+  # List of DNS subjectAltNames to be set on the Certificate.
+  dnsNames:
+  - "catherine.it.com"
+  - "*.catherine.it.com"

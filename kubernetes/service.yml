@@ -1,0 +1,25 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: catstar-srvc
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-name: "a1468988040d1447b9c85c21a129e443"
+    service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+    service.beta.kubernetes.io/do-loadbalancer-hostname: "catherine.it.com"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "134b7d9c-30d2-4990-b824-763b683e338e"
+    service.beta.kubernetes.io/do-loadbalancer-disable-lets-encrypt-dns-records: "false"
+spec:
+  type: LoadBalancer
+  selector:
+    app: catstar
+  ports:
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 31916
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 31916
