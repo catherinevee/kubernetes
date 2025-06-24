@@ -5,7 +5,8 @@ on: [push, pull_request]
 jobs:
   docker:
     runs-on: ubuntu-latest
-
+    env:
+      working-directory: docker/frontend
     strategy:
       matrix:
         node-version: [14.x,16.x]
@@ -19,10 +20,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm' # Step 2: Use npm caching for faster dependency installs.
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: ${{env.working-directory}}/package-lock.json
+
       - name: Install Node.js dependencies
         run: npm ci # Step 3: Perform a clean install of Node.js dependencies.
-        working-directory: docker/
+        working-directory: ${{env.working-directory}}
 
       - name: Run tests
         run: npm test #
