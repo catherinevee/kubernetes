@@ -16,7 +16,7 @@ jobs:
       # Test the built image
       - name: Test Docker image
         run: |
-          docker run --rm catherinevee/catprompt:${{ github.sha }} npm run dev
+          docker run --rm catherinevee/catprompt:${{ github.sha }} npm test dev
 
       # Save the image for deployment (optional)
       - name: Save Docker image
