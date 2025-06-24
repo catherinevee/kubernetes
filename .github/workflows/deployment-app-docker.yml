@@ -6,9 +6,25 @@ jobs:
   docker:
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+    strategy:
+      matrix:
+        node-version: [14.x,16.x]
 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm' # Step 2: Use npm caching for faster dependency installs.
+
+      - name: Install Node.js dependencies
+        run: npm ci # Step 3: Perform a clean install of Node.js dependencies.
+
+      - name: Run tests
+        run: npm test #
       # Build the Docker image
       - name: Build Docker image
         run: docker build -t catherinevee/catprompt:${{ github.sha }} .
@@ -16,7 +32,7 @@ jobs:
       # Test the built image
       - name: Test Docker image
         run: |
-          docker run --rm catherinevee/catprompt:${{ github.sha }} npm test dev
+          docker run --rm catherinevee/catprompt:${{ github.sha }} npm run dev
 
       # Save the image for deployment (optional)
       - name: Save Docker image
