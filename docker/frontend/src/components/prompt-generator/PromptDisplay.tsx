@@ -24,7 +24,7 @@ export function PromptDisplay({ generatedPrompt, includeXmlTags, onCopy }: Promp
           )}
         </CardTitle>
         <CardDescription>
-          The prompt template completes as you type
+          The prompt template completes as you type.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -42,8 +42,8 @@ export function PromptDisplay({ generatedPrompt, includeXmlTags, onCopy }: Promp
         ) : (
           <div className="text-center py-12 text-gray-500">
             <Sparkles className="h-12 w-12 mx-auto mb-4 opacity-30" />
-            <p>Completed prompt will appear here</p>
-            <p className="text-sm mt-2">Start typing in the "Specific Task" field to see the prompt generate automatically</p>
+            <p>Completed prompt will appear here.</p>
+            <p className="text-sm mt-2">Start typing in the "Specific Task to Achieve" field to see the prompt generate automatically</p>
           </div>
         )}
       </CardContent>

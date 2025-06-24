@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { Heart, Copy, Info } from "lucide-react";
 import { toast } from "sonner";
@@ -50,7 +51,7 @@ export function PromptGenerator() {
       finopsConsiderations: randomPrompt.finopsConsiderations
     });
     
-    toast.success("Random prompt generated! Review and modify as needed.");
+    toast.success("Random prompt generated.");
   };
 
   // Real-time prompt generation as user types
@@ -69,24 +70,24 @@ export function PromptGenerator() {
     setGeneratedPrompt(prompt);
     setIsGenerating(false);
     
-    toast.success("Prompt generated successfully!");
+    toast.success("[!] Prompt generated successfully.");
   };
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(generatedPrompt);
-      toast.success("Copied to clipboard!");
+      toast.success("[!] Copied to clipboard!");
     } catch (error) {
-      toast.error("Failed to copy to clipboard");
+      toast.error("[X] Failed to copy to clipboard.");
     }
   };
 
   const copyMetapromptToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(metapromptContent);
-      toast.success("Metaprompt copied to clipboard!");
+      toast.success("[!] Metaprompt copied to clipboard!");
     } catch (error) {
-      toast.error("Failed to copy metaprompt to clipboard");
+      toast.error("[X] Failed to copy metaprompt to clipboard.");
     }
   };
 
@@ -105,43 +106,37 @@ export function PromptGenerator() {
     setIncludeXmlTags(false);
     setAddProjectKnowledgeBase(false);
     setAddStepByStep(false);
-    toast.success("All fields cleared");
-  };
-
-  const handleGenerateKnowledgeBase = () => {
-    const allPrompts = generateKnowledgeBasePrompts();
-    setGeneratedPrompt(allPrompts);
-    toast.success("10 project knowledge base prompts generated!");
+    toast.success("[!] All fields cleared.");
   };
 
   const handleClaudeMetaprompt = () => {
     const claudeMetaprompt = getClaudeMetaprompt();
     setMetapromptContent(claudeMetaprompt);
-    toast.success("Claude metaprompt loaded!");
+    toast.success("[!] Claude metaprompt loaded.");
   };
 
   const handleRefinePrompt = () => {
     const refinePromptText = getRefinePrompt();
     setMetapromptContent(refinePromptText);
-    toast.success("Refine prompt loaded!");
+    toast.success("[!] Refine prompt loaded.");
   };
 
   const handleDiffAnalyzing = () => {
     const diffAnalyzingText = "Implement modifications to the feature while ensuring core functionality, other features, and processes remain unaffected. Evaluate its behavior and dependencies to identify potential risks, and discuss any concerns before moving forward. Conduct thorough testing to verify there are no regressions or unintended consequences, and highlight any out-of-scope changes for review. Exercise caution—take a moment to pause if uncertain.";
     setMetapromptContent(diffAnalyzingText);
-    toast.success("Diff analyzing prompt loaded!");
+    toast.success("[!] Diff analyzing prompt loaded.");
   };
 
   const handleLockFiles = () => {
     const lockFilesText = "This update is quite delicate and requires utmost precision. Carefully examine all dependencies and potential impacts before implementing any changes, and test systematically to guarantee nothing is disrupted. Steer clear of shortcuts or assumptions—take a moment to seek clarification if you're unsure. Precision is crucial.";
     setMetapromptContent(lockFilesText);
-    toast.success("Lock files prompt loaded!");
+    toast.success("[!] Lock files prompt loaded.");
   };
 
   const handleUserFlow = () => {
     const userFlowText = "Users begin their experience on the landing page, where they can click the sign-up button to register with Google, subsequently accessing the dashboard. The dashboard comprises X sections.";
     setMetapromptContent(userFlowText);
-    toast.success("User flow prompt loaded!");
+    toast.success("[!] User flow prompt loaded.");
   };
 
   return (
@@ -151,11 +146,10 @@ export function PromptGenerator() {
 
         <div className="text-center py-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="h-8 w-8 text-indigo-600" />
-            <h1 className="text-4xl font-bold text-gray-900">CatPrompt: Effective Prompt Engineering</h1>
+            <h1 className="text-4xl font-bold text-gray-900">Prompt Engineering with Purpose</h1>
           </div>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Creating prompts that focus on adding value
+            Designing prompts based on specificity and communication
           </p>
         </div>
 
@@ -163,21 +157,35 @@ export function PromptGenerator() {
           <div className="space-y-6">
             <Card className="h-fit">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Info className="h-5 w-5" />
-                  Basic Structure of an Effective Prompt
+                <CardTitle>
+                  Designing an Effective Prompt
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3 text-sm text-gray-700">
                   <div>
-                    <span className="font-semibold">Be explicit:</span> Instead of "build a login page," specify "create a login page using React, with email/password authentication and JWT handling."
+                    <span className="font-semibold">Take Screenshots</span> If you are unable to come up with the words for the thing you want to edit, maybe try taking a screenshot and uploading it.
+                  </div>                     
+                  <div>
+                    <span className="font-semibold">Asking to Improve The Prompt:</span> When you write your best prompt, ask the AI if it can understand what you are communicating
+                  </div>                  
+                  <div>
+                    <span className="font-semibold">Retaining Context:</span> e.g. Record prompt progress in a CSV, or ask the model to explain its logic
                   </div>
                   <div>
-                    <span className="font-semibold">Set constraints:</span> If you need a specific tech stack (e.g., Supabase for authentication), state it clearly.
+                    <span className="font-semibold">Being Specific:</span> e.g. Use specific frameworks and technologies or describe what you want to achieve as if you are explaining it to a friend or family member
                   </div>
                   <div>
-                    <span className="font-semibold">Use formatting tricks:</span> AI prioritizes the beginning and end of prompts—put important details upfront.
+                    <span className="font-semibold">Focused Formatting:</span> e.g. Use XML tags or place vital information/questions at the beginning or end of a prompt
+                  </div>
+                  <div>
+                    <span className="font-semibold">Asking Questions:</span> e.g. Tell your model to ask you for clarifying questions instead of guessing
+                  </div>
+                  <div>
+                    <span className="font-semibold">Using Examples:</span> e.g. Use a URL, an image, a code snippet, a directory, etc.
+                  </div>
+                  <div>
+                    <span className="font-semibold">Playing Roles:</span> e.g. Instruct the model to take the role of an expert in the topic you are planning
                   </div>
                 </div>
               </CardContent>
@@ -209,31 +217,8 @@ export function PromptGenerator() {
 
             <Card className="h-fit">
               <CardHeader>
-                <CardTitle className="flex items-center justify-between">
+                <CardTitle>
                   Metaprompting
-                  <div className="flex gap-2">
-                    {metapromptContent && (
-                      <Button variant="outline" size="sm" onClick={copyMetapromptToClipboard}>
-                        <Copy className="h-4 w-4 mr-2" />
-                        Copy
-                      </Button>
-                    )}
-                    <Button variant="outline" size="sm" onClick={handleClaudeMetaprompt}>
-                      Claude.md
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={handleRefinePrompt}>
-                      Refine Prompt
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={handleDiffAnalyzing}>
-                      Diff Analyzing
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={handleLockFiles}>
-                      Lock Files
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={handleUserFlow}>
-                      User Flow
-                    </Button>
-                  </div>
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -245,9 +230,33 @@ export function PromptGenerator() {
                   </div>
                 ) : (
                   <div className="text-center py-8 text-gray-500">
-                    <p>Metaprompt content will appear here</p>
+                    <p>Content will appear here as you click :)</p>
                   </div>
                 )}
+                
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {metapromptContent && (
+                    <Button variant="outline" size="sm" onClick={copyMetapromptToClipboard}>
+                      <Copy className="h-4 w-4 mr-2" />
+                      Copy
+                    </Button>
+                  )}
+                  <Button variant="outline" size="sm" onClick={handleClaudeMetaprompt}>
+                    Claude.MD
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={handleRefinePrompt}>
+                    Refine Prompt
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={handleDiffAnalyzing}>
+                    Diff Analyzing
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={handleLockFiles}>
+                    Lock Files
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={handleUserFlow}>
+                    User Flow
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>

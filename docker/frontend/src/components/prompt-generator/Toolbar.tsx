@@ -36,7 +36,7 @@ export function Toolbar() {
                 <DialogTitle>The Need for Prompt Engineering</DialogTitle>
               </DialogHeader>
               <div className="p-4">
-                <p>As long as LLMs continue to remain an imperfect technology, there will always be a need to create prompts that are deliberately phrased to optimize the output.</p>
+                <p>As LLMs improve over time, the skill to effectively communicate with them will be critical in getting the most out of AI usage.</p>
               </div>
             </DialogContent>
           </Dialog>

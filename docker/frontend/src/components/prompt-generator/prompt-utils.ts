@@ -11,7 +11,7 @@ export const generatePrompt = (formData: PromptFormData, includeXmlTags: boolean
 
   // Add step-by-step implementation text at the top if requested
   if (addStepByStep) {
-    prompt = "Implement this project one step at a time, recording each step into a CSV file to maintain context of the project.\n\n";
+    prompt = "Implement this project one step at a time, recording each step into a CSV file to maintain context of the project. Within each step, record any code written and the reason for writing the code this way.\n\n";
   }
 
   if (includeXmlTags) {
@@ -41,7 +41,7 @@ export const generatePrompt = (formData: PromptFormData, includeXmlTags: boolean
     }
     
     if (addProjectKnowledgeBase) {
-      prompt += `<knowledge_base>\nI'm starting a new project and I'd like to create a knowledge base for you to reference throughout our development process. Can you summarize this information and suggest any additional details we should include in our knowledge base?\n</knowledge_base>\n\n`;
+      prompt += `<knowledge_base>\nDuring the implementation of this project, remember the decisions that we make and the code that we implement by recording information about them in a separate CSV file.\n</knowledge_base>\n\n`;
     }
     
     return prompt.trim();
@@ -68,7 +68,7 @@ ${finopsConsiderations}` : ''}
 Please provide a comprehensive and well-structured response.`;
 
   if (addProjectKnowledgeBase) {
-    prompt += `\n\nI'm starting a new project and I'd like to create a knowledge base for you to reference throughout our development process. Can you summarize this information and suggest any additional details we should include in our knowledge base?`;
+    prompt += `\nDuring the implementation of this project, remember the decisions that we make and the code that we implement by recording information about them in a separate CSV file.\n`;
   }
 
   return prompt.trim();

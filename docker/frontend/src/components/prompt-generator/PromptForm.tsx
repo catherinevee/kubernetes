@@ -1,9 +1,10 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Heart, Shuffle, X } from "lucide-react";
+import { Heart, Shuffle, X, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { PromptFormData } from './types';
 
@@ -38,6 +39,28 @@ export function PromptForm({
   onGenerateRandom,
   setGeneratedPrompt
 }: PromptFormProps) {
+  const handleGenerateStarterPrompt = () => {
+    const starterPrompt = `You are an expert in [specific functionality] with deep knowledge of best practices and design patterns.
+
+I need to implement [specific functionality] in [programming language].
+
+Key requirements:
+1. [Requirement 1]
+2. [Requirement 2]
+3. [Requirement 3]
+
+Please consider:
+- Error handling
+- Edge cases
+- Performance optimization
+- Best practices for [language/framework]
+
+Think through responses carefully and provide your thought process in the chat. If you have questions or if the instructions are unclear, ask me.`;
+    
+    setGeneratedPrompt(starterPrompt);
+    toast.success("Starter prompt generated!");
+  };
+
   return (
     <Card className="h-fit">
       <CardHeader>
@@ -46,6 +69,14 @@ export function PromptForm({
           Creating an Effective Prompt
         </CardTitle>
         <div className="pt-2 space-y-2">
+          <Button 
+            variant="outline" 
+            onClick={handleGenerateStarterPrompt}
+            className="flex items-center gap-2 w-full"
+          >
+            <Sparkles className="h-4 w-4" />
+            Generate Starter Prompt
+          </Button>
           <Button 
             variant="outline" 
             onClick={onGenerateRandom}

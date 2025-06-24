@@ -15,14 +15,15 @@ spec:
     spec:
       containers:
       - name: catstar
-        image: catherinevee/starrez:1.01
+        image: catherinevee/catprompt:1.01
+        imagePullPolicy: "Always"
         ports:
         - containerPort: 31916
           name: http
         resources:
           requests:
-            cpu: 100m
-            memory: 50Mi
-          limits:
             cpu: 200m
-            memory: 100Mi
+            memory: 200Mi
+          limits:
+            cpu: 400m
+            memory: 400Mi
