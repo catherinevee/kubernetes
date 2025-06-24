@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm' # Step 2: Use npm caching for faster dependency installs.
-          cache-dependency-path: ${{env.working-directory}}/package-lock.json
+          cache-dependency-path: ${{env.working-directory}}/
 
       - name: Install Node.js dependencies
         run: npm ci # Step 3: Perform a clean install of Node.js dependencies.
