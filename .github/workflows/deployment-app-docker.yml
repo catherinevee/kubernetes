@@ -4,13 +4,10 @@ on: [push, pull_request]
 
 jobs:
   docker:
+    environment: cathprompt_dev_env    
     runs-on: ubuntu-latest
     env:
       working-directory: docker/
-    strategy:
-      matrix:
-        node-version: [14.x,16.x]
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
