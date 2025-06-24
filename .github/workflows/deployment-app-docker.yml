@@ -22,6 +22,7 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm ci # Step 3: Perform a clean install of Node.js dependencies.
+        working-directory: docker/
 
       - name: Run tests
         run: npm test #
