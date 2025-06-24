@@ -19,8 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm' # Step 2: Use npm caching for faster dependency installs.
-          working-directory: docker/
-
+          cache-dependency-path: frontend/package-lock.json
       - name: Install Node.js dependencies
         run: npm ci # Step 3: Perform a clean install of Node.js dependencies.
         working-directory: docker/
