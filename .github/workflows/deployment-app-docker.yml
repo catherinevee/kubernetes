@@ -12,7 +12,7 @@ jobs:
       # Build the Docker image
       - name: Build Docker image
         run: docker build -t catherinevee/catprompt:${{ github.sha }} .
-
+        working-directory: docker/
       # Test the built image
       - name: Test Docker image
         run: |
