@@ -7,7 +7,7 @@ jobs:
     environment: cathprompt_dev_env    
     runs-on: ubuntu-latest
     env:
-      working-directory: docker/
+      cwd: docker/
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -20,7 +20,7 @@ jobs:
       # Build the Docker image
       - name: Build Docker image
         run: docker build -t catherinevee/catprompt:${{ github.sha }} .
-        working-directory: $working-directory/
+        working-directory: $cwd
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
