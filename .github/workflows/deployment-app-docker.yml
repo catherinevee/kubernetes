@@ -30,7 +30,6 @@ jobs:
         uses: docker/build-push-action@v6
 
         with:
-          context: .
+          context: docker/
           push: true
           tags: catherinevee/catprompt:latest
-          working-directory: docker/
