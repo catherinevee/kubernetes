@@ -127,5 +127,5 @@ metaprompt = '''<?xml version="1.0" encoding="UTF-8"?>
 };
 
 export const getRefinePrompt = () => {
-  return "Rewrite this prompt to be more concise and detailed: 'Create a secure login page in React using Supabase, ensuring role-based authentication.'";
+  return "Rewrite this prompt to be more concise and detailed (this example is intentionally vague): 'Design a web application that will translate Cisco IOS to JunOS syntax.'";
 };

@@ -68,7 +68,7 @@ ${finopsConsiderations}` : ''}
 Please provide a comprehensive and well-structured response.`;
 
   if (addProjectKnowledgeBase) {
-    prompt += `\nDuring the implementation of this project, remember the decisions that we make and the code that we implement by recording information about them in a separate CSV file.\n`;
+    prompt += `\nDuring the implementation of this project, remember the decisions that we make, the code that we implement, and how the written code aligns with the project's purpose. Record this information in a separate CSV file.\n`;
   }
 
   return prompt.trim();

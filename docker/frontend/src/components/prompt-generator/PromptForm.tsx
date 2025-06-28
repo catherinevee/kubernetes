@@ -40,20 +40,18 @@ export function PromptForm({
   setGeneratedPrompt
 }: PromptFormProps) {
   const handleGenerateStarterPrompt = () => {
-    const starterPrompt = `You are an expert in [specific functionality] with deep knowledge of best practices and design patterns.
+    const starterPrompt = `You are an expert in Python Network Automation. You have experience in deploying Cisco IOS and Cisco NXOS migrations."
 
-I need to implement [specific functionality] in [programming language].
+The implementation of this project must be done step-by-step. Record each step (any written code and why the code was written in relation to the project's purpose) in a separate CSV file. Refer to this CSV file as we move through the steps of the implementation.
+
+I need to create a script that will login to network devices and run a command to gather the running configuration and send them to a remote Linux server.
 
 Key requirements:
-1. [Requirement 1]
-2. [Requirement 2]
-3. [Requirement 3]
+1. The script must use Cisco IOS and Cisco NXOS Ansible Modules
+2. The script must send the running config over SCP to a server at 10.204.204.25
+3. The script must ensure that the server is pingable before the script begins
 
-Please consider:
-- Error handling
-- Edge cases
-- Performance optimization
-- Best practices for [language/framework]
+
 
 Think through responses carefully and provide your thought process in the chat. If you have questions or if the instructions are unclear, ask me.`;
     
@@ -111,7 +109,6 @@ Think through responses carefully and provide your thought process in the chat. 
           <Label htmlFor="projectRequirements">Project Requirements (PRD)</Label>
           <Textarea
             id="projectRequirements"
-            placeholder="Define the project requirements and specifications"
             value={formData.projectRequirements}
             onChange={(e) => updateFormData('projectRequirements', e.target.value)}
             className="min-h-[60px]"
@@ -122,7 +119,6 @@ Think through responses carefully and provide your thought process in the chat. 
           <Label htmlFor="contextTracking">Context Tracking</Label>
           <Textarea
             id="contextTracking"
-            placeholder="ex. 'Use a CSV file to monitor the progress of the project and update the file each time progress is made to the progress.''"
             value={formData.contextTracking}
             onChange={(e) => updateFormData('contextTracking', e.target.value)}
             className="min-h-[60px]"
