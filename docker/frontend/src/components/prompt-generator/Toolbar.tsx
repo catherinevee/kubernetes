@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,21 +26,17 @@ export function Toolbar() {
         <Heart className="h-6 w-6 text-pink-500" />
         
         <div className="flex items-center gap-2">
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button variant="outline">
-                The Need for Prompt Engineering
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>The Need for Prompt Engineering</DialogTitle>
-              </DialogHeader>
-              <div className="p-4">
-                <p>As LLMs improve over time, the skill to effectively communicate with them will be critical in getting the most out of AI usage.</p>
-              </div>
-            </DialogContent>
-          </Dialog>
+          <Button variant="outline" asChild>
+            <Link to="/">
+              Portfolio
+            </Link>
+          </Button>
+          
+          <Button variant="outline" asChild>
+            <Link to="/metaprompting">
+              Metaprompting
+            </Link>
+          </Button>
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -67,6 +64,21 @@ export function Toolbar() {
               <DropdownMenuItem asChild>
                 <a href="https://www.cncf.io/" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
                   CNCF
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="https://github.com/infracost/infracost" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                  infracost
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="https://github.com/kubecost" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                  kubecost
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="https://github.com/aquasecurity/trivy" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                  trivy
                 </a>
               </DropdownMenuItem>
             </DropdownMenuContent>
