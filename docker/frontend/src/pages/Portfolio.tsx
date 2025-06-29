@@ -78,15 +78,6 @@ export default function Portfolio() {
                   Terraform Projects
                   <ExternalLink className="h-3 w-3" />
                 </a>
-                <a 
-                  href="http://localhost:31915" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-gray-600 hover:text-gray-800 text-sm no-underline"
-                >
-                  Designing Terraform Modules
-                  <ExternalLink className="h-3 w-3" />
-                </a>
               </div>
               <div className="text-left text-sm text-gray-700 mt-2">
                 <ul className="list-disc list-inside space-y-1">
