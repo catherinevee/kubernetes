@@ -19,20 +19,7 @@ spec:
         imagePullPolicy: "Always"
         ports:
         - containerPort: 31916
-          name: cat
-        resources:
-          requests:
-            cpu: 200m
-            memory: 200Mi
-          limits:
-            cpu: 400m
-            memory: 400Mi
-      - name: catterraform
-        image: catherinevee/catterraform:1.00
-        imagePullPolicy: "Always"
-        ports:
-        - containerPort: 31915
-          name: cat2
+          name: http
         resources:
           requests:
             cpu: 200m
@@ -41,11 +28,11 @@ spec:
             cpu: 400m
             memory: 400Mi
       - name: catcode
-        image: catherinevee/catcode:1.00
+        image: catherinevee/catcode:1.01
         imagePullPolicy: "Always"
         ports:
-        - containerPort: 31914
-          name: cat3
+        - containerPort: 31915
+          name: http
         resources:
           requests:
             cpu: 200m
