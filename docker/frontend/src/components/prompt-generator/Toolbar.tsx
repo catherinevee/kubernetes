@@ -37,9 +37,12 @@ export function Toolbar() {
               Metaprompting
             </Link>
           </Button>
+          
+          <Button variant="outline" asChild>
             <Link to="https://catherine.it.com:442/">
               Terraform Templates
             </Link>          
+          </Button>
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -49,21 +52,6 @@ export function Toolbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem asChild>
-                <a href="https://docs.lovable.dev/tips-tricks/prompting-library" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
-                  Lovable
-                </a>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/structure-prompts" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
-                  Gemini
-                </a>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
-                  Claude
-                </a>
-              </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <a href="https://www.cncf.io/" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
                   CNCF

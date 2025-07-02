@@ -28,7 +28,7 @@ spec:
             cpu: 400m
             memory: 400Mi
       - name: catcode
-        image: catherinevee/catcode:1.01
+        image: catherinevee/catcode:1.03
         imagePullPolicy: "Always"
         ports:
         - containerPort: 31915
