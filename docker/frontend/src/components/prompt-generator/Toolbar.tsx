@@ -37,6 +37,9 @@ export function Toolbar() {
               Metaprompting
             </Link>
           </Button>
+            <Link to="https://catherine.it.com:442/">
+              Terraform Templates
+            </Link>          
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
