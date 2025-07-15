@@ -61,7 +61,7 @@ export default function Portfolio() {
           <Card className="text-center">
             <CardHeader>
               <CardTitle className="text-lg">
-                Terraform
+                Terraform/Terragrunt
               </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col items-center gap-3">
@@ -84,7 +84,6 @@ export default function Portfolio() {
                   <li>Multi-tenant</li>
                   <li>Multi-region</li>
                   <li>Secure Secrets</li>
-                  <li>Container-level Security</li>
                 </ul>
               </div>
             </CardContent>
@@ -123,6 +122,9 @@ export default function Portfolio() {
                   <li>GitHub Actions, Azure DevOps</li>
                   <li>Helm</li>
                   <li>Falco</li>
+                  <li>Trivy</li>
+                  <li>Distroless Containers</li>
+                  <li>CIS Hardened Images</li>
                 </ul>
               </div>
             </CardContent>
