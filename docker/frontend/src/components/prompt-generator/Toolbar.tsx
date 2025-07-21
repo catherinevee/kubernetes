@@ -39,8 +39,8 @@ export function Toolbar() {
           </Button>
           
           <Button variant="outline" asChild>
-            <Link to="https://catherine.it.com:442/">
-              Terraform Templates
+            <Link to="https://tf.catherine.it.com/">
+              Terraform 
             </Link>          
           </Button>
           
