@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: catstar
-        image: catherinevee/catprompt:1.03
+        image: catherinevee/catprompt:1.04
         imagePullPolicy: "Always"
         ports:
         - containerPort: 31916
