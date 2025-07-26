@@ -1,0 +1,22 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: development
+  name: developer
+rules:
+# Core application resources
+- apiGroups: [ "", "apps" ]
+  resources: [ "pods", "pods/log", "pods/exec", "deployments", "services" ]
+  verbs: [ "get", "list", "watch", "create", "update", "patch", "delete" ]
+# Configuration management
+- apiGroups: [ "" ]
+  resources: [ "configmaps" ]
+  verbs: [ "get", "list", "watch", "create", "update", "patch" ]
+# Limited secret access
+- apiGroups: [ "" ]
+  resources: [ "secrets" ]
+  verbs: [ "get", "list" ]
+# Debugging capabilities
+- apiGroups: [ "" ]
+  resources: [ "pods/portforward" ]
+  verbs: [ "create" ]

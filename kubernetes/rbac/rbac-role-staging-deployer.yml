@@ -1,0 +1,20 @@
+# Staging environment role for senior developers
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: backend-staging
+  name: staging-deployer
+rules:
+# Application deployment and management
+- apiGroups: [ "apps" ]
+  resources: [ "deployments", "replicasets" ]
+  verbs: [ "get", "list", "watch", "update", "patch" ]
+# Service configuration
+- apiGroups: [ "" ]
+  resources: [ "services", "configmaps" ]
+  verbs: [ "get", "list", "watch", "update", "patch" ]
+# Limited secret access
+- apiGroups: [ "" ]
+  resources: [ "secrets" ]
+  resourceNames: [ "app-config", "database-readonly" ]
+  verbs: [ "get", "list" ]

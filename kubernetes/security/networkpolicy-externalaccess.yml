@@ -1,0 +1,261 @@
+# =============================================================================
+# 07-external-access.yaml - External Traffic and Internet Access
+# =============================================================================
+# Controls ingress from internet and egress to external services
+# Different policies for development vs production environments
+# =============================================================================
+---
+# Allow ingress controller to reach frontend services
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-to-frontend
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: ingress
+spec:
+  podSelector:
+    matchLabels:
+      app-type: web
+      tier: frontend
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow traffic from ingress controller
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 80
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 3000
+---
+# Allow ingress controller to reach backend APIs directly
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-to-backend-api
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: ingress
+spec:
+  podSelector:
+    matchLabels:
+      app: api-gateway
+      tier: backend
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Development environment - allow external API calls
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dev-external-apis
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: external-egress
+    environment: development
+  annotations:
+    developer.enterprise.com/note: "Allows external API calls for development and testing"
+spec:
+  podSelector:
+    matchLabels:
+      tier: backend
+  policyTypes:
+  - Egress
+  egress:
+  # Allow HTTPS calls to external APIs
+  - ports:
+    - protocol: TCP
+      port: 443
+  # Allow HTTP for development (remove in production)
+  - ports:
+    - protocol: TCP
+      port: 80
+---
+# Frontend external access for CDN and assets
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-external-access
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: external-egress
+spec:
+  podSelector:
+    matchLabels:
+      tier: frontend
+  policyTypes:
+  - Egress
+  egress:
+  # Allow HTTPS for CDN, fonts, etc.
+  - ports:
+    - protocol: TCP
+      port: 443
+  # Allow HTTP for development
+  - ports:
+    - protocol: TCP
+      port: 80
+---
+# Staging environment - controlled external access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: staging-external-whitelist
+  namespace: backend-staging
+  labels:
+    team: backend
+    policy-type: external-egress
+    environment: staging
+spec:
+  podSelector:
+    matchLabels:
+      tier: backend
+  policyTypes:
+  - Egress
+  egress:
+  # Only HTTPS to reduce attack surface
+  - ports:
+    - protocol: TCP
+      port: 443
+---
+# Production - very restrictive external access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prod-external-whitelist
+  namespace: production
+  labels:
+    policy-type: external-egress
+    environment: production
+    security-level: critical
+  annotations:
+    security.enterprise.com/approved-by: "catherine.vee,maya.singh"
+spec:
+  podSelector:
+    matchLabels:
+      tier: backend
+      external-access: approved
+  policyTypes:
+  - Egress
+  egress:
+  # Only specific approved external services
+  - ports:
+    - protocol: TCP
+      port: 443
+    # Could add specific IP ranges or domain restrictions here
+
+---
+# Allow webhooks from external services (GitHub, Stripe, etc.)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-external-webhooks
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: webhook-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app: webhook-handler
+      tier: backend
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow webhooks from external services
+  - from: [] # From anywhere on the internet
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Block access to internal services from internet
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: block-internal-access
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: security-block
+spec:
+  podSelector:
+    matchLabels:
+      internal-only: "true"
+  policyTypes:
+  - Ingress
+  # No ingress rules = block all external access
+
+---
+# Allow health checks from load balancers
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-health-checks
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: health-check
+spec:
+  podSelector:
+    matchLabels:
+      health-check: enabled
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow health checks from load balancers
+  - from: [] # From anywhere
+    ports:
+    - protocol: TCP
+      port: 8080 # Health check endpoint
+    - protocol: TCP
+      port: 9090 # Metrics endpoint
+---
+# Production ingress - strict controls
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: production-ingress-strict
+  namespace: production
+  labels:
+    policy-type: production-ingress
+    security-level: critical
+spec:
+  podSelector:
+    matchLabels:
+      tier: frontend
+      environment: production
+  policyTypes:
+  - Ingress
+  ingress:
+  # Only from approved ingress controllers
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: ingress-nginx
+          environment: production
+    ports:
+    - protocol: TCP
+      port: 443 # HTTPS only in production
