@@ -1,0 +1,21 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: senior-developer
+rules:
+# Application management across namespaces
+- apiGroups: [ "", "apps", "extensions" ]
+  resources: [ "pods", "pods/log", "pods/exec", "deployments", "services", "configmaps" ]
+  verbs: [ "get", "list", "watch", "create", "update", "patch", "delete" ]
+# Secret management (except production)
+- apiGroups: [ "" ]
+  resources: [ "secrets" ]
+  verbs: [ "get", "list", "watch", "create", "update", "patch" ]
+# Limited cluster visibility for troubleshooting
+- apiGroups: [ "" ]
+  resources: [ "nodes", "namespaces" ]
+  verbs: [ "get", "list" ]
+# Ingress management
+- apiGroups: [ "networking.k8s.io" ]
+  resources: [ "ingresses" ]
+  verbs: [ "get", "list", "watch", "create", "update", "patch", "delete" ]

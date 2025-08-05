@@ -3,8 +3,17 @@ kind: Deployment
 metadata:
   name: catstar
   namespace: default
+  labels:
+    app.kubernetes.io/name: catstar
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/component: application
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: catstar
@@ -12,14 +21,35 @@ spec:
     metadata:
       labels:
         app: catstar
+        app.kubernetes.io/name: catstar
+        app.kubernetes.io/version: "1.0.0"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "31916"
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
       containers:
       - name: catstar
-        image: catherinevee/catherineitcom:1.02
+        image: catherinevee/catherineitcom:1.10
         imagePullPolicy: "Always"
         ports:
         - containerPort: 31916
           name: http
+          protocol: TCP
+        env:
+        - name: APP_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_ENVIRONMENT
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: LOG_LEVEL
         resources:
           requests:
             cpu: 200m
@@ -27,12 +57,37 @@ spec:
           limits:
             cpu: 400m
             memory: 400Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 31916
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 31916
+          initialDelaySeconds: 5
+          periodSeconds: 5
       - name: catcode
         image: catherinevee/catcode:1.03
         imagePullPolicy: "Always"
         ports:
         - containerPort: 31915
           name: http
+          protocol: TCP
+        env:
+        - name: APP_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_ENVIRONMENT
         resources:
           requests:
             cpu: 200m
@@ -40,3 +95,9 @@ spec:
           limits:
             cpu: 400m
             memory: 400Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL

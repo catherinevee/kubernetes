@@ -1,0 +1,100 @@
+# =============================================================================
+# 01-namespaces.yaml - Team Namespace Organization
+# =============================================================================
+# Creates namespaces for 13-developer enterprise team structure
+# Backend Team (7): Marcus Chen, Riley Thompson, Priya Patel, Jordan Kim, 
+#                   Catherine Vee (Team Lead), Karol Nowak, Ania Kowalski  
+# Frontend Team (6): Zoe Martinez, Alex Rodriguez, Sam Johnson, Maya Singh (Team Lead),
+#                    Devon Clark, Tomasz Wiśniewski
+# =============================================================================
+---
+# Backend team development namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: backend-dev
+  labels:
+    name: backend-dev
+    team: backend
+    environment: development
+    team-size: "7"
+    team-lead: "catherine.vee"
+    cost-center: "engineering"
+  annotations:
+    team.enterprise.com/description: "Backend development environment"
+    team.enterprise.com/contact: "catherine.vee@cstarrez.wcu"
+---
+# Backend team staging namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: backend-staging
+  labels:
+    name: backend-staging
+    team: backend
+    environment: staging
+    promote-from: backend-dev
+    approval-required: "senior-developer"
+  annotations:
+    team.enterprise.com/description: "Backend staging environment"
+    team.enterprise.com/approvers: "catherine.vee,jordan.kim"
+---
+# Frontend team development namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frontend-dev
+  labels:
+    name: frontend-dev
+    team: frontend
+    environment: development
+    team-size: "6"
+    team-lead: "maya.singh"
+    cost-center: "engineering"
+  annotations:
+    team.enterprise.com/description: "Frontend development environment"
+    team.enterprise.com/contact: "maya.singh@cstarrez.wcu"
+---
+# Frontend team staging namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frontend-staging
+  labels:
+    name: frontend-staging
+    team: frontend
+    environment: staging
+    promote-from: frontend-dev
+    approval-required: "senior-developer"
+  annotations:
+    team.enterprise.com/description: "Frontend staging environment"
+    team.enterprise.com/approvers: "maya.singh,devon.clark"
+---
+# Shared production namespace (both teams deploy here)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+  labels:
+    name: production
+    environment: production
+    access-level: restricted
+    requires-approval: "team-lead"
+  annotations:
+    team.enterprise.com/description: "Production environment for all teams"
+    team.enterprise.com/approvers: "catherine.vee,maya.singh"
+    security.enterprise.com/compliance: "soc2,gdpr"
+---
+# Shared services namespace (monitoring, logging, CI/CD)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform-services
+  labels:
+    name: platform-services
+    team: platform
+    environment: shared
+    managed-by: devops
+  annotations:
+    team.enterprise.com/description: "Shared platform services"
+    team.enterprise.com/contact: "devops@cstarrez.wcu"

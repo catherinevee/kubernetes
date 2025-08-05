@@ -1,0 +1,322 @@
+# =============================================================================
+# 05-role-based-access.yaml - Developer Role Network Policies
+# =============================================================================
+# Network access patterns that align with RBAC roles:
+# Junior Developers: Marcus Chen, Ania Kowalski (Backend), Zoe Martinez (Frontend)
+# Developers: Riley Thompson, Priya Patel, Karol Nowak (Backend), 
+#            Alex Rodriguez, Sam Johnson, Tomasz Wiśniewski (Frontend)
+# Senior Developers: Jordan Kim (Backend), Devon Clark (Frontend)
+# Team Leads: Catherine Vee (Backend), Maya Singh (Frontend)
+# =============================================================================
+---
+# Junior developers - development namespace access only
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: junior-dev-network-access
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: role-based
+  annotations:
+    rbac.enterprise.com/min-role: "junior-developer"
+    rbac.enterprise.com/developers: "marcus.chen,ania.kowalski"
+spec:
+  podSelector:
+    matchLabels:
+      access-level: development
+      developer-role: junior
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow access from development tools and other dev pods
+  - from:
+    - podSelector:
+        matchLabels:
+          environment: development
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+          environment: development
+  egress:
+  # Allow calls within development environment only
+  - to:
+    - podSelector: {}
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          environment: development
+---
+# Standard developers - full team namespace access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: developer-network-access
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: role-based
+  annotations:
+    rbac.enterprise.com/role: "developer"
+    rbac.enterprise.com/developers: "riley.thompson,priya.patel,karol.nowak"
+spec:
+  podSelector:
+    matchLabels:
+      access-level: development
+      developer-role: standard
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Full access within team namespaces
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+  egress:
+  # Can call team services and external APIs
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+  - ports:
+    - protocol: TCP
+      port: 443 # External HTTPS
+---
+# Senior developers - staging environment access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: senior-dev-staging-access
+  namespace: backend-staging
+  labels:
+    team: backend
+    policy-type: role-based
+  annotations:
+    rbac.enterprise.com/role: "senior-developer"
+    rbac.enterprise.com/developers: "jordan.kim"
+spec:
+  podSelector:
+    matchLabels:
+      debug-access: enabled
+      developer-role: senior
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow access from development for debugging
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+          environment: development
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 9090 # Debug/metrics port
+---
+# Team lead - production access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: team-lead-production-access
+  namespace: production
+  labels:
+    team: backend
+    policy-type: role-based
+  annotations:
+    rbac.enterprise.com/role: "team-lead"
+    rbac.enterprise.com/team-lead: "catherine.vee"
+spec:
+  podSelector:
+    matchLabels:
+      deployment-access: team-lead
+      team: backend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow administrative access
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 9090
+  egress:
+  # Allow production deployments and monitoring
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: backend
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Frontend junior developers
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-junior-dev-access
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: role-based
+  annotations:
+    rbac.enterprise.com/role: "junior-developer"
+    rbac.enterprise.com/developers: "zoe.martinez"
+spec:
+  podSelector:
+    matchLabels:
+      access-level: development
+      developer-role: junior
+      team: frontend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          environment: development
+  egress:
+  # Limited to development environment
+  - to:
+    - podSelector: {}
+  # Can call backend APIs for development
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+          environment: development
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Frontend developers - standard access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-developer-access
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: role-based
+  annotations:
+    rbac.enterprise.com/role: "developer"
+    rbac.enterprise.com/developers: "alex.rodriguez,sam.johnson,tomasz.wisniewski"
+spec:
+  podSelector:
+    matchLabels:
+      developer-role: standard
+      team: frontend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+  egress:
+  # Full frontend namespace access
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+  # Can call backend APIs
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    ports:
+    - protocol: TCP
+      port: 8080
+  # External CDN/API access
+  - ports:
+    - protocol: TCP
+      port: 443
+---
+# Frontend senior developer - staging access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-senior-dev-staging
+  namespace: frontend-staging
+  labels:
+    team: frontend
+    policy-type: role-based
+  annotations:
+    rbac.enterprise.com/role: "senior-developer"
+    rbac.enterprise.com/developers: "devon.clark"
+spec:
+  podSelector:
+    matchLabels:
+      debug-access: enabled
+      developer-role: senior
+      team: frontend
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+          environment: development
+    ports:
+    - protocol: TCP
+      port: 3000
+    - protocol: TCP
+      port: 9090
+---
+# Frontend team lead - production access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-team-lead-production
+  namespace: production
+  labels:
+    team: frontend
+    policy-type: role-based
+  annotations:
+    rbac.enterprise.com/role: "team-lead"
+    rbac.enterprise.com/team-lead: "maya.singh"
+spec:
+  podSelector:
+    matchLabels:
+      deployment-access: team-lead
+      team: frontend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+    ports:
+    - protocol: TCP
+      port: 3000
+    - protocol: TCP
+      port: 9090
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: frontend
+    ports:
+    - protocol: TCP
+      port: 3000
+  # Can call backend production APIs
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: backend
+          environment: production
+    ports:
+    - protocol: TCP
+      port: 8080

@@ -1,0 +1,73 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: kubernetes-infrastructure
+  annotations:
+    description: "Enterprise Kubernetes infrastructure for 13-developer team"
+
+resources:
+# Core application resources
+- deployment.yml
+- service.yml
+- ingress.yml
+- ssl.yml
+
+# Namespace definitions
+- ns/
+
+# RBAC configurations
+- rbac/
+
+# Security policies
+- security/
+
+commonLabels:
+  app.kubernetes.io/name: "enterprise-app"
+  app.kubernetes.io/version: "1.0.0"
+  app.kubernetes.io/part-of: "kubernetes-infrastructure"
+  app.kubernetes.io/managed-by: "kustomize"
+
+commonAnnotations:
+  team.enterprise.com/contact: "devops@cstarrez.wcu"
+  team.enterprise.com/version: "1.0.0"
+
+configMapGenerator:
+- name: app-config
+  literals:
+  - APP_ENVIRONMENT=production
+  - LOG_LEVEL=info
+  - METRICS_ENABLED=true
+
+secretGenerator:
+- name: app-secrets
+  literals:
+  - DB_PASSWORD=placeholder
+  - API_KEY=placeholder
+  type: Opaque
+
+images:
+- name: catherinevee/catherineitcom
+  newTag: "1.02"
+- name: catherinevee/catcode
+  newTag: "1.03"
+
+patches:
+- target:
+    kind: Deployment
+    name: catstar
+  patch: |-
+    - op: add
+      path: /spec/template/spec/securityContext
+      value:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+    - op: add
+      path: /spec/template/spec/containers/0/securityContext
+      value:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop:
+            - ALL 

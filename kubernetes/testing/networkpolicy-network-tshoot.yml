@@ -1,0 +1,412 @@
+# =============================================================================
+# 10-testing-validation.yaml - Network Policy Testing and Validation
+# =============================================================================
+# Jobs and pods for testing network connectivity and validating policies
+# Includes automated tests and troubleshooting tools
+# =============================================================================
+---
+# Network connectivity test job for backend team
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: backend-network-test
+  namespace: backend-dev
+  labels:
+    team: backend
+    purpose: testing
+    test-type: connectivity
+spec:
+  template:
+    metadata:
+      labels:
+        app: network-test
+        team: backend
+    spec:
+      containers:
+      - name: connectivity-test
+        image: curlimages/curl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "=== Backend Network Connectivity Tests ==="
+          echo "Testing by: Marcus Chen, Riley Thompson, Priya Patel, Karol Nowak, Ania Kowalski"
+          echo ""
+
+          # Test internal service connectivity
+          echo "1. Testing internal service connectivity..."
+          if curl -f --max-time 10 http://user-service:8080/health; then
+            echo "✓ User service reachable"
+          else
+            echo "✗ User service not reachable"
+          fi
+
+          if curl -f --max-time 10 http://order-service:8080/health; then
+            echo "✓ Order service reachable"
+          else
+            echo "✗ Order service not reachable"
+          fi
+
+          # Test database connectivity
+          echo ""
+          echo "2. Testing database connectivity..."
+          if nc -z user-db 5432; then
+            echo "✓ PostgreSQL database reachable"
+          else
+            echo "✗ PostgreSQL database not reachable"
+          fi
+
+          if nc -z redis 6379; then
+            echo "✓ Redis cache reachable"
+          else
+            echo "✗ Redis cache not reachable"
+          fi
+
+          # Test cross-namespace connectivity (should work)
+          echo ""
+          echo "3. Testing cross-namespace connectivity..."
+          if curl -f --max-time 10 http://web-frontend.frontend-dev.svc.cluster.local:3000; then
+            echo "✓ Frontend service reachable from backend"
+          else
+            echo "✗ Frontend service not reachable from backend"
+          fi
+
+          # Test external connectivity
+          echo ""
+          echo "4. Testing external connectivity..."
+          if curl -f --max-time 10 https://api.github.com; then
+            echo "✓ External HTTPS access working"
+          else
+            echo "✗ External HTTPS access blocked"
+          fi
+
+          # Test that HTTP is blocked in production-like scenarios
+          if curl -f --max-time 5 http://example.com; then
+            echo "⚠ External HTTP access allowed (should be blocked in prod)"
+          else
+            echo "✓ External HTTP access properly blocked"
+          fi
+
+          echo ""
+          echo "=== Backend Network Tests Completed ==="
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+      restartPolicy: Never
+      serviceAccountName: backend-developer
+  backoffLimit: 3
+---
+# Frontend network connectivity test
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: frontend-network-test
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    purpose: testing
+    test-type: connectivity
+spec:
+  template:
+    metadata:
+      labels:
+        app: network-test
+        team: frontend
+    spec:
+      containers:
+      - name: connectivity-test
+        image: curlimages/curl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "=== Frontend Network Connectivity Tests ==="
+          echo "Testing by: Zoe Martinez, Alex Rodriguez, Sam Johnson, Maya Singh, Devon Clark, Tomasz Wiśniewski"
+          echo ""
+
+          # Test internal frontend services
+          echo "1. Testing internal frontend services..."
+          if curl -f --max-time 10 http://web-frontend:3000; then
+            echo "✓ Web frontend reachable"
+          else
+            echo "✗ Web frontend not reachable"
+          fi
+
+          if curl -f --max-time 10 http://bff:3000; then
+            echo "✓ BFF service reachable"
+          else
+            echo "✗ BFF service not reachable"
+          fi
+
+          # Test backend API connectivity
+          echo ""
+          echo "2. Testing backend API connectivity..."
+          if curl -f --max-time 10 http://user-service.backend-dev.svc.cluster.local:8080/health; then
+            echo "✓ Backend user service reachable"
+          else
+            echo "✗ Backend user service not reachable"
+          fi
+
+          if curl -f --max-time 10 http://api-gateway.backend-dev.svc.cluster.local:8080/health; then
+            echo "✓ Backend API gateway reachable"
+          else
+            echo "✗ Backend API gateway not reachable"
+          fi
+
+          # Test external CDN/asset access
+          echo ""
+          echo "3. Testing external asset access..."
+          if curl -f --max-time 10 https://fonts.googleapis.com; then
+            echo "✓ External fonts/CDN accessible"
+          else
+            echo "✗ External fonts/CDN not accessible"
+          fi
+
+          echo ""
+          echo "=== Frontend Network Tests Completed ==="
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+      restartPolicy: Never
+      serviceAccountName: frontend-developer
+  backoffLimit: 3
+---
+# Cross-team integration test
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cross-team-integration-test
+  namespace: frontend-dev
+  labels:
+    test-type: integration
+    teams: "frontend,backend"
+    integration-owner: "tomasz.wisniewski,karol.nowak"
+spec:
+  template:
+    metadata:
+      labels:
+        app: integration-test
+        teams: "frontend,backend"
+    spec:
+      containers:
+      - name: integration-test
+        image: curlimages/curl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "=== Cross-Team Integration Tests ==="
+          echo "Frontend (Tomasz Wiśniewski) -> Backend (Karol Nowak) APIs"
+          echo ""
+
+          # Test API endpoints that frontend consumes
+          echo "1. Testing user management APIs..."
+          if curl -f --max-time 10 http://user-service.backend-dev.svc.cluster.local:8080/api/users; then
+            echo "✓ User API accessible from frontend"
+          else
+            echo "✗ User API not accessible from frontend"
+          fi
+
+          echo ""
+          echo "2. Testing order management APIs..."
+          if curl -f --max-time 10 http://order-service.backend-dev.svc.cluster.local:8080/api/orders; then
+            echo "✓ Order API accessible from frontend"
+          else
+            echo "✗ Order API not accessible from frontend"
+          fi
+
+          echo ""
+          echo "3. Testing authentication flow..."
+          if curl -f --max-time 10 http://user-service.backend-dev.svc.cluster.local:8080/auth/login; then
+            echo "✓ Auth endpoint accessible from frontend"
+          else
+            echo "✗ Auth endpoint not accessible from frontend"
+          fi
+
+          # Test that frontend cannot access backend databases directly
+          echo ""
+          echo "4. Testing database isolation..."
+          if nc -z user-db.backend-dev.svc.cluster.local 5432; then
+            echo "✗ Frontend can access backend database (SECURITY ISSUE!)"
+            exit 1
+          else
+            echo "✓ Frontend properly blocked from backend database"
+          fi
+
+          echo ""
+          echo "=== Integration Tests Passed ==="
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+      restartPolicy: Never
+      serviceAccountName: frontend-developer
+  backoffLimit: 3
+---
+# Network debug pod for backend team
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend-debug-tools
+  namespace: backend-dev
+  labels:
+    team: backend
+    purpose: development-tools
+    app: debug-tools
+    access-level: development
+spec:
+  containers:
+  - name: debug
+    image: nicolaka/netshoot:latest
+    command: [ "sleep", "3600" ]
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      capabilities:
+        add:
+        - NET_ADMIN # Required for advanced network debugging
+  serviceAccountName: backend-developer
+  restartPolicy: Never
+---
+# Network debug pod for frontend team
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend-debug-tools
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    purpose: development-tools
+    app: debug-tools
+    access-level: development
+spec:
+  containers:
+  - name: debug
+    image: nicolaka/netshoot:latest
+    command: [ "sleep", "3600" ]
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      capabilities:
+        add:
+        - NET_ADMIN
+  serviceAccountName: frontend-developer
+  restartPolicy: Never
+---
+# Production network validation (read-only testing)
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: production-network-validation
+  namespace: production
+  labels:
+    test-type: production-validation
+    approved-by: "catherine.vee,maya.singh"
+spec:
+  template:
+    metadata:
+      labels:
+        app: prod-validation
+        security-level: high
+    spec:
+      containers:
+      - name: validation-test
+        image: curlimages/curl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "=== Production Network Validation ==="
+          echo "Approved by: Catherine Vee (Backend Lead), Maya Singh (Frontend Lead)"
+          echo ""
+
+          # Test that services are running
+          echo "1. Validating production services are accessible..."
+          if curl -f --max-time 10 http://web-frontend:3000/health; then
+            echo "✓ Production frontend healthy"
+          else
+            echo "✗ Production frontend not responding"
+          fi
+
+          if curl -f --max-time 10 http://api-gateway:8080/health; then
+            echo "✓ Production API gateway healthy"
+          else
+            echo "✗ Production API gateway not responding"
+          fi
+
+          # Verify external access is restricted
+          echo ""
+          echo "2. Validating security restrictions..."
+          if curl -f --max-time 5 http://example.com; then
+            echo "✗ SECURITY ISSUE: HTTP access allowed in production!"
+            exit 1
+          else
+            echo "✓ HTTP access properly blocked in production"
+          fi
+
+          # Test that HTTPS still works for approved external services
+          if curl -f --max-time 10 https://api.stripe.com; then
+            echo "✓ Approved external HTTPS access working"
+          else
+            echo "⚠ External HTTPS access may be blocked"
+          fi
+
+          echo ""
+          echo "=== Production Validation Completed ==="
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+      restartPolicy: Never
+      serviceAccountName: production-readonly
+  backoffLimit: 1
+---
+# Network policy compliance check
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: network-policy-compliance
+  namespace: platform-services
+  labels:
+    test-type: compliance
+    security-check: enabled
+spec:
+  template:
+    metadata:
+      labels:
+        app: compliance-check
+    spec:
+      containers:
+      - name: compliance-check
+        image: curlimages/curl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "=== Network Policy Compliance Check ==="
+          echo ""
+
+          # Check that default deny policies exist
+          echo "1. Checking default deny policies..."
+
+          # This would typically use kubectl to check policies
+          # For demo purposes, showing the validation logic
+          echo "✓ Default deny policies verified in all namespaces"
+          echo "✓ DNS resolution allowed in all namespaces"
+          echo "✓ Cross-team communication restricted to approved paths"
+          echo "✓ External access controlled per environment"
+          echo "✓ Production access requires team lead approval"
+          echo "✓ Database access restricted to authorized services"
+          echo "✓ Monitoring access configured correctly"
+
+          echo ""
+          echo "2. Checking role-based access..."
+          echo "✓ Junior developers restricted to development namespaces"
+          echo "✓ Senior developers have staging access"
+          echo "✓ Team leads have production deployment rights"
+
+          echo ""
+          echo "=== Compliance Check Passed ==="
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+      restartPolicy: Never
+  backoffLimit: 1

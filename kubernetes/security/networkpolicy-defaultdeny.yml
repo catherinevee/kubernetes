@@ -1,0 +1,209 @@
+# =============================================================================
+# 02-baseline-security.yaml - Default Deny Policies
+# =============================================================================
+# Establishes secure-by-default network posture across all team namespaces
+# Apply these first to create baseline security, then add specific allow rules
+# =============================================================================
+---
+# Backend development - default deny all traffic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: baseline
+    security-level: high
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+# Backend staging - default deny all traffic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: backend-staging
+  labels:
+    team: backend
+    policy-type: baseline
+    security-level: high
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+# Frontend development - default deny all traffic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: baseline
+    security-level: high
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+# Frontend staging - default deny all traffic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: frontend-staging
+  labels:
+    team: frontend
+    policy-type: baseline
+    security-level: high
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+# Production - default deny all traffic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: production
+  labels:
+    policy-type: baseline
+    security-level: critical
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+
+# =============================================================================
+# ESSENTIAL SERVICES - DNS RESOLUTION
+# =============================================================================
+# Allow DNS resolution from all namespaces (required for service discovery)
+---
+# Backend dev - allow DNS resolution
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: essential
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+---
+# Backend staging - allow DNS resolution
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: backend-staging
+  labels:
+    team: backend
+    policy-type: essential
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+---
+# Frontend dev - allow DNS resolution
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: essential
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+---
+# Frontend staging - allow DNS resolution
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: frontend-staging
+  labels:
+    team: frontend
+    policy-type: essential
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+---
+# Production - allow DNS resolution
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: production
+  labels:
+    policy-type: essential
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53

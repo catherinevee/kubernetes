@@ -1,0 +1,446 @@
+# =============================================================================
+# 06-application-services.yaml - Service-Specific Policies
+# =============================================================================
+# Network policies for specific application services and databases
+# Covers typical 3-tier architecture: Web -> API -> Database
+# =============================================================================
+---
+# Database access policy - only from backend APIs
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: database-access-policy
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: data-tier
+  annotations:
+    developer.enterprise.com/owner: "karol.nowak" # Database specialist
+spec:
+  podSelector:
+    matchLabels:
+      app-type: database
+      tier: database
+  policyTypes:
+  - Ingress
+  ingress:
+  # Only API servers can access database
+  - from:
+    - podSelector:
+        matchLabels:
+          app-type: api
+          tier: backend
+    ports:
+    - protocol: TCP
+      port: 5432 # PostgreSQL
+    - protocol: TCP
+      port: 3306 # MySQL
+  # Database admin tools for developers
+  - from:
+    - podSelector:
+        matchLabels:
+          purpose: development-tools
+          app: db-admin
+    ports:
+    - protocol: TCP
+      port: 5432
+    - protocol: TCP
+      port: 3306
+---
+# Redis cache access - more permissive within backend tier
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: redis-access-policy
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: cache-tier
+spec:
+  podSelector:
+    matchLabels:
+      app: redis
+      tier: cache
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: backend # Any backend service can access cache
+    ports:
+    - protocol: TCP
+      port: 6379
+---
+# User service - handles authentication and user management
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: user-service-policy
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: api-service
+  annotations:
+    developer.enterprise.com/owner: "marcus.chen"
+spec:
+  podSelector:
+    matchLabels:
+      app: user-service
+      tier: backend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow from frontend and other API services
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+    - podSelector:
+        matchLabels:
+          tier: backend
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  # Access to user database
+  - to:
+    - podSelector:
+        matchLabels:
+          app: user-db
+    ports:
+    - protocol: TCP
+      port: 5432
+  # External authentication providers
+  - ports:
+    - protocol: TCP
+      port: 443
+---
+# Payment service - extra security restrictions
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: payment-service-policy
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: secure-service
+  annotations:
+    developer.enterprise.com/owner: "riley.thompson"
+    security.enterprise.com/compliance: "pci-dss"
+spec:
+  podSelector:
+    matchLabels:
+      app: payment-service
+      tier: backend
+      security-zone: pci
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Only allow from order service
+  - from:
+    - podSelector:
+        matchLabels:
+          app: order-service
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  # Only allow to payment database and external payment APIs
+  - to:
+    - podSelector:
+        matchLabels:
+          app: payment-db
+    ports:
+    - protocol: TCP
+      port: 5432
+  # External payment processor (Stripe, etc.)
+  - ports:
+    - protocol: TCP
+      port: 443
+---
+# Order service - core business logic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: order-service-policy
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: api-service
+  annotations:
+    developer.enterprise.com/owner: "priya.patel"
+spec:
+  podSelector:
+    matchLabels:
+      app: order-service
+      tier: backend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow from frontend and API gateway
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+    - podSelector:
+        matchLabels:
+          app: api-gateway
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  # Can call user service for validation
+  - to:
+    - podSelector:
+        matchLabels:
+          app: user-service
+    ports:
+    - protocol: TCP
+      port: 8080
+  # Can call payment service
+  - to:
+    - podSelector:
+        matchLabels:
+          app: payment-service
+    ports:
+    - protocol: TCP
+      port: 8080
+  # Access to orders database
+  - to:
+    - podSelector:
+        matchLabels:
+          app: orders-db
+    ports:
+    - protocol: TCP
+      port: 5432
+---
+# Web frontend - serves user interface
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: web-frontend-policy
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: web-tier
+  annotations:
+    developer.enterprise.com/owner: "zoe.martinez"
+spec:
+  podSelector:
+    matchLabels:
+      app: web-frontend
+      tier: frontend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow traffic from ingress controller
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 80
+    - protocol: TCP
+      port: 443
+  # Allow from load balancer
+  - from:
+    - podSelector:
+        matchLabels:
+          app: nginx-lb
+    ports:
+    - protocol: TCP
+      port: 3000
+  egress:
+  # Call backend APIs
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    - podSelector:
+        matchLabels:
+          tier: backend
+    ports:
+    - protocol: TCP
+      port: 8080
+  # External CDN and assets
+  - ports:
+    - protocol: TCP
+      port: 443
+---
+# BFF (Backend for Frontend) - aggregates backend calls
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: bff-service-policy
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: bff-service
+  annotations:
+    developer.enterprise.com/owner: "alex.rodriguez"
+spec:
+  podSelector:
+    matchLabels:
+      app: bff
+      tier: frontend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow from web frontend
+  - from:
+    - podSelector:
+        matchLabels:
+          app: web-frontend
+    ports:
+    - protocol: TCP
+      port: 3000
+  # Allow from mobile apps (if any)
+  - from:
+    - podSelector:
+        matchLabels:
+          app: mobile-api
+    ports:
+    - protocol: TCP
+      port: 3000
+  egress:
+  # Call multiple backend services
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    - podSelector:
+        matchLabels:
+          tier: backend
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Mobile API - serves mobile applications
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mobile-api-policy
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: mobile-api
+  annotations:
+    developer.enterprise.com/owner: "sam.johnson"
+spec:
+  podSelector:
+    matchLabels:
+      app: mobile-api
+      tier: frontend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow from mobile app clients (external)
+  - from: [] # Allow from anywhere (mobile clients)
+    ports:
+    - protocol: TCP
+      port: 443 # HTTPS only for mobile
+  egress:
+  # Call BFF service
+  - to:
+    - podSelector:
+        matchLabels:
+          app: bff
+    ports:
+    - protocol: TCP
+      port: 3000
+  # Direct backend calls for mobile-specific features
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    - podSelector:
+        matchLabels:
+          app: user-service
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# API Gateway - central entry point for backend services
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-gateway-policy
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: gateway
+  annotations:
+    developer.enterprise.com/owner: "jordan.kim" # Senior developer owns gateway
+spec:
+  podSelector:
+    matchLabels:
+      app: api-gateway
+      tier: backend
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow from frontend services
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+    ports:
+    - protocol: TCP
+      port: 8080
+  # Allow from ingress controller for direct API access
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  # Can call all backend services
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: backend
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Production database - very restrictive
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: production-database-security
+  namespace: production
+  labels:
+    policy-type: production-data
+  annotations:
+    security.enterprise.com/approved-by: "catherine.vee"
+spec:
+  podSelector:
+    matchLabels:
+      app-type: database
+      environment: production
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Only production API services can access
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: backend
+          environment: production
+    ports:
+    - protocol: TCP
+      port: 5432
+  # NO external access in production
+  egress: [] # Deny all egress from database
