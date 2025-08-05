@@ -1,0 +1,32 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: sandbox
+  name: junior-developer
+rules:
+# Read-only access to core resources
+- apiGroups: [ "", "apps" ]
+  resources: [ "pods", "pods/log", "deployments", "services", "configmaps" ]
+  verbs: [ "get", "list", "watch" ]
+# Limited deployment creation
+- apiGroups: [ "apps" ]
+  resources: [ "deployments" ]
+  verbs: [ "create", "update", "patch" ]
+# No secret content access
+- apiGroups: [ "" ]
+  resources: [ "secrets" ]
+  verbs: [ "list" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: junior-dev-binding
+  namespace: sandbox
+subjects:
+- kind: Group
+  name: junior-developers
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: junior-developer
+  apiGroup: rbac.authorization.k8s.io

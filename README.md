@@ -1,18 +1,131 @@
+# Kubernetes Infrastructure
 
+Complete Kubernetes infrastructure for enterprise application deployment.
 
-![alt text](https://camo.githubusercontent.com/e09012c164942eb846524af8cbea063e07297c1d0f9c5846dd3f2da99ef08f60/68747470733a2f2f63617073756c652d72656e6465722e76657263656c2e6170702f6170693f747970653d776176696e6726636f6c6f723d443942454431266865696768743d3132302673656374696f6e3d686561646572)
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&duration=2500&pause=200&width=435&lines=Catherine+Vee;CCNP%2C+JNCIA%2C+AZ-700%2C+ANS-C01)](https://git.io/typing-svg)
+## Architecture Overview
 
+Infrastructure designed for a 13-developer enterprise team:
+- Backend Team (7): Marcus, Riley, Priya, Jordan, Catherine (Lead), Karol, Ania
+- Frontend Team (6): Zoe, Alex, Sam, Maya (Lead), Devon, Tomasz
 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/w/catherinevee/code?style=plastic)
+### Application Components
+- catstar: Main application container (port 31916)
+- catcode: Secondary application container (port 31915)
+- Frontend: React-based UI application
 
-# My Mission
-My name is Catherine Vee and I am a person who enjoys cloud networking, routing and switching, and network automation. I am an expert with Terraform, Terragrunt, and Kubernetes. Check me out at https://catherine.it.com!
+## Directory Structure
 
-<p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=azure,aws,python,terraform" />
-  </a>
-</p>
+```
+kubernetes/
+├── kubernetes/                 # Kubernetes manifests
+│   ├── deployment.yml         # Application deployment
+│   ├── service.yml           # LoadBalancer service
+│   ├── ingress.yml           # Ingress configuration
+│   ├── ssl.yml              # SSL/TLS configuration
+│   ├── ns/                   # Namespace definitions
+│   ├── rbac/                 # Role-based access control
+│   ├── security/             # Network policies
+│   └── testing/              # Testing resources
+├── docker/                   # Container configuration
+│   ├── Dockerfile           # Multi-stage build
+│   └── frontend/            # React application
+└── README.md                # This file
+```
 
-![alt text](https://camo.githubusercontent.com/be4f89116726974b98e9beef51954c013f590e48a3badbde49f8ab29b7011140/68747470733a2f2f63617073756c652d72656e6465722e76657263656c2e6170702f6170693f747970653d776176696e6726636f6c6f723d443942454431266865696768743d3132302673656374696f6e3d666f6f746572)
+## Quick Start
+
+### Prerequisites
+- Kubernetes cluster (1.24+)
+- kubectl configured
+- Helm 3.x
+- Docker
+
+### Installation
+
+1. Deploy the infrastructure:
+   ```bash
+   cd kubernetes/kubernetes
+   ./helm-install.sh
+   ```
+
+2. Apply application manifests:
+   ```bash
+   kubectl apply -f ns/
+   kubectl apply -f rbac/
+   kubectl apply -f security/
+   kubectl apply -f deployment.yml
+   kubectl apply -f service.yml
+   kubectl apply -f ingress.yml
+   kubectl apply -f ssl.yml
+   ```
+
+3. Build and deploy the frontend:
+   ```bash
+   cd ../docker
+   docker build -t catherinevee/catherineitcom:latest .
+   docker push catherinevee/catherineitcom:latest
+   ```
+
+## Security Features
+
+- Network Policies: Multi-layered network security
+- RBAC: Role-based access control for teams
+- SSL/TLS: Automatic certificate management
+- Pod Security: Resource limits and security contexts
+
+## Monitoring & Observability
+
+The infrastructure includes:
+- Prometheus & Grafana for metrics
+- Loki for log aggregation
+- Jaeger for distributed tracing
+- Falco for runtime security monitoring
+
+## Testing
+
+Network policy testing resources are available in `kubernetes/testing/`.
+
+## Configuration
+
+### Environment Variables
+- `COMPANY_DOMAIN`: Your company domain
+- `GRAFANA_PASSWORD`: Grafana admin password
+- `ARGOCD_PASSWORD`: ArgoCD admin password
+
+### Customization
+- Update namespace labels and annotations in `ns/namespace.yml`
+- Modify RBAC roles in `rbac/` directory
+- Adjust network policies in `security/` directory
+
+## Contributing
+
+1. Follow the existing naming conventions
+2. Update documentation for any changes
+3. Test network policies before deployment
+4. Ensure RBAC follows least-privilege principle
+
+## Troubleshooting
+
+### Common Issues
+- Certificate issues: Check cert-manager installation
+- Network connectivity: Verify network policies
+- RBAC errors: Ensure proper role assignments
+
+### Debug Commands
+```bash
+# Check pod status
+kubectl get pods -A
+
+# View logs
+kubectl logs -f deployment/catstar
+
+# Test network policies
+kubectl apply -f testing/networkpolicy-network-tshoot.yml
+```
+
+## Support
+
+For issues or questions:
+- Backend Team: catherine.vee@cstarrez.wcu
+- Frontend Team: maya.singh@cstarrez.wcu
+- DevOps: devops@cstarrez.wcu

@@ -1,0 +1,407 @@
+# =============================================================================
+# 09-development-tools.yaml - Developer Productivity Tools
+# =============================================================================
+# Network policies for debug tools, database admin, testing, and local development
+# Tailored for 13-developer team productivity
+# =============================================================================
+---
+# Local development port-forwarding support
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: local-dev-port-forward
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: local-development
+  annotations:
+    dev-team.enterprise.com/note: "Allows port-forwarding for local development"
+    dev-team.enterprise.com/users: "marcus.chen,riley.thompson,priya.patel,karol.nowak,ania.kowalski"
+spec:
+  podSelector:
+    matchLabels:
+      local-dev: enabled
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow port-forward from developer machines (dev env only!)
+  - from: []
+    ports:
+    - protocol: TCP
+      port: 8080 # API services
+    - protocol: TCP
+      port: 5432 # Database direct access
+    - protocol: TCP
+      port: 6379 # Redis access
+    - protocol: TCP
+      port: 9090 # Metrics/debug
+---
+# Database admin tools access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: database-admin-tools
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: admin-tools
+  annotations:
+    dev-team.enterprise.com/owner: "karol.nowak" # Database specialist
+spec:
+  podSelector:
+    matchLabels:
+      app-type: database
+      tier: database
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow from pgAdmin/database management tools
+  - from:
+    - podSelector:
+        matchLabels:
+          purpose: development-tools
+          app: db-admin
+    ports:
+    - protocol: TCP
+      port: 5432
+    - protocol: TCP
+      port: 3306
+  # Allow from debug pods for troubleshooting
+  - from:
+    - podSelector:
+        matchLabels:
+          purpose: development-tools
+          app: debug-tools
+    ports:
+    - protocol: TCP
+      port: 5432
+---
+# Network debugging tools access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: network-debug-tools
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: debugging
+spec:
+  podSelector:
+    matchLabels:
+      purpose: development-tools
+      app: debug-tools
+  policyTypes:
+  - Egress
+  egress:
+  # Allow debug tools to test connectivity anywhere
+  - to: [] # Can connect to any pod for testing
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 5432
+    - protocol: TCP
+      port: 6379
+    - protocol: TCP
+      port: 3000
+---
+# Frontend development tools
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-dev-tools
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: development-tools
+  annotations:
+    dev-team.enterprise.com/users: "zoe.martinez,alex.rodriguez,sam.johnson,tomasz.wisniewski"
+spec:
+  podSelector:
+    matchLabels:
+      purpose: development-tools
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow access from developer machines
+  - from: []
+    ports:
+    - protocol: TCP
+      port: 3000 # Development server
+    - protocol: TCP
+      port: 3001 # Storybook
+    - protocol: TCP
+      port: 9090 # Bundle analyzer
+  egress:
+  # Allow calling backend services for testing
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Testing infrastructure access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: testing-infrastructure
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: testing
+spec:
+  podSelector:
+    matchLabels:
+      purpose: testing
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow CI/CD to run tests
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: platform-services
+    - podSelector:
+        matchLabels:
+          app: github-actions-runner
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  # Tests can call any service for integration testing
+  - to:
+    - podSelector: {}
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 5432
+    - protocol: TCP
+      port: 6379
+---
+# Code quality tools (SonarQube, linting, etc.)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: code-quality-tools
+  namespace: platform-services
+  labels:
+    team: platform
+    policy-type: code-quality
+spec:
+  podSelector:
+    matchLabels:
+      app: sonarqube
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow CI/CD to submit code analysis
+  - from:
+    - podSelector:
+        matchLabels:
+          app: github-actions-runner
+    ports:
+    - protocol: TCP
+      port: 9000
+  # Allow developers to view reports
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+    ports:
+    - protocol: TCP
+      port: 9000
+---
+# Developer workspace tools
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: developer-workspace
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: workspace
+spec:
+  podSelector:
+    matchLabels:
+      app: code-server # VS Code server for remote development
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow developers to access their workspace
+  - from: [] # From anywhere (protected by authentication)
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  # Workspace can access team services for development
+  - to:
+    - podSelector: {}
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 5432
+  # External package repositories
+  - ports:
+    - protocol: TCP
+      port: 443
+---
+# API documentation tools (Swagger, Postman, etc.)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-documentation-tools
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: documentation
+spec:
+  podSelector:
+    matchLabels:
+      app: swagger-ui
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow developers and frontend team to view API docs
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+    ports:
+    - protocol: TCP
+      port: 8080
+  # Allow external access for API consumers
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  # Can call APIs to generate live documentation
+  - to:
+    - podSelector:
+        matchLabels:
+          tier: backend
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Load testing tools
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: load-testing-tools
+  namespace: backend-staging
+  labels:
+    team: backend
+    policy-type: performance-testing
+  annotations:
+    dev-team.enterprise.com/senior-access: "jordan.kim,catherine.vee"
+spec:
+  podSelector:
+    matchLabels:
+      app: k6-load-test
+  policyTypes:
+  - Egress
+  egress:
+  # Can test any service in staging
+  - to:
+    - podSelector: {}
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 3000
+---
+# Security scanning tools
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: security-scanning
+  namespace: platform-services
+  labels:
+    team: platform
+    policy-type: security
+spec:
+  podSelector:
+    matchLabels:
+      app: security-scanner
+  policyTypes:
+  - Egress
+  egress:
+  # Can scan all team namespaces
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 3000
+---
+# Junior developer learning environment
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: junior-dev-learning-tools
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: learning
+  annotations:
+    dev-team.enterprise.com/mentorship: "catherine.vee -> marcus.chen,ania.kowalski"
+spec:
+  podSelector:
+    matchLabels:
+      learning-environment: enabled
+      developer-role: junior
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow mentors to access junior dev environments
+  - from:
+    - podSelector:
+        matchLabels:
+          developer-role: senior
+    - podSelector:
+        matchLabels:
+          developer-role: team-lead
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 9090
+  egress:
+  # Limited external access for learning
+  - ports:
+    - protocol: TCP
+      port: 443 # Documentation, tutorials
+  # Can access development databases
+  - to:
+    - podSelector:
+        matchLabels:
+          app-type: database
+          environment: development
+    ports:
+    - protocol: TCP
+      port: 5432

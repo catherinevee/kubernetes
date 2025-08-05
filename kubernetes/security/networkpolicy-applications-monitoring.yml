@@ -1,0 +1,372 @@
+# =============================================================================
+# 08-monitoring-platform.yaml - Monitoring and Platform Services
+# =============================================================================
+# Network policies for monitoring, logging, CI/CD, and shared platform services
+# =============================================================================
+---
+# Allow Prometheus to scrape metrics from all team services
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-prometheus-scraping
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: monitoring
+spec:
+  podSelector:
+    matchLabels:
+      monitoring: enabled
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: platform-services
+    - podSelector:
+        matchLabels:
+          app: prometheus
+    ports:
+    - protocol: TCP
+      port: 9090 # Metrics endpoint
+---
+# Allow Prometheus to scrape frontend metrics
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-prometheus-scraping
+  namespace: frontend-dev
+  labels:
+    team: frontend
+    policy-type: monitoring
+spec:
+  podSelector:
+    matchLabels:
+      monitoring: enabled
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: platform-services
+    - podSelector:
+        matchLabels:
+          app: prometheus
+    ports:
+    - protocol: TCP
+      port: 9090
+---
+# Allow log collection from all namespaces
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-log-collection
+  namespace: platform-services
+  labels:
+    team: platform
+    policy-type: logging
+spec:
+  podSelector:
+    matchLabels:
+      app: fluentd
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow log shipping from all team namespaces
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+    ports:
+    - protocol: TCP
+      port: 24224 # Fluentd forward protocol
+---
+# CI/CD pipeline deployment access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cicd-deployment-access
+  namespace: backend-staging
+  labels:
+    team: backend
+    policy-type: cicd
+  annotations:
+    pipeline.enterprise.com/stage: "staging-deployment"
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow CI/CD runners to deploy
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: platform-services
+    - podSelector:
+        matchLabels:
+          app: github-actions-runner
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# CI/CD access to frontend staging
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cicd-deployment-access
+  namespace: frontend-staging
+  labels:
+    team: frontend
+    policy-type: cicd
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: platform-services
+    - podSelector:
+        matchLabels:
+          app: github-actions-runner
+    ports:
+    - protocol: TCP
+      port: 3000
+---
+# Production deployment gate - requires approval
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: production-deployment-gate
+  namespace: production
+  labels:
+    policy-type: cicd-production
+  annotations:
+    approval.enterprise.com/required-role: "team-lead"
+    approval.enterprise.com/approvers: "catherine.vee,maya.singh"
+spec:
+  podSelector:
+    matchLabels:
+      deployment-source: cicd
+  policyTypes:
+  - Ingress
+  ingress:
+  # Only allow deployments from approved CI/CD with proper annotations
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: platform-services
+    - podSelector:
+        matchLabels:
+          app: github-actions-runner
+          approval-status: approved
+    ports:
+    - protocol: TCP
+      port: 8080
+---
+# Allow Grafana to query Prometheus
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: grafana-prometheus-access
+  namespace: platform-services
+  labels:
+    team: platform
+    policy-type: monitoring-internal
+spec:
+  podSelector:
+    matchLabels:
+      app: prometheus
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: grafana
+    ports:
+    - protocol: TCP
+      port: 9090
+---
+# Allow AlertManager to receive alerts from Prometheus
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: alertmanager-prometheus-access
+  namespace: platform-services
+  labels:
+    team: platform
+    policy-type: alerting
+spec:
+  podSelector:
+    matchLabels:
+      app: alertmanager
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: prometheus
+    ports:
+    - protocol: TCP
+      port: 9093
+---
+# Allow access to team dashboards
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: team-dashboard-access
+  namespace: platform-services
+  labels:
+    team: platform
+    policy-type: dashboard-access
+spec:
+  podSelector:
+    matchLabels:
+      app: grafana
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow developers to access dashboards
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+    ports:
+    - protocol: TCP
+      port: 3000
+  # Allow external access through ingress
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 3000
+---
+# Registry access for CI/CD
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: registry-access
+  namespace: platform-services
+  labels:
+    team: platform
+    policy-type: registry
+spec:
+  podSelector:
+    matchLabels:
+      app: docker-registry
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow CI/CD to push images
+  - from:
+    - podSelector:
+        matchLabels:
+          app: github-actions-runner
+    ports:
+    - protocol: TCP
+      port: 5000
+  # Allow all namespaces to pull images
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+    ports:
+    - protocol: TCP
+      port: 5000
+---
+# Backup service access to databases
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backup-database-access
+  namespace: backend-dev
+  labels:
+    team: backend
+    policy-type: backup
+spec:
+  podSelector:
+    matchLabels:
+      app-type: database
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow backup service to access databases
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: platform-services
+    - podSelector:
+        matchLabels:
+          app: database-backup
+    ports:
+    - protocol: TCP
+      port: 5432
+    - protocol: TCP
+      port: 3306
+---
+# Secret management service access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: vault-access
+  namespace: platform-services
+  labels:
+    team: platform
+    policy-type: secrets
+spec:
+  podSelector:
+    matchLabels:
+      app: vault
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow applications to retrieve secrets
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          team: backend
+    - namespaceSelector:
+        matchLabels:
+          team: frontend
+    ports:
+    - protocol: TCP
+      port: 8200
+---
+# External monitoring ingress (for on-call access)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: external-monitoring-access
+  namespace: platform-services
+  labels:
+    team: platform
+    policy-type: external-monitoring
+spec:
+  podSelector:
+    matchLabels:
+      app: grafana
+      external-access: enabled
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow external access for on-call engineers
+  - from: [] # From anywhere (protected by authentication)
+    ports:
+    - protocol: TCP
+      port: 443 # HTTPS only for external access
