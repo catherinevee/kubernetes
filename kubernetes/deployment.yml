@@ -33,7 +33,7 @@ spec:
         fsGroup: 2000
       containers:
       - name: catstar
-        image: catherinevee/catherineitcom:1.02
+        image: catherinevee/catherineitcom:1.10
         imagePullPolicy: "Always"
         ports:
         - containerPort: 31916
