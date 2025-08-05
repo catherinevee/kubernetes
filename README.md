@@ -1,19 +1,19 @@
 # Kubernetes Infrastructure
 
-This directory contains the complete Kubernetes infrastructure for the enterprise application deployment.
+Complete Kubernetes infrastructure for enterprise application deployment.
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
-The infrastructure is designed for a 13-developer enterprise team with the following structure:
-- **Backend Team (7)**: Marcus, Riley, Priya, Jordan, Catherine (Lead), Karol, Ania
-- **Frontend Team (6)**: Zoe, Alex, Sam, Maya (Lead), Devon, Tomasz
+Infrastructure designed for a 13-developer enterprise team:
+- Backend Team (7): Marcus, Riley, Priya, Jordan, Catherine (Lead), Karol, Ania
+- Frontend Team (6): Zoe, Alex, Sam, Maya (Lead), Devon, Tomasz
 
 ### Application Components
-- **catstar**: Main application container (port 31916)
-- **catcode**: Secondary application container (port 31915)
-- **Frontend**: React-based UI application
+- catstar: Main application container (port 31916)
+- catcode: Secondary application container (port 31915)
+- Frontend: React-based UI application
 
-## 📁 Directory Structure
+## Directory Structure
 
 ```
 kubernetes/
@@ -32,7 +32,7 @@ kubernetes/
 └── README.md                # This file
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Kubernetes cluster (1.24+)
@@ -42,13 +42,13 @@ kubernetes/
 
 ### Installation
 
-1. **Deploy the infrastructure:**
+1. Deploy the infrastructure:
    ```bash
    cd kubernetes/kubernetes
    ./helm-install.sh
    ```
 
-2. **Apply application manifests:**
+2. Apply application manifests:
    ```bash
    kubectl apply -f ns/
    kubectl apply -f rbac/
@@ -59,21 +59,21 @@ kubernetes/
    kubectl apply -f ssl.yml
    ```
 
-3. **Build and deploy the frontend:**
+3. Build and deploy the frontend:
    ```bash
    cd ../docker
    docker build -t catherinevee/catherineitcom:latest .
    docker push catherinevee/catherineitcom:latest
    ```
 
-## 🔒 Security Features
+## Security Features
 
-- **Network Policies**: Multi-layered network security
-- **RBAC**: Role-based access control for teams
-- **SSL/TLS**: Automatic certificate management
-- **Pod Security**: Resource limits and security contexts
+- Network Policies: Multi-layered network security
+- RBAC: Role-based access control for teams
+- SSL/TLS: Automatic certificate management
+- Pod Security: Resource limits and security contexts
 
-## 📊 Monitoring & Observability
+## Monitoring & Observability
 
 The infrastructure includes:
 - Prometheus & Grafana for metrics
@@ -81,11 +81,11 @@ The infrastructure includes:
 - Jaeger for distributed tracing
 - Falco for runtime security monitoring
 
-## 🧪 Testing
+## Testing
 
 Network policy testing resources are available in `kubernetes/testing/`.
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 - `COMPANY_DOMAIN`: Your company domain
@@ -97,19 +97,19 @@ Network policy testing resources are available in `kubernetes/testing/`.
 - Modify RBAC roles in `rbac/` directory
 - Adjust network policies in `security/` directory
 
-## 📝 Contributing
+## Contributing
 
 1. Follow the existing naming conventions
 2. Update documentation for any changes
 3. Test network policies before deployment
 4. Ensure RBAC follows least-privilege principle
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
-- **Certificate issues**: Check cert-manager installation
-- **Network connectivity**: Verify network policies
-- **RBAC errors**: Ensure proper role assignments
+- Certificate issues: Check cert-manager installation
+- Network connectivity: Verify network policies
+- RBAC errors: Ensure proper role assignments
 
 ### Debug Commands
 ```bash
@@ -123,9 +123,9 @@ kubectl logs -f deployment/catstar
 kubectl apply -f testing/networkpolicy-network-tshoot.yml
 ```
 
-## 📞 Support
+## Support
 
 For issues or questions:
-- **Backend Team**: catherine.vee@cstarrez.wcu
-- **Frontend Team**: maya.singh@cstarrez.wcu
-- **DevOps**: devops@cstarrez.wcu
+- Backend Team: catherine.vee@cstarrez.wcu
+- Frontend Team: maya.singh@cstarrez.wcu
+- DevOps: devops@cstarrez.wcu
