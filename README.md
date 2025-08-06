@@ -1,8 +1,8 @@
 # Kubernetes Infrastructure
 
-Complete Kubernetes infrastructure for enterprise application deployment.
+Production-ready Kubernetes setup for enterprise application deployment.
 
-## Architecture Overview
+## Architecture
 
 Infrastructure designed for a 13-developer enterprise team:
 - Backend Team (7): Marcus, Riley, Priya, Jordan, Catherine (Lead), Karol, Ania

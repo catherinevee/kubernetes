@@ -2,29 +2,29 @@
 
 This document outlines the security practices, policies, and compliance requirements for the Kubernetes infrastructure.
 
-## 🔒 Security Overview
+## Security Overview
 
 Our Kubernetes infrastructure implements a defense-in-depth approach with multiple security layers:
 
-### 1. **Network Security**
+### 1. Network Security
 - **Network Policies**: Multi-layered network segmentation
 - **Ingress/Egress Controls**: Restricted traffic flow
 - **TLS/SSL**: End-to-end encryption
 - **Load Balancer Security**: HTTPS-only traffic
 
-### 2. **Access Control**
+### 2. Access Control
 - **RBAC**: Role-based access control
 - **Service Accounts**: Least-privilege principle
 - **Namespace Isolation**: Team-based resource separation
 - **Pod Security**: Non-root containers
 
-### 3. **Runtime Security**
+### 3. Runtime Security
 - **Falco**: Runtime security monitoring
 - **Trivy**: Vulnerability scanning
 - **Sealed Secrets**: Encrypted secrets management
 - **Pod Security Standards**: PSP enforcement
 
-## 🛡️ Security Policies
+## Security Policies
 
 ### Network Policies
 
@@ -59,7 +59,7 @@ Our Kubernetes infrastructure implements a defense-in-depth approach with multip
 - **Application Service Accounts**: Application-specific permissions
 - **Monitoring Service Accounts**: Read-only access
 
-## 🔐 Secrets Management
+## Secrets Management
 
 ### Sealed Secrets
 We use Sealed Secrets for encrypted secret storage:
@@ -80,7 +80,7 @@ For cloud-native secret management:
 - Certificate renewal via cert-manager
 - Service account token rotation
 
-## 🔍 Monitoring and Detection
+## Monitoring and Detection
 
 ### Security Monitoring Stack
 - **Falco**: Runtime security monitoring
@@ -98,7 +98,7 @@ For cloud-native secret management:
 - **Application Logs**: Centralized logging
 - **Security Logs**: Dedicated security logging
 
-## 📋 Compliance Requirements
+## Compliance Requirements
 
 ### SOC 2 Type II
 - **Access Control**: Documented and audited
@@ -118,7 +118,7 @@ For cloud-native secret management:
 - **Access Control**: Strict access controls
 - **Monitoring**: Continuous monitoring
 
-## 🚨 Incident Response
+## Incident Response
 
 ### Security Incident Classification
 1. **Critical**: Immediate response required
@@ -139,7 +139,7 @@ For cloud-native secret management:
 - **DevOps Team**: devops@cstarrez.wcu
 - **Emergency**: +1-XXX-XXX-XXXX
 
-## 🔧 Security Tools
+## Security Tools
 
 ### Vulnerability Scanning
 ```bash
@@ -174,7 +174,7 @@ kubectl apply -f testing/networkpolicy-network-tshoot.yml
 kubectl run test-pod --image=busybox --rm -it --restart=Never -- nslookup catstar-srvc
 ```
 
-## 📊 Security Metrics
+## Security Metrics
 
 ### Key Performance Indicators
 - **Vulnerability Count**: Track open vulnerabilities
@@ -187,7 +187,7 @@ kubectl run test-pod --image=busybox --rm -it --restart=Never -- nslookup catsta
 - **Quarterly Compliance Report**: Detailed compliance status
 - **Annual Security Review**: Comprehensive security assessment
 
-## 🔄 Security Maintenance
+## Security Maintenance
 
 ### Regular Tasks
 - **Weekly**: Vulnerability scans
@@ -201,7 +201,7 @@ kubectl run test-pod --image=busybox --rm -it --restart=Never -- nslookup catsta
 - **Security Tools**: Monthly updates
 - **Dependencies**: Continuous monitoring
 
-## 📚 Security Resources
+## Security Resources
 
 ### Documentation
 - [Kubernetes Security Best Practices](https://kubernetes.io/docs/concepts/security/)
@@ -218,7 +218,7 @@ kubectl run test-pod --image=busybox --rm -it --restart=Never -- nslookup catsta
 - **Incident Response**: Annual drills
 - **Tool Training**: As needed
 
-## 📞 Security Contacts
+## Security Contacts
 
 For security-related questions or incidents:
 

@@ -2,7 +2,7 @@
 # =============================================================================
 # KUBERNETES ADD-ONS INSTALLATION SCRIPT
 # =============================================================================
-# Complete Helm installation for 10-developer enterprise team
+# Helm installation for enterprise team
 # Backend Team (7): Marcus, Riley, Priya, Jordan, Catherine (Lead), Karol, Ania
 # Frontend Team (6): Zoe, Alex, Sam, Maya (Lead), Devon, Tomasz
 # =============================================================================
@@ -40,12 +40,12 @@ METRICS_SERVER_VERSION="${METRICS_SERVER_VERSION:-3.11.0}"
 SEALED_SECRETS_VERSION="${SEALED_SECRETS_VERSION:-2.13.3}"
 VPA_VERSION="${VPA_VERSION:-4.4.6}"
 
-# Tier 4: Enhanced Security
+# Tier 4: Security
 FALCO_VERSION="${FALCO_VERSION:-3.8.4}"
 GATEKEEPER_VERSION="${GATEKEEPER_VERSION:-3.14.0}"
 TRIVY_OPERATOR_VERSION="${TRIVY_OPERATOR_VERSION:-0.17.1}"
 
-# Tier 5: Advanced Observability
+# Tier 5: Observability
 JAEGER_VERSION="${JAEGER_VERSION:-0.71.11}"
 LOKI_STACK_VERSION="${LOKI_STACK_VERSION:-2.10.1}"
 KEDA_VERSION="${KEDA_VERSION:-2.12.1}"

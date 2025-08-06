@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: kubernetes-infrastructure
   annotations:
-    description: "Enterprise Kubernetes infrastructure for 13-developer team"
+    description: "Kubernetes infrastructure for enterprise team"
 
 resources:
 # Core application resources
